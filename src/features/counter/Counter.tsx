@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { useAppSelector, useAppDispatch } from '../../app/hooks'
 import {
-  decrement,
-  increment,
-  incrementByAmount,
+  CounterSlice,
   incrementAsync,
   incrementIfOdd,
   selectCount,
 } from './counterSlice'
 import styles from './Counter.module.css'
 
+const { increment, decrement, incrementByAmount } = CounterSlice.actions
+
 export function Counter() {
-  const count = useAppSelector(selectCount)
-  const dispatch = useAppDispatch()
+  const count = useSelector(selectCount)
+  const dispatch = useDispatch()
   const [incrementAmount, setIncrementAmount] = useState('2')
 
   const incrementValue = Number(incrementAmount) || 0

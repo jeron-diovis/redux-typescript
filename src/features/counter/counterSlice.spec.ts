@@ -1,9 +1,9 @@
-import counterReducer, {
-  CounterState,
-  increment,
-  decrement,
-  incrementByAmount,
-} from './counterSlice'
+import { CounterSlice, CounterState } from './counterSlice'
+
+const {
+  reducer: counterReducer,
+  actions: { increment, decrement, incrementByAmount },
+} = CounterSlice
 
 describe('counter reducer', () => {
   const initialState: CounterState = {
