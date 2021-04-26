@@ -7,6 +7,7 @@ import {
   incrementIfOdd,
   selectCount,
 } from './counterSlice'
+
 import styles from './Counter.module.css'
 
 const { increment, decrement, incrementByAmount } = CounterSlice.actions
