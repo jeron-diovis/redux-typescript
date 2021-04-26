@@ -28,8 +28,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "fix": "npm run lint --fix"
+    "lint:js": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "lint:ts": "tsc --noEmit",
+    "lint": "yarn lint:js && yarn lint:ts",
+    "fix": "yarn lint:js --fix",
+    "prepare": "husky install"
   },
   "browserslist": {
     "production": [
@@ -42,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "husky": "^6.0.0"
   }
 }
