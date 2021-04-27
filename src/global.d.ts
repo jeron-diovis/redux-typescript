@@ -6,10 +6,22 @@ type Func<V = any> = (...args: any[]) => V
 type Values<T> = T[keyof T]
 
 // ---
+// jsx-control-statements support
+// @see https://github.com/AlexGilleran/jsx-control-statements/issues/72#issuecomment-389484553
+declare const If: React.FC<{ condition: boolean }>
+declare const Choose: React.FC
+declare const When: React.FC<{ condition: boolean }>
+declare const Otherwise: React.FC
+// Don't support <With> / <For>, because they are hard to type properly,
+// and only complicate code readability anyway.
+
+// ---
 // Utilities
 
 // In addition to standard `ReturnType`
-type ReturnTypeAsync<T extends Func<Promise<unknown>>> = T extends Func<Promise<infer RT>>
+type ReturnTypeAsync<T extends Func<Promise<unknown>>> = T extends Func<
+  Promise<infer RT>
+>
   ? RT
   : never
 
@@ -34,12 +46,14 @@ type Complete<T> = {
  *  FilterKeys<{ a: 1, b: true }, number, 'omit'> => 'b'
  * </pre>
  */
-type FilterKeys<O, T, Mode extends 'pick' | 'omit' = 'pick'> = Values<{
-  [K in keyof O]: Mode extends 'omit'
-    ? O[K] extends T
-      ? never
-      : K
-    : O[K] extends T
+type FilterKeys<O, T, Mode extends 'pick' | 'omit' = 'pick'> = Values<
+  {
+    [K in keyof O]: Mode extends 'omit'
+      ? O[K] extends T
+        ? never
+        : K
+      : O[K] extends T
       ? K
       : never
-}>
+  }
+>
