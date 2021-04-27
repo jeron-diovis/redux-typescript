@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
-    "husky": "^6.0.0"
+    "husky": "^6.0.0",
+    "webpack-bundle-analyzer": "^4.4.1"
   }
 }
