@@ -1,4 +1,4 @@
-import * as CounterAPI from './counterAPI'
+import * as CounterAPI from './api'
 export { CounterAPI }
 export { Counter } from './Counter'
-export * from './counterSlice'
+export * from './slice'

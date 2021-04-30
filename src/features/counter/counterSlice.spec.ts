@@ -1,4 +1,4 @@
-import { CounterSlice, CounterState } from './counterSlice'
+import { CounterSlice, CounterState } from './slice'
 
 const {
   reducer: counterReducer,
