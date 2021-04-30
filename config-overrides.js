@@ -15,7 +15,6 @@ module.exports = override(
   // @link https://github.com/lodash/lodash-webpack-plugin
   config => {
     config.plugins.push(new LodashModuleReplacementPlugin({
-      // memoize: true,
       paths: true,
       flattening: true,
     }))
