@@ -40,7 +40,7 @@ module.exports = {
           'position': 'before',
         },
         {
-          'pattern': 'src/features/**',
+          'pattern': 'src/**',
           'group': 'external',
           'position': 'after',
         },
