@@ -19,5 +19,5 @@ module.exports = override(
       flattening: true,
     }))
     return config
-  }
+  },
 )
