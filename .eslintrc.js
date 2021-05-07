@@ -11,7 +11,8 @@ module.exports = {
   },
 
   rules: {
-    'no-duplicate-imports': 'error',
+    'no-duplicate-imports': 'warn',
+    'object-shorthand': 'warn',
 
     'sort-imports': [ 'warn', {
       // Declarations sort will be handled by `import/order` rule
