@@ -13,6 +13,10 @@ module.exports = {
   rules: {
     'no-duplicate-imports': 'warn',
     'object-shorthand': 'warn',
+    'one-var': [ 'error', 'never' ],
+    'no-underscore-dangle': [ 'error', {
+      'allowAfterThis': true,
+    } ],
 
     'sort-imports': [ 'warn', {
       // Declarations sort will be handled by `import/order` rule
