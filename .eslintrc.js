@@ -6,27 +6,28 @@ module.exports = {
   ],
 
   settings: {
-    // Fix recognition of "external" module type for "import/order" rule
-    'import/external-module-folders': [ 'node_modules', 'node_modules/@types' ]
+    // Fix recognition of 'external' module type for 'import/order' rule
+    'import/external-module-folders': ['node_modules', 'node_modules/@types']
   },
 
   rules: {
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-duplicate-imports': 'warn',
     'object-shorthand': 'warn',
-    'one-var': [ 'error', 'never' ],
-    'no-underscore-dangle': [ 'error', {
+    'one-var': ['error', 'never'],
+    'no-underscore-dangle': ['error', {
       'allowAfterThis': true,
-    } ],
+    }],
 
-    'sort-imports': [ 'warn', {
+    'sort-imports': ['warn', {
       // Declarations sort will be handled by `import/order` rule
       'ignoreDeclarationSort': true,
     }],
 
-    'import/order': [ 'warn', {
+    'import/order': ['warn', {
       'newlines-between': 'always',
       'alphabetize': { order: 'asc' },
-      'pathGroupsExcludedImportTypes': [ 'builtin' ],
+      'pathGroupsExcludedImportTypes': ['builtin'],
       'groups': [
         'builtin',
         'external',
@@ -59,16 +60,25 @@ module.exports = {
       ]
     }],
 
+    // Deny to create dozens of imports from material-ui (line per component). Force imports grouping.
+    'no-restricted-imports': ['error', {
+      'patterns': [
+        '@material-ui/core/*',
+        '@material-ui/icons/*',
+        '@material-ui/styles/*',
+        '!@material-ui/core/colors'
+      ],
+    }],
+
     // ---
     // Support jsx-control-statements.
     // @see https://github.com/vkbansal/eslint-plugin-jsx-control-statements#important
-    "react/jsx-no-undef": [ "error", { "allowGlobals": true } ],
+    'react/jsx-no-undef': ['error', { 'allowGlobals': true }],
     // Don't enforce using <If> / <Choose>, because for simple one-liners, ternary is often much more convenient.
     // Like, {active ? <IconActive /> : <IconInactive />}
-    "jsx-control-statements/jsx-use-if-tag": "off",
+    'jsx-control-statements/jsx-use-if-tag': 'off',
     // This rule doesn't work with typescript.
     // It reports code like `ReturnType<typeof something>` as `'something' is not defined`.
-    "jsx-control-statements/jsx-jcs-no-undef": "off",
-
+    'jsx-control-statements/jsx-jcs-no-undef': 'off',
   }
 }
