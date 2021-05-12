@@ -1,6 +1,6 @@
 export * from './effects'
 export * from './changes'
-export { default as useControlledSwitch } from './useControlledSwitch'
+export { useSwitch, useControlledSwitch } from './useSwitch'
 export { default as useDebounce } from './useDebounce'
 export { default as useToggle } from '@react-hook/toggle'
-export { default as useSwitch } from '@react-hook/switch'
+export { default as useEvent } from '@react-hook/event'
