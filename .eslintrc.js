@@ -66,7 +66,8 @@ module.exports = {
         '@material-ui/core/*',
         '@material-ui/icons/*',
         '@material-ui/styles/*',
-        '!@material-ui/core/colors'
+        '!@material-ui/core/colors',
+        '!@material-ui/core/styles'
       ],
     }],
 
