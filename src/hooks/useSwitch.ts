@@ -35,7 +35,7 @@ export function useSwitch(...args: Parameters<IUseSwitch>) {
     }, []),
   })
 
-  return ([state, constantToggle] as unknown) as SwitchTuple
+  return [state, constantToggle] as unknown as SwitchTuple
 }
 
 // Stateless version
@@ -62,5 +62,5 @@ export function useControlledSwitch(
     }, []),
   })
 
-  return (toggle as unknown) as SwitchCallback
+  return toggle as unknown as SwitchCallback
 }
