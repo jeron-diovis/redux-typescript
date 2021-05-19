@@ -23,6 +23,11 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
   },
   "include": [
     "src"
