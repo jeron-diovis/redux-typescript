@@ -1,4 +1,4 @@
-import React from 'react'
+import { MutableRefObject, useEffect, useRef } from 'react'
 import { shallowEqual } from 'react-redux'
 
 import { useOnMount } from './effects'
@@ -6,18 +6,18 @@ import { useOnMount } from './effects'
 // ---
 
 export function useConst<T>(value: T): T {
-  return React.useRef(value).current
+  return useRef(value).current
 }
 
-export function useLatestRef<T>(value: T) {
-  const ref = React.useRef(value)
-  React.useEffect(() => {
+export function useLatestRef<T>(value: T): MutableRefObject<T> {
+  const ref = useRef(value)
+  useEffect(() => {
     ref.current = value
   })
   return ref
 }
 
-export function useLatest<T>(value: T) {
+export function useLatest<T>(value: T): T {
   return useLatestRef(value).current
 }
 
@@ -29,7 +29,7 @@ export function useChangedMeta<T>(
   value: T,
   eq: Comparator<T> = shallowEqual
 ): { value: T; prev: T; changed: boolean } {
-  const ref = React.useRef<T>(value)
+  const ref = useRef<T>(value)
   const prev = ref.current
   const changed = !eq(value, prev)
   if (changed) {
@@ -38,7 +38,7 @@ export function useChangedMeta<T>(
   return { value, prev, changed }
 }
 
-export function useChanged<T>(value: T, eq: Comparator<T> = shallowEqual) {
+export function useChanged<T>(value: T, eq: Comparator<T> = shallowEqual): T {
   const { value: next, prev, changed } = useChangedMeta(value, eq)
   return changed ? next : prev
 }
@@ -54,12 +54,12 @@ export function useOnChange<T>(
   value: T,
   callback: (current: T, prev: T) => void,
   options: UseOnChangeHookOptions<T> = {}
-) {
+): void {
   const { eq = shallowEqual, onMount = false } = options
 
-  const previous = React.useRef(value)
+  const previous = useRef(value)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!eq(value, previous.current)) {
       callback(value, previous.current)
       previous.current = value

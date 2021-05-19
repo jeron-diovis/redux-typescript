@@ -9,9 +9,9 @@ declare global {
   // ---
   // Handy shortcuts
   type Primitive = string | number | boolean
-  type Dict<V = unknown> = Record<string, V>
-  type Func<V = any> = (...args: any[]) => V
   type Values<T> = T[keyof T]
+  type Dict<V = unknown> = Record<string, V>
+  type Func<V = any> = (...args: any[]) => V // eslint-disable-line @typescript-eslint/no-explicit-any
 
   // ---
   // jsx-control-statements support
@@ -38,7 +38,7 @@ declare global {
    *
    * Which mean, you can't simply define ref prop on your component and pass forwarded ref there.
    */
-  type MutableRef<T> = Parameters<ForwardRefRenderFunction<T, any>>[1]
+  type MutableRef<T> = Parameters<ForwardRefRenderFunction<T, unknown>>[1]
 
   /**
    * In addition to standard `ReturnType`

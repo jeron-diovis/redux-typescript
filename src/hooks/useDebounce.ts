@@ -4,8 +4,8 @@ import { DebounceSettings, debounce } from 'lodash'
 
 import { useChanged } from './changes'
 
-export default function useDebounce(
-  fn: Func,
+export default function useDebounce<F extends Func>(
+  fn: F,
   delay: number,
   options?: DebounceSettings
 ) {
@@ -14,7 +14,7 @@ export default function useDebounce(
   refFn.current = fn
 
   return useMemo(
-    () => debounce((...args) => refFn.current(...args), delay, opts),
-    [delay, opts, refFn]
+    () => debounce(((...args) => refFn.current(...args)) as F, delay, opts),
+    [delay, opts]
   )
 }

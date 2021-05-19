@@ -31,11 +31,11 @@ import { AsyncState } from 'src/types'
  */
 export function addAsyncThunkDefaultReducers<State extends AsyncState, Payload>(
   builder: ActionReducerMapBuilder<State>,
-  thunk: AsyncThunk<Payload, any, object>,
+  thunk: AsyncThunk<Payload, unknown, Dict>,
   handleResponse:
     | ((state: State, result: Payload) => void)
     | FilterKeys<State, Payload>
-) {
+): ActionReducerMapBuilder<State> {
   builder
     .addCase(thunk.pending, state => {
       state.loading = true
