@@ -2,3 +2,13 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npx lint-staged
+
+# Do not put this into lint-staged config,
+# because it will run tsc for each file separately, with file as argument.
+# And in that case, for some weird reason, tsconfig won't be used:
+# @link https://stackoverflow.com/questions/44676944/how-to-compile-a-specific-file-with-tsc-using-the-paths-compiler-option
+#
+# This means, ts will report errors even for non-staged files.
+# But if you have ts errors somewhere, your app won't compile anyway,
+# so unlikely you'll ever won't to do commit in that state.
+tsc --noEmit
