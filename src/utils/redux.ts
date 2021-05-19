@@ -31,7 +31,7 @@ import { AsyncState } from 'src/types'
  */
 export function addAsyncThunkDefaultReducers<State extends AsyncState, Payload>(
   builder: ActionReducerMapBuilder<State>,
-  thunk: AsyncThunk<Payload, unknown, Dict>,
+  thunk: AsyncThunk<Payload, any, Dict>, // eslint-disable-line @typescript-eslint/no-explicit-any
   handleResponse:
     | ((state: State, result: Payload) => void)
     | FilterKeys<State, Payload>
