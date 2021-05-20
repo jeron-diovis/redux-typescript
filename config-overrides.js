@@ -1,6 +1,6 @@
 const { useBabelRc, override, addBundleVisualizer } = require('customize-cra')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
-const { merge } =require('lodash')
+const { merge } = require('lodash')
 
 module.exports = override(
   useBabelRc(),
