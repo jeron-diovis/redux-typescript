@@ -67,6 +67,21 @@ module.exports = {
       },
     ],
 
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        extendDefaults: true,
+        types: {
+          // Allow to use `object`.
+          // Despite of certain potential problems with this type
+          // (@see https://github.com/microsoft/TypeScript/issues/21732),
+          // using `Record` instead of it is not always suitable – because of another weird TS 'feature':
+          // @see https://stackoverflow.com/questions/55814516/typescript-why-type-alias-satisfies-a-constraint-but-same-interface-doesnt
+          object: false,
+        },
+      },
+    ],
+
     // ---
     // imports
     'sort-imports': [
