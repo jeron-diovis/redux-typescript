@@ -10,3 +10,11 @@ export function useOnMountLayout(fn: React.EffectCallback): void {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useLayoutEffect(fn, [])
 }
+
+export function useIsMounted(): boolean {
+  const [value, setValue] = React.useState(false)
+  useOnMountLayout(() => {
+    setValue(true)
+  })
+  return value
+}

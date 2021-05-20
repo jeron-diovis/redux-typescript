@@ -1,5 +1,6 @@
 import { MutableRefObject, useEffect, useRef } from 'react'
-import { shallowEqual } from 'react-redux'
+
+import { shallowEqual } from 'src/utils'
 
 import { useOnMount } from './effects'
 
@@ -9,7 +10,8 @@ export function useConst<T>(value: T): T {
   return useRef(value).current
 }
 
-export function useLatestRef<T>(value: T): MutableRefObject<T> {
+// Use `Readonly`, because `RefObject` interface forces value type to `T | null`
+export function useLatestRef<T>(value: T): Readonly<MutableRefObject<T>> {
   const ref = useRef(value)
   useEffect(() => {
     ref.current = value
