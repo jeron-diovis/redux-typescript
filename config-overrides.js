@@ -1,5 +1,6 @@
 const { useBabelRc, override, addBundleVisualizer } = require('customize-cra')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const { merge } =require('lodash')
 
 module.exports = override(
   useBabelRc(),
@@ -17,6 +18,19 @@ module.exports = override(
       paths: true,
       flattening: true,
     }))
+    return config
+  },
+
+  // Separate chunk for react-modules, for better build analysis.
+  config => {
+    merge(config.optimization.splitChunks, {
+      cacheGroups: {
+        react: {
+          test: /[\\/]node_modules[\\/].*react.*/,
+          reuseExistingChunk: true,
+        }
+      }
+    })
     return config
   },
 )
