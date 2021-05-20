@@ -1,5 +1,6 @@
 export * from './effects'
 export * from './changes'
+export * from './utils'
 export { useSwitch, useControlledSwitch } from './useSwitch'
 export { default as useDebounce } from './useDebounce'
 export { default as useClickEventsPair } from './useClickEventsPair'

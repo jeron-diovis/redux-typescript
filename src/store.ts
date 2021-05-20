@@ -1,10 +1,13 @@
+import { connectRouter } from 'connected-react-router'
 import { combineReducers } from 'redux'
 
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 
 import { CounterSlice } from './features/counter'
+import { history } from './routes'
 
 export const rootReducer = combineReducers({
+  router: connectRouter(history),
   counter: CounterSlice.reducer,
 })
 

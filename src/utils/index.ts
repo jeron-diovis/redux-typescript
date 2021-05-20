@@ -1,3 +1,4 @@
+import qs from 'qs'
 export * from './redux'
 
 export function assignRef<T>(ref: MutableRef<T> | undefined, value: T): void {
@@ -8,4 +9,8 @@ export function assignRef<T>(ref: MutableRef<T> | undefined, value: T): void {
   } else {
     ref.current = value
   }
+}
+
+export function parseQueryString(string: string) {
+  return qs.parse(string, { ignoreQueryPrefix: true })
 }
