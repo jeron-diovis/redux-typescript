@@ -13,6 +13,13 @@ module.exports = {
 
   rules: {
     'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'no-param-reassign': [
+      'error',
+      {
+        // Allow to modify props. Mostly, to support immer producers.
+        props: false,
+      },
+    ],
     'no-duplicate-imports': 'warn',
     'object-shorthand': 'warn',
     'one-var': ['error', 'never'],
