@@ -1,26 +1,20 @@
-import React, { Fragment } from 'react'
-import { useHistory } from 'react-router-dom'
+import React from 'react'
+
+import { Page } from 'src/components'
+import { GoBack } from 'src/features/HistoryReferrer'
 
 export const About: React.FC = () => {
-  const history = useHistory()
-
   return (
-    <Fragment>
-      <h1>About</h1>
+    <Page title="About">
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas
         possimus doloribus error cumque autem asperiores, ullam deserunt quidem
         omnis doloremque itaque eius eaque sint facilis unde tenetur reiciendis
         aliquam soluta?
       </p>
-      <button
-        type="button"
-        className="btn"
-        cy-data="go-back-button"
-        onClick={() => history.push('/')}
-      >
+      <GoBack className="btn" cy-data="go-back-button">
         Go back
-      </button>
-    </Fragment>
+      </GoBack>
+    </Page>
   )
 }

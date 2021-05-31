@@ -1,7 +1,14 @@
 import qs from 'qs'
+
 export * from './redux'
 
 export { shallowEqual } from 'react-redux'
+
+export function assert<T>(val: T): asserts val is NonNullable<T> {
+  if (val === undefined || val === null) {
+    throw new Error(`Expected 'val' to be defined, but received ${val}`)
+  }
+}
 
 export function assignRef<T>(ref: MutableRef<T> | undefined, value: T): void {
   if (ref === null || ref === undefined) return

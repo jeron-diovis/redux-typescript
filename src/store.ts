@@ -1,18 +1,21 @@
-import { connectRouter } from 'connected-react-router'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { combineReducers } from 'redux'
 
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 
+import { HistoryReferrerSlice } from './features/HistoryReferrer'
 import { CounterSlice } from './features/counter'
 import { history } from './routes'
 
 export const rootReducer = combineReducers({
   router: connectRouter(history),
+  referrer: HistoryReferrerSlice.reducer,
   counter: CounterSlice.reducer,
 })
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: getDefaults => getDefaults().concat(routerMiddleware(history)),
 })
 
 // ---

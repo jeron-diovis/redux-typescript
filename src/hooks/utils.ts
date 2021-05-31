@@ -6,9 +6,9 @@ import { createDraft } from 'immer'
 
 import { parseQueryString } from 'src/utils'
 
-export function useQueryParams() {
+export function useQueryParams<T extends object>(): Partial<T> {
   const search = useSelector(getSearch)
-  return useMemo(() => parseQueryString(search), [search])
+  return useMemo(() => parseQueryString(search) as Partial<T>, [search])
 }
 
 export function useDraft<T extends object>(data: T): T {

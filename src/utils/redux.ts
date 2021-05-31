@@ -42,6 +42,7 @@ export function addAsyncThunkDefaultReducers<State extends AsyncState, Payload>(
     })
     .addCase(thunk.fulfilled, (state, action) => {
       state.loading = false
+      state.error = undefined
       if (typeof handleResponse === 'function') {
         handleResponse(state as State, action.payload)
       } else {

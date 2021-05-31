@@ -4,6 +4,16 @@ module.exports = {
     ["transform-imports", {
       ...getLodashImportsTransforms(),
       ...getMuiImportsTransforms(),
+
+      "date-fns": {
+        "transform": "date-fns/${member}",
+        "preventFullImport": true
+      },
+
+      "src/components": {
+        "transform": "src/components/${member}",
+        "preventFullImport": true
+      }
     }],
   ]
 }

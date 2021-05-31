@@ -81,4 +81,15 @@ declare global {
         : never
     }
   >
+
+  /**
+   * <pre>
+   *  Replace<{ a: string, b: number }, { a: boolean }> => { a: boolean, b: number }
+   * </pre>
+   */
+  type Replace<O, R extends Partial<Record<keyof O, unknown>>> = Omit<
+    O,
+    keyof R
+  > &
+    R
 }

@@ -7,6 +7,7 @@ module.exports = override(
 
   // @link https://www.npmjs.com/package/webpack-bundle-analyzer
   addBundleVisualizer({
+    analyzerHost: '0.0.0.0',
     openAnalyzer: false,
     analyzerMode: process.env.NODE_ENV === 'production' ? 'static' : 'server',
     generateStatsFile: true,
