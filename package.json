@@ -42,6 +42,7 @@
     "fix": "yarn lint:js --fix",
     "clean:lint": "rimraf .eslintcache && rimraf node_modules/.cache/eslint-loader",
     "clean": "yarn clean:lint && rimraf node_modules/.cache",
+    "report": "open build/report.html",
     "prepare": "husky install"
   },
   "devDependencies": {
