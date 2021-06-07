@@ -1,6 +1,7 @@
 module.exports = {
   extends: [
     'react-app',
+    'eslint:recommended',
     'plugin:prettier/recommended',
     'plugin:jsx-control-statements/recommended',
     'plugin:@typescript-eslint/recommended',
@@ -13,6 +14,8 @@ module.exports = {
 
   rules: {
     'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'no-var': 'error',
+    'prefer-const': 'warn',
     'no-param-reassign': [
       'error',
       {
@@ -43,6 +46,8 @@ module.exports = {
     ],
     // Pointless rule. no-op funcs can be used pretty often
     '@typescript-eslint/no-empty-function': 'off',
+    // Aliases may be quite useful for readability
+    '@typescript-eslint/no-this-alias': 'off',
     // It's a good rule, and it's worth to try to follow it –
     // but using it completely nullifies all the benefits from type inference.
     // Manually declaring return types for wrappers around 3-party library helpers can be quite complicated –
