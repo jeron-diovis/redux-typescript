@@ -3,6 +3,7 @@ import { createBrowserHistory } from 'history'
 const routes = {
   home: '/',
   about: '/about',
+  login: '/login',
 } as const
 
 export default routes
