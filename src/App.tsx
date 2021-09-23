@@ -3,6 +3,7 @@ import React, { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Route, Switch } from 'react-router-dom'
 
+import { ErrorComponent } from './components'
 import { ReferrerTracker } from './features/HistoryReferrer'
 import { About } from './pages/About'
 import { Home } from './pages/Home'
@@ -27,9 +28,9 @@ const Guard: React.FC = props => {
   return (
     <ErrorBoundary
       fallbackRender={({ error }) => (
-        <div style={{ color: 'red' }}>
+        <ErrorComponent>
           {typeof error === 'string' ? error : error.message}
-        </div>
+        </ErrorComponent>
       )}
     >
       <Suspense fallback="...loading...">{children}</Suspense>

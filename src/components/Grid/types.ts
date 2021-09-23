@@ -1,8 +1,10 @@
-import { ReactNode } from 'react'
+import { CSSProperties, ReactNode } from 'react'
 
 export interface IGridProps {
   children: ReactNode
   columns?: number
   gap?: number
-  columnWidth?: 'stretch' | 'auto' | string
+  columnWidth?: 'stretch' | string
+  style?: CSSProperties
+  className?: string
 }
