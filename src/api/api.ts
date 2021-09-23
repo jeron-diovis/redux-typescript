@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import qs from 'qs'
 
+export const API_BASE_URL = '/api/v1'
+
 export default createInstance()
 
 // ---
@@ -16,7 +18,7 @@ export function createInstance(cfg?: AxiosRequestConfig) {
         arrayFormat: 'repeat',
       }),
 
-    baseURL: '/api/v1',
+    baseURL: API_BASE_URL,
     ...cfg,
   })
 
