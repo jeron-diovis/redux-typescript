@@ -66,21 +66,45 @@ declare global {
 
   /**
    * <pre>
-   *  FilterKeys<{ a: 1, b: true }, number, 'pick'> => 'a'
-   *  FilterKeys<{ a: 1, b: true }, number, 'omit'> => 'b'
+   *  Includes<'a' | 'b', 'b'> => true
+   *  Includes<'a' | 'b', 'c'> => false
    * </pre>
    */
-  type FilterKeys<O, T, Mode extends 'pick' | 'omit' = 'pick'> = Values<
-    {
-      [K in keyof O]: Mode extends 'omit'
-        ? O[K] extends T
-          ? never
-          : K
-        : O[K] extends T
-        ? K
-        : never
-    }
-  >
+  type Includes<T, V> = Extract<T, V> extends never ? false : true
+
+  /**
+   * <pre>
+   *  Extends<string | null, string, true> => false
+   *  Extends<string | null, string, false> => true
+   * </pre>
+   */
+  type Extends<T, V, Strict extends boolean = true> = Strict extends false
+    ? Includes<T, V>
+    : T extends V
+    ? true
+    : false
+
+  /**
+   * <pre>
+   *  FilterKeys<{ a: 1, b: true }, number, 'pick'> => 'a'
+   *  FilterKeys<{ a: 1, b: true }, number, 'omit'> => 'b'
+   *
+   *  FilterKeys<{ a?: 1 }, number, 'pick', true> => never
+   *  FilterKeys<{ a?: 1 }, number, 'pick', false> => 'a'
+   * </pre>
+   */
+  type FilterKeys<
+    O,
+    T,
+    Mode extends 'pick' | 'omit' = 'pick',
+    Strict extends boolean = true
+  > = Values<{
+    [K in keyof Required<O>]: [K, never][Extends<O[K], T, Strict> extends (
+      Mode extends 'pick' ? true : false
+    )
+      ? 0
+      : 1]
+  }>
 
   /**
    * <pre>

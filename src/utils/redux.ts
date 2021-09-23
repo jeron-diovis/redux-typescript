@@ -1,6 +1,30 @@
-import { ActionReducerMapBuilder, AsyncThunk } from '@reduxjs/toolkit'
+import { ActionReducerMapBuilder, AsyncThunk, Draft } from '@reduxjs/toolkit'
 
 import { AsyncState } from 'src/types'
+
+// TODO: consider using https://redux-toolkit.js.org/
+
+export function addAsyncThunkReducers<State extends AsyncState, Payload>(
+  builder: ActionReducerMapBuilder<State>,
+  thunk: AsyncThunk<Payload, any, Dict>, // eslint-disable-line @typescript-eslint/no-explicit-any
+  handleResponse:
+    | ((state: State, result: Payload) => void)
+    | FilterKeys<State, Payload, 'pick', false>
+): ActionReducerMapBuilder<State>
+
+// Overload to support simple one-level nesting of async states
+export function addAsyncThunkReducers<
+  State extends AsyncState,
+  Payload,
+  Slice extends FilterKeys<State, AsyncState>
+>(
+  builder: ActionReducerMapBuilder<State>,
+  thunk: AsyncThunk<Payload, any, Dict>, // eslint-disable-line @typescript-eslint/no-explicit-any
+  handleResponse:
+    | ((state: State[Slice], result: Payload) => void)
+    | FilterKeys<State[Slice], Payload, 'pick', false>,
+  sliceKey: Slice
+): ActionReducerMapBuilder<State>
 
 /**
  * Shorthand for setting up a set of default reducers for async thunk:
@@ -29,31 +53,43 @@ import { AsyncState } from 'src/types'
  *   })
  * </pre>
  */
-export function addAsyncThunkDefaultReducers<State extends AsyncState, Payload>(
+export function addAsyncThunkReducers<
+  State extends AsyncState,
+  Payload,
+  Slice extends FilterKeys<State, AsyncState>
+>(
   builder: ActionReducerMapBuilder<State>,
   thunk: AsyncThunk<Payload, any, Dict>, // eslint-disable-line @typescript-eslint/no-explicit-any
   handleResponse:
-    | ((state: State, result: Payload) => void)
-    | FilterKeys<State, Payload>
+    | ((state: State | State[Slice], result: Payload) => void)
+    | FilterKeys<State | State[Slice], Payload, 'pick', false>,
+  sliceKey?: Slice
 ): ActionReducerMapBuilder<State> {
+  const resolve = (state: Draft<State>) =>
+    sliceKey === undefined ? state : (state as State)[sliceKey]
+
   builder
     .addCase(thunk.pending, state => {
-      state.loading = true
+      const slice = resolve(state)
+      slice.loading = true
     })
     .addCase(thunk.fulfilled, (state, action) => {
-      state.loading = false
-      state.error = undefined
+      const slice = resolve(state)
+
+      slice.loading = false
+      slice.error = undefined
       if (typeof handleResponse === 'function') {
-        handleResponse(state as State, action.payload)
+        handleResponse(slice as State, action.payload)
       } else {
-        Object.assign(state, {
+        Object.assign(slice, {
           [handleResponse]: action.payload,
         })
       }
     })
     .addCase(thunk.rejected, (state, action) => {
-      state.loading = false
-      state.error = action.error.message
+      const slice = resolve(state)
+      slice.loading = false
+      slice.error = action.error.message
     })
 
   return builder
