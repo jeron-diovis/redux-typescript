@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
+
+import { useDispatch } from 'src/hooks'
 
 import {
   CounterSlice,

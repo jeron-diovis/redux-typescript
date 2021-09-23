@@ -1,8 +1,9 @@
 import { goBack, push } from 'connected-react-router'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { matchPath } from 'react-router'
 
 import Button, { IButtonProps } from 'src/components/Button'
+import { useDispatch } from 'src/hooks'
 
 import { selectReferrer } from './slice'
 

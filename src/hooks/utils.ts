@@ -1,10 +1,22 @@
 import { getSearch } from 'connected-react-router'
 import { useCallback, useMemo, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch as useDispatchBase, useSelector } from 'react-redux'
 
 import { createDraft } from 'immer'
 
 import { parseQueryString } from 'src/utils'
+
+/**
+ * Typed version.
+ * Use this over default `useDispatch` everywhere.
+ * It's crucial when using `unwrapResult` helper.
+ * @see https://redux-toolkit.js.org/api/createAsyncThunk#unwrapping-result-actions
+ * Default version doesn't infer dispatched actions types,
+ * and thus it's return value is incompatible with `unwrapResult` param type.
+ */
+export function useDispatch() {
+  return useDispatchBase<AppDispatch>()
+}
 
 export function useQueryParams<T extends object>(): Partial<T> {
   const search = useSelector(getSearch)

@@ -1,7 +1,7 @@
 import { getRouter } from 'connected-react-router'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-import { useOnChange } from 'src/hooks'
+import { useDispatch, useOnChange } from 'src/hooks'
 
 import { HistoryReferrerSlice } from './slice'
 
