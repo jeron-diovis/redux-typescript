@@ -1,0 +1,22 @@
+$site-width: none;
+$content-width: 1240px;
+$header-height: 60px;
+$footer-height: 60px;
+
+.main_layout {
+  height: 100vh;
+
+  margin: auto;
+  max-width: $site-width;
+
+  display: grid;
+  grid-template-rows: $header-height auto $footer-height;
+}
+
+.content {
+  padding: 32px 32px;
+  overflow: auto;
+
+  margin: 0 auto;
+  max-width: $content-width;
+}

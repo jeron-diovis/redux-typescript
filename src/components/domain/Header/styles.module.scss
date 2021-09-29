@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #21272E;
+  color: #7F8B98;
+}
+
+.logo_wrapper {}
+
+.menu_list {
+  display: flex;
+  padding: 0 10px;
+  list-style: none;
+
+  .menu_item {}
+
+  .menu_link {
+    margin: 0 10px;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+      color: #ffffff
+    }
+  }
+}

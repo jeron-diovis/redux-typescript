@@ -7,7 +7,7 @@ interface INullableProps<T> {
 }
 
 export default function Nullable<T>(props: INullableProps<T>) {
-  const { value, children, placeholder = 'N/A' } = props
+  const { value, children, placeholder = '–' } = props
 
   if (value === null || value === undefined) {
     return <>{placeholder}</>

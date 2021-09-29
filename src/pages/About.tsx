@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Page } from 'src/components'
+import { Page } from 'src/components/layouts'
 import { GoBack } from 'src/features/HistoryReferrer'
 
 export const About: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Page } from 'src/components'
+import { Page } from 'src/components/layouts'
 import { Counter } from 'src/features/counter'
 
 export const Home: React.FC = () => {

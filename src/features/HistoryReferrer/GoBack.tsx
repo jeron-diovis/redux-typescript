@@ -2,7 +2,7 @@ import { goBack, push } from 'connected-react-router'
 import { useSelector } from 'react-redux'
 import { matchPath } from 'react-router'
 
-import Button, { IButtonProps } from 'src/components/Button'
+import Button, { IButtonProps } from 'src/components/base/Button'
 import { useDispatch } from 'src/hooks'
 
 import { selectReferrer } from './slice'
