@@ -2,14 +2,14 @@ import { ActionReducerMapBuilder, AsyncThunk, Draft } from '@reduxjs/toolkit'
 
 import { AsyncState } from 'src/types'
 
-// TODO: consider using https://redux-toolkit.js.org/
+// TODO: consider using https://redux-toolkit.js.org/rtk-query/overview
 
 export function addAsyncThunkReducers<State extends AsyncState, Payload>(
   builder: ActionReducerMapBuilder<State>,
   thunk: AsyncThunk<Payload, any, Dict>, // eslint-disable-line @typescript-eslint/no-explicit-any
   handleResponse:
     | ((state: State, result: Payload) => void)
-    | FilterKeys<State, Payload, 'pick', false>
+    | FilterKeys<State, Payload>
 ): ActionReducerMapBuilder<State>
 
 // Overload to support simple one-level nesting of async states
@@ -22,7 +22,7 @@ export function addAsyncThunkReducers<
   thunk: AsyncThunk<Payload, any, Dict>, // eslint-disable-line @typescript-eslint/no-explicit-any
   handleResponse:
     | ((state: State[Slice], result: Payload) => void)
-    | FilterKeys<State[Slice], Payload, 'pick', false>,
+    | FilterKeys<State[Slice], Payload>,
   sliceKey: Slice
 ): ActionReducerMapBuilder<State>
 
@@ -62,7 +62,7 @@ export function addAsyncThunkReducers<
   thunk: AsyncThunk<Payload, any, Dict>, // eslint-disable-line @typescript-eslint/no-explicit-any
   handleResponse:
     | ((state: State | State[Slice], result: Payload) => void)
-    | FilterKeys<State | State[Slice], Payload, 'pick', false>,
+    | FilterKeys<State | State[Slice], Payload>,
   sliceKey?: Slice
 ): ActionReducerMapBuilder<State> {
   const resolve = (state: Draft<State>) =>

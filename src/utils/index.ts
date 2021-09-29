@@ -1,3 +1,5 @@
+import { ForwardedRef } from 'react'
+
 import qs from 'qs'
 
 export * from './redux'
@@ -10,7 +12,10 @@ export function assert<T>(val: T): asserts val is NonNullable<T> {
   }
 }
 
-export function assignRef<T>(ref: MutableRef<T> | undefined, value: T): void {
+export function assignRef<T>(
+  ref: ForwardedRef<T> | undefined,
+  value: T | null // add `null` here because ForwardedRef adds it implicitly
+): void {
   if (ref === null || ref === undefined) return
 
   if (typeof ref === 'function') {
@@ -24,7 +29,7 @@ export function parseQueryString(string: string) {
   return qs.parse(string, { ignoreQueryPrefix: true })
 }
 
-export function dictOf<T, K extends string = string>(
+export function dictOf<T, K extends string | symbol = string>(
   value: T,
   keys: K[]
 ): Record<K, T> {

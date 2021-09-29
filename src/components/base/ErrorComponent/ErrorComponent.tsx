@@ -1,14 +1,12 @@
-import { CSSProperties, ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 import clsx from 'clsx'
 
 import styles from './styles.module.scss'
 
-export interface IErrorProps {
+export interface IErrorProps extends IStyled {
   children: ReactNode
   inline?: boolean
-  className?: string
-  style?: CSSProperties
 }
 
 export default function ErrorComponent(props: IErrorProps) {

@@ -1,10 +1,8 @@
-import { CSSProperties, ReactNode } from 'react'
+import { ReactNode } from 'react'
 
-export interface IGridProps {
+export interface IGridProps extends IStyled {
   children: ReactNode
   columns?: number
   gap?: number
   columnWidth?: 'stretch' | string
-  style?: CSSProperties
-  className?: string
 }

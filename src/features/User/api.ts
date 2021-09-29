@@ -18,13 +18,5 @@ export async function logout() {
 
 export async function getUser(): Promise<IUser> {
   // await AuthAPI.get<IUserResponse>('/use')
-  return await new Promise(res =>
-    setTimeout(res, 1000, {
-      id: 1,
-      email: 'user@gmail.com',
-      username: 'fake-user',
-      first_name: 'John',
-      last_name: 'Smith',
-    })
-  )
+  return Promise.reject(401)
 }

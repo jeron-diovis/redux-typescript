@@ -1,4 +1,4 @@
-import React, { ForwardRefRenderFunction } from 'react'
+import React, { CSSProperties } from 'react'
 
 /**
  * Put globals here instead of standard `src/global.d.ts`, because here we can
@@ -26,19 +26,10 @@ declare global {
   // ---
   // Utilities
 
-  /**
-   * This is what react type definitions lack.
-   *
-   * It has shorthand type `Ref` – which is *immutable* ref:
-   * @link https://github.com/DefinitelyTyped/DefinitelyTyped/blob/0a6c9582b0cf04de29c11775adc55c0cbda8ea42/types/react/v16/index.d.ts#L88
-   *
-   * But `forwardRef` accepts a MutableRefObject instead of RefObject:
-   * @link https://github.com/DefinitelyTyped/DefinitelyTyped/blob/0a6c9582b0cf04de29c11775adc55c0cbda8ea42/types/react/v16/index.d.ts#L561
-   * And there is no shorthand type for this parameter.
-   *
-   * Which mean, you can't simply define ref prop on your component and pass forwarded ref there.
-   */
-  type MutableRef<T> = Parameters<ForwardRefRenderFunction<T, unknown>>[1]
+  type IStyled = {
+    style?: CSSProperties
+    className?: string
+  }
 
   /**
    * In addition to standard `ReturnType`
@@ -66,45 +57,19 @@ declare global {
 
   /**
    * <pre>
-   *  Includes<'a' | 'b', 'b'> => true
-   *  Includes<'a' | 'b', 'c'> => false
+   *   FilterKeys<{ a: number, b: boolean }, number, 'pick'> => 'a'
+   *   FilterKeys<{ a: number, b: boolean }, number, 'omit'> => 'b'
    * </pre>
    */
-  type Includes<T, V> = Extract<T, V> extends never ? false : true
-
-  /**
-   * <pre>
-   *  Extends<string | null, string, true> => false
-   *  Extends<string | null, string, false> => true
-   * </pre>
-   */
-  type Extends<T, V, Strict extends boolean = true> = Strict extends false
-    ? Includes<T, V>
-    : T extends V
-    ? true
-    : false
-
-  /**
-   * <pre>
-   *  FilterKeys<{ a: 1, b: true }, number, 'pick'> => 'a'
-   *  FilterKeys<{ a: 1, b: true }, number, 'omit'> => 'b'
-   *
-   *  FilterKeys<{ a?: 1 }, number, 'pick', true> => never
-   *  FilterKeys<{ a?: 1 }, number, 'pick', false> => 'a'
-   * </pre>
-   */
-  type FilterKeys<
-    O,
-    T,
-    Mode extends 'pick' | 'omit' = 'pick',
-    Strict extends boolean = true
-  > = Values<{
-    [K in keyof Required<O>]: [K, never][Extends<O[K], T, Strict> extends (
-      Mode extends 'pick' ? true : false
-    )
-      ? 0
-      : 1]
-  }>
+  type FilterKeys<O, T, Mode extends 'pick' | 'omit' = 'pick'> = Values<
+    OmitNullable<{
+      [K in keyof Required<O>]: Extends<T, O[K]> extends (
+        Mode extends 'pick' ? true : false
+      )
+        ? K
+        : null
+    }>
+  >
 
   /**
    * <pre>
@@ -117,3 +82,12 @@ declare global {
   > &
     R
 }
+
+// ---
+// module internals
+
+type OmitNullable<O> = {
+  [K in keyof O]: null extends O[K] ? never : K
+}
+
+type Extends<Type, Base> = Type extends Base ? true : false
