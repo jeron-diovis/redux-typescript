@@ -13,8 +13,7 @@ export const login = createAsyncThunk(
   'user/login',
   async (data: ILoginFormFields, { getState, dispatch }): Promise<IUser> => {
     const state = getState() as AppState
-    await API.login(data)
-    const user = await API.getUser()
+    const user = await API.login(data)
 
     const ref = selectReferrer(state)
     if (!ref || ref.pathname === routes.login) {

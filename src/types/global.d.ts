@@ -60,12 +60,26 @@ declare global {
    *   FilterKeys<{ a: number, b: boolean }, number, 'pick'> => 'a'
    *   FilterKeys<{ a: number, b: boolean }, number, 'omit'> => 'b'
    * </pre>
+   *
+   * In `assignable` mode, it will look for keys a `T` is assignable to.
+   * In `extending`, it will look for keys which do extend `T`
+   * <pre>
+   *   // `number | string` is not assignable to `number`:
+   *   FilterKeys<{ a: number }, number | string, 'pick', 'assignable'> => never
+   *   // `number` does extends `number | string`:
+   *   FilterKeys<{ a: number }, number | string, 'pick', 'extending'> => 'a'
+   * </pre>
    */
-  type FilterKeys<O, T, Mode extends 'pick' | 'omit' = 'pick'> = Values<
+  type FilterKeys<
+    O,
+    T,
+    Mode extends 'pick' | 'omit' = 'pick',
+    Relation extends 'assignable' | 'extending' = 'assignable'
+  > = Values<
     OmitNullable<{
-      [K in keyof Required<O>]: Extends<T, O[K]> extends (
-        Mode extends 'pick' ? true : false
-      )
+      [K in keyof Required<O>]: (
+        Relation extends 'assignable' ? Extends<T, O[K]> : Extends<O[K], T>
+      ) extends (Mode extends 'pick' ? true : false)
         ? K
         : null
     }>
