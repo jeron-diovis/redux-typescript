@@ -13,10 +13,13 @@ $footer-height: 60px;
   grid-template-rows: $header-height auto $footer-height;
 }
 
-.content {
+.scroller {
   padding: 32px 32px;
-  overflow: auto;
+  overflow-y: auto;
+  display: flex;
+}
 
+.content {
   margin: 0 auto;
   max-width: $content-width;
 }

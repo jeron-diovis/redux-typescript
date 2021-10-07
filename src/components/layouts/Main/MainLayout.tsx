@@ -9,7 +9,9 @@ export default function MainLayout(props: IMainLayoutProps) {
   return (
     <div className={styles.main_layout}>
       <Header />
-      <div className={styles.content}>{children}</div>
+      <div className={styles.scroller}>
+        <div className={styles.content}>{children}</div>
+      </div>
       <Footer />
     </div>
   )
