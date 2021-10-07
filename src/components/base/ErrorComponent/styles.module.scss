@@ -1,4 +1,12 @@
+$color: red;
+
 .root {
-  color: red;
+  color: $color;
   font-size: 12px;
+}
+
+.bordered {
+  border: 2px solid $color;
+  padding: 4px;
+  background-color: transparentize($color, 0.9);
 }

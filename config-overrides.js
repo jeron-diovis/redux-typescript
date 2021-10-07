@@ -1,6 +1,6 @@
 const { useBabelRc, override, addBundleVisualizer } = require('customize-cra')
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const { merge } = require('lodash')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 module.exports = override(
   useBabelRc(),
@@ -15,10 +15,12 @@ module.exports = override(
 
   // @link https://github.com/lodash/lodash-webpack-plugin
   config => {
-    config.plugins.push(new LodashModuleReplacementPlugin({
-      paths: true,
-      flattening: true,
-    }))
+    config.plugins.push(
+      new LodashModuleReplacementPlugin({
+        paths: true,
+        flattening: true,
+      })
+    )
     return config
   },
 
@@ -29,9 +31,9 @@ module.exports = override(
         react: {
           test: /[\\/]node_modules[\\/].*react.*/,
           reuseExistingChunk: true,
-        }
-      }
+        },
+      },
     })
     return config
-  },
+  }
 )

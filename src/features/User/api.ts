@@ -15,15 +15,13 @@ export async function login(data: ILoginFormFields): Promise<IUser> {
   if (!(username === 'test' && password === 'test')) {
     return Promise.reject('Unable to log in with provided credentials')
   }
-  return await new Promise(res =>
-    setTimeout(res, 1000, {
-      id: 123,
-      email: 'test@test.test',
-      username: 'test',
-      first_name: 'Tested',
-      last_name: 'Tester',
-    })
-  )
+  return {
+    id: 123,
+    email: 'test@test.test',
+    username: 'test',
+    first_name: 'Tasty',
+    last_name: 'Tester',
+  }
 }
 
 export async function logout() {

@@ -6,7 +6,6 @@ module.exports = {
       ...getMuiImportsTransforms(),
 
       "date-fns": noFullImport("date-fns/${member}"),
-      "src/components": noFullImport("src/components/${member}"),
     }],
   ]
 }

@@ -9,6 +9,7 @@ import styles from './styles.module.scss'
 export default function Grid(props: IGridProps) {
   const {
     children,
+    tag: Tag = 'div',
     columns = 1,
     gap = 12,
 
@@ -32,9 +33,9 @@ export default function Grid(props: IGridProps) {
   }, [columns, gap, columnWidth, style])
 
   return (
-    <div className={clsx(styles.root, className)} style={inlineStyles}>
+    <Tag className={clsx(styles.grid, className)} style={inlineStyles}>
       {children}
-    </div>
+    </Tag>
   )
 }
 

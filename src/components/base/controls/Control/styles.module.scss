@@ -1,0 +1,40 @@
+$errorFontSize: 12px;
+$errorMarginTopLeft: 2px;
+$errorMarginBottom: 4px;
+
+.root {
+  display: grid;
+  gap: 4px;
+  position: relative;
+  word-break: break-all;
+
+  &_inline {
+    display: inline-grid;
+  }
+}
+
+
+.input_holder {
+  display: grid;
+}
+
+
+.error {
+  font-size: $errorFontSize;
+  color: red;
+  position: absolute;
+  white-space: nowrap;
+
+  &_right {
+    left: calc(100% + #{$errorMarginTopLeft});
+  }
+
+  &_bottom {
+    top: calc(100% + #{$errorMarginTopLeft});
+  }
+}
+
+
+:export {
+  controlErrorSpacing: $errorFontSize + 2 * $errorMarginTopLeft + $errorMarginBottom;
+}

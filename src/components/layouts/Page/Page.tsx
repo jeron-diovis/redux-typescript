@@ -1,11 +1,19 @@
+import clsx from 'clsx'
+
 import { IPageProps } from './types'
 
 import styles from './styles.module.scss'
 
 export default function Page(props: IPageProps) {
-  const { title, children } = props
+  const { title, children, center = 'h' } = props
   return (
-    <div className={styles.page}>
+    <div
+      className={clsx(styles.page, {
+        [styles.page_center]: center === true,
+        [styles.page_center_v]: center === 'v',
+        [styles.page_center_h]: center === 'h',
+      })}
+    >
       <If condition={title !== undefined}>
         <h2 className={styles.page_title}>{title}</h2>
       </If>

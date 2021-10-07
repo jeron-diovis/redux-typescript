@@ -26,6 +26,9 @@ export const login = createAsyncThunk(
   }
 )
 
-export const logout = createAsyncThunk('user/logout', API.logout)
+export const logout = createAsyncThunk('user/logout', async () => {
+  // for optimistic-update purposes, ignore returned promise; assume request always succeeds
+  API.logout()
+})
 
 export const loadUser = createAsyncThunk('user/load', API.getUser)

@@ -16,13 +16,7 @@ export default function Header() {
         </Link>
       </div>
 
-      <nav>
-        <ul className={styles.menu_list}>
-          <li className={styles.menu_item}>
-            <AuthMenu />
-          </li>
-        </ul>
-      </nav>
+      <AuthMenu />
     </header>
   )
 }

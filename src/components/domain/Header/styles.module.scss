@@ -8,15 +8,26 @@
 
 .logo_wrapper {}
 
+.auth_menu {
+  margin-left: auto;
+}
+
+.username {
+  font-weight: bolder;
+  text-decoration: underline;
+}
+
 .menu_list {
-  display: flex;
-  padding: 0 10px;
+  display: grid;
+  gap: 12px;
+  grid-auto-flow: column;
+
+  padding: 0;
   list-style: none;
 
   .menu_item {}
 
   .menu_link {
-    margin: 0 10px;
     font-weight: bold;
     text-decoration: none;
 

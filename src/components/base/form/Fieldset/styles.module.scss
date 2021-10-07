@@ -1,0 +1,14 @@
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+// Assume fieldset is used to hold controls.
+// Control needs a space below for an error.
+// Pseudo-element adds and extra row and thus an extra gap after the last child element.
+.paddedGrid {
+  &::after {
+    content: '';
+  }
+}

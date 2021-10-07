@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import { GuestRoute } from './components'
+import { GuestRoute } from 'src/components'
+
 import { About } from './pages/About'
 import { Home } from './pages/Home'
 import { Login } from './pages/Login'

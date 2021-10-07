@@ -1,0 +1,38 @@
+.highlighted_form {
+  box-shadow: 0 0 5px 1px #ffeb3b;
+  background-color: lightyellow;
+}
+
+.debugger {
+  background-color: gainsboro;
+  box-shadow: 0 0 5px 2px grey;
+  margin: 0;
+  padding: 4px;
+  position: relative;
+}
+
+.toolbar {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: flex-end;
+  gap: 4px;
+
+  button {
+    cursor: pointer;
+  }
+}
+
+.debug_data {
+  max-height: 600px;
+  width: 300px;
+  overflow: auto;
+  margin: 0;
+}
+
+.draggable {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  cursor: grab;
+  z-index: 99;
+}
