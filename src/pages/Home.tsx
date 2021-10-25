@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Page } from 'src/components/layouts'
-import { Counter } from 'src/features/counter'
+import { Counter } from 'src/features/Counter'
 
 export const Home: React.FC = () => {
   return (

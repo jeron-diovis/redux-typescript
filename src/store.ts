@@ -3,9 +3,9 @@ import { combineReducers } from 'redux'
 
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 
+import { CounterSlice } from './features/Counter'
 import { HistoryReferrerSlice } from './features/HistoryReferrer'
 import { UserSlice } from './features/User'
-import { CounterSlice } from './features/counter'
 import { history } from './routes'
 
 export const rootReducer = combineReducers({
