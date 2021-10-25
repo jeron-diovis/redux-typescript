@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import clsx from 'clsx'
 
+import { ExcludeRoute } from 'src/components'
 import { logout, selectIsAuthorized, selectUser } from 'src/features/User'
 import routes from 'src/routes'
 
@@ -39,15 +40,11 @@ export default function AuthMenu() {
           </When>
 
           <Otherwise>
-            <Route path={routes.login}>
-              {({ match }) => (
-                <If condition={!match}>
-                  <Link className={styles.menu_link} to={routes.login}>
-                    Login
-                  </Link>
-                </If>
-              )}
-            </Route>
+            <ExcludeRoute path={routes.login}>
+              <Link className={styles.menu_link} to={routes.login}>
+                Login
+              </Link>
+            </ExcludeRoute>
           </Otherwise>
         </Choose>
       </li>
