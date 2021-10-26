@@ -36,6 +36,9 @@ module.exports = {
     'import/newline-after-import': 'warn',
     'react/jsx-key': 'warn',
 
+    'no-nested-ternary': 'warn',
+    'no-unneeded-ternary': 'warn',
+
     // ---
     // @typescript-eslint config tweaks
     '@typescript-eslint/no-empty-interface': [
