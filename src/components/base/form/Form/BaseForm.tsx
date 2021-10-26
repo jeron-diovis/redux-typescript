@@ -42,11 +42,12 @@ export function BaseForm<TFieldValues extends FieldValues = FieldValues>(
         form.clearErrors(FORM_ERROR_KEY_NAME)
         await handleSubmit(e)
       } catch (e) {
+        const error = e as Error
         form.setError(FORM_ERROR_KEY_NAME, {
           type: FORM_ERROR_KEY_NAME,
-          message: e.message ?? e,
+          message: error.message,
         })
-        onSubmitError?.(e)
+        onSubmitError?.(error)
       }
     },
     [form, handleSubmit, onSubmitError]
