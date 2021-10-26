@@ -8,7 +8,7 @@ export * from './FieldRadio'
 
 export { default as Form } from './Form'
 export { default as Fieldset } from './Fieldset'
-export { default as FormControl } from './FieldControl'
+export { default as FieldControl } from './FieldControl'
 export { default as FieldInput } from './FieldInput'
 export { default as FieldCheckbox } from './FieldCheckbox'
 export { default as FieldSelect } from './FieldSelect'
