@@ -18,7 +18,7 @@ export default function Control(props: IControlComponentProps) {
     label,
     labelPosition = 'before',
     labelVerticalAlign = 'center',
-    layout = 'max-content max-content',
+    layout = 'horizontal',
     children,
     style,
     inline = false,
@@ -28,16 +28,21 @@ export default function Control(props: IControlComponentProps) {
     errorPosition = 'bottom',
   } = ignoreContext ? rest : { ...context, ...rest }
 
-  const resolvedInputStyle = React.useMemo(
-    () => ({
+  const resolvedInputStyle = React.useMemo(() => {
+    return {
       ...style,
       alignItems: labelVerticalAlign,
       justifyContent: stretch ? 'space-between' : undefined,
-      gridTemplateColumns: layout === 'vertical' ? '1fr' : layout,
+      gridTemplateColumns:
+        // eslint-disable-next-line no-nested-ternary
+        layout === 'vertical'
+          ? '1fr'
+          : layout === 'horizontal'
+          ? 'max-content 1fr'
+          : layout,
       gap,
-    }),
-    [style, stretch, gap, labelVerticalAlign, layout]
-  )
+    }
+  }, [style, stretch, gap, labelVerticalAlign, layout])
 
   const $error =
     error === undefined ? undefined : (
