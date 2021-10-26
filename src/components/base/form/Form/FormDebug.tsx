@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect, useRef } from 'react'
-import { useFormContext } from 'react-hook-form'
+import React, { ReactNode, useEffect, useMemo, useRef } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
 
 import { pick } from 'lodash'
 
@@ -15,14 +15,20 @@ function toggleHighlight(e: React.SyntheticEvent, state: boolean) {
 function FormDebug() {
   const form = useFormContext()
 
+  const { formState } = form
+
+  // It's important to get values with `useWatch` instead of `form.getValues()`,
+  // to keep debugger updated whenever values change.
+  // Essential for nested structures.
+  const values = useWatch({})
+
   // `formState` is a proxy object (for optimization purposes)
   // turn it into plain object, to allow `JSON.stringify` it
-  const state = pick(
-    form.formState,
-    Object.keys(Object.getOwnPropertyDescriptors(form.formState))
+  const state = useMemo(
+    () =>
+      pick(formState, Object.keys(Object.getOwnPropertyDescriptors(formState))),
+    [formState]
   )
-
-  const values = form.getValues()
 
   const [isExpanded, toggleExpanded] = useSwitch(true)
 
