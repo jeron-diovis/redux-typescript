@@ -6,7 +6,7 @@ import { IInputProps } from 'src/components/base/controls'
 import { IFormFieldProps } from '../FieldControl'
 
 export interface IFieldInputProps<
-  Type extends HTMLInputTypeAttribute = 'text',
   Fields extends FieldValues = FieldValues,
-  Name extends FieldPath<Fields> = FieldPath<Fields>
+  Name extends FieldPath<Fields> = FieldPath<Fields>,
+  Type extends HTMLInputTypeAttribute = 'text'
 > extends IFormFieldProps<IInputProps<Type>, Fields, Name> {}

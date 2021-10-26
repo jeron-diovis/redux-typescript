@@ -10,7 +10,7 @@ interface IOption {
 }
 
 export type RadioDataItem = RadioValue | IOption
-export type GetOptionValue<T extends RadioDataItem> = T extends IOption
+export type GetRadioOptionValue<T extends RadioDataItem> = T extends IOption
   ? T['value']
   : T
 
@@ -18,6 +18,6 @@ export interface IRadioGroupProps<T extends RadioDataItem>
   extends Omit<IInputProps<'radio'>, 'onChange' | 'value' | 'type'> {
   data: T[]
   value?: T
-  onChange?: (value: GetOptionValue<T>, item: T, e: ChangeEvent) => void
+  onChange?: (value: GetRadioOptionValue<T>, item: T, e: ChangeEvent) => void
   tag?: keyof ReactHTML
 }

@@ -2,7 +2,7 @@ import React from 'react'
 
 import Input from '../Input'
 
-import { GetOptionValue, IRadioGroupProps, RadioDataItem } from './types'
+import { GetRadioOptionValue, IRadioGroupProps, RadioDataItem } from './types'
 
 const noop = () => {}
 const isPrimitive = (x: RadioDataItem): x is string | number =>
@@ -36,7 +36,7 @@ export default function RadioGroup<T extends RadioDataItem>(
             onChange={(v, e) => {
               const item = data.find(x => getValue(x).toString() === v)
               const itemValue = item === undefined ? undefined : getValue(item)
-              onChange(itemValue as GetOptionValue<T>, item as T, e)
+              onChange(itemValue as GetRadioOptionValue<T>, item as T, e)
             }}
           />
           {getLabel(x)}

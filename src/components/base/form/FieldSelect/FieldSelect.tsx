@@ -1,18 +1,17 @@
 import { FieldPath, FieldValues } from 'react-hook-form'
 
-import { Select, SelectDataItem } from 'src/components/base/controls'
 import { assignRef } from 'src/utils'
 
+import { Select } from '../../controls'
 import FieldControl from '../FieldControl'
 
 import { IFieldSelectProps } from './types'
 
 export default function FieldSelect<
-  ItemType extends SelectDataItem,
-  Clearable extends boolean = false,
   Fields extends FieldValues = FieldValues,
-  Name extends FieldPath<Fields> = FieldPath<Fields>
->(props: IFieldSelectProps<ItemType, Clearable, Fields, Name>) {
+  Name extends FieldPath<Fields> = FieldPath<Fields>,
+  Clearable extends boolean = false
+>(props: IFieldSelectProps<Fields, Name, Clearable>) {
   const { control, name, rules, refInput, ...rest } = props
 
   return (
@@ -22,7 +21,7 @@ export default function FieldSelect<
           field: { ref, ...field },
         } = controller
         return (
-          <Select<ItemType, Clearable>
+          <Select
             {...rest}
             {...field}
             refInput={

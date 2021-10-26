@@ -1,13 +1,10 @@
 import { FieldPath, FieldValues } from 'react-hook-form'
 
-import {
-  IRadioGroupProps,
-  RadioDataItem,
-} from '../../controls/RadioGroup/types'
+import { IRadioGroupProps, RadioDataItem } from '../../controls/RadioGroup'
 import { IFormFieldProps } from '../FieldControl'
 
 export interface IFieldRadioProps<
-  ItemType extends RadioDataItem,
   Fields extends FieldValues = FieldValues,
-  Name extends FieldPath<Fields> = FieldPath<Fields>
+  Name extends FieldPath<Fields> = FieldPath<Fields>,
+  ItemType extends RadioDataItem = RadioDataItem
 > extends IFormFieldProps<IRadioGroupProps<ItemType>, Fields, Name> {}

@@ -8,7 +8,7 @@ interface IOption {
 }
 
 export type SelectDataItem = SelectValue | IOption
-export type GetOptionValue<T extends SelectDataItem> = T extends IOption
+export type GetSelectOptionValue<T extends SelectDataItem> = T extends IOption
   ? T['value']
   : T
 
@@ -20,11 +20,11 @@ export interface ISelectProps<
     'onChange' | 'multiple'
   > {
   data: Readonly<T[]>
-  value?: GetOptionValue<T>
+  value?: GetSelectOptionValue<T>
   onChange?: Clearable extends false
-    ? (value: GetOptionValue<T>, item: T, e: ChangeEvent) => void
+    ? (value: GetSelectOptionValue<T>, item: T, e: ChangeEvent) => void
     : (
-        value: GetOptionValue<T> | undefined,
+        value: GetSelectOptionValue<T> | undefined,
         item: T | undefined,
         e: ChangeEvent
       ) => void

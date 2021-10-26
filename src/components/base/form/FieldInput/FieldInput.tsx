@@ -9,10 +9,10 @@ import FieldControl from '../FieldControl'
 import { IFieldInputProps } from './types'
 
 export default function FieldInput<
-  Type extends HTMLInputTypeAttribute = 'text',
   Fields extends FieldValues = FieldValues,
-  Name extends FieldPath<Fields> = FieldPath<Fields>
->(props: IFieldInputProps<Type, Fields, Name>) {
+  Name extends FieldPath<Fields> = FieldPath<Fields>,
+  Type extends HTMLInputTypeAttribute = 'text'
+>(props: IFieldInputProps<Fields, Name, Type>) {
   const { control, name, rules, refInput, ...rest } = props
 
   return (

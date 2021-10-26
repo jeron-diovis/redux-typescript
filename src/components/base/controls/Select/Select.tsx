@@ -1,4 +1,4 @@
-import { GetOptionValue, ISelectProps, SelectDataItem } from './types'
+import { GetSelectOptionValue, ISelectProps, SelectDataItem } from './types'
 
 const noop = () => {}
 const isPrimitive = (x: SelectDataItem): x is string | number =>
@@ -30,7 +30,7 @@ export default function Select<
         const selectValue = e.target.value
         const item = data.find(x => getValue(x).toString() === selectValue)
         const itemValue = item === undefined ? undefined : getValue(item)
-        onChange(itemValue as GetOptionValue<T>, item as T, e)
+        onChange(itemValue as GetSelectOptionValue<T>, item as T, e)
       }}
     >
       <If condition={clearable}>

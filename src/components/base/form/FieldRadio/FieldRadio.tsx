@@ -1,17 +1,17 @@
 import { FieldPath, FieldValues } from 'react-hook-form'
 
-import { RadioGroup, SelectDataItem } from 'src/components/base/controls'
 import { assignRef } from 'src/utils'
 
+import RadioGroup, { RadioDataItem } from '../../controls/RadioGroup'
 import FieldControl from '../FieldControl'
 
 import { IFieldRadioProps } from './types'
 
 export default function FieldRadio<
-  ItemType extends SelectDataItem,
   Fields extends FieldValues = FieldValues,
-  Name extends FieldPath<Fields> = FieldPath<Fields>
->(props: IFieldRadioProps<ItemType, Fields, Name>) {
+  Name extends FieldPath<Fields> = FieldPath<Fields>,
+  ItemType extends RadioDataItem = RadioDataItem
+>(props: IFieldRadioProps<Fields, Name, ItemType>) {
   const { control, name, rules, refInput, ...rest } = props
 
   return (
