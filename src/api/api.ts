@@ -19,6 +19,12 @@ export function createInstance(cfg?: AxiosRequestConfig) {
       }),
 
     baseURL: API_BASE_URL,
+
+    // Django
+    // @see https://docs.djangoproject.com/en/3.2/ref/csrf/#ajax
+    // xsrfCookieName: 'csrftoken',
+    // xsrfHeaderName: 'X-CSRFToken',
+
     ...cfg,
   })
 
@@ -26,6 +32,16 @@ export function createInstance(cfg?: AxiosRequestConfig) {
     request.url = ensureTrailingSlash(request.url ?? '/')
     return request
   })
+
+  // You may use this if you're working with Django backend
+  /*inst.interceptors.response.use(undefined, (e: AxiosError) => {
+    const data = e.response?.data ?? {}
+    const djangoError = data.non_field_errors?.[0] ?? data.detail
+    if (djangoError !== undefined) {
+      e.message = djangoError
+    }
+    return Promise.reject(e)
+  })*/
 
   return inst
 }
