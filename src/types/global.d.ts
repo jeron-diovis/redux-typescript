@@ -95,6 +95,25 @@ declare global {
     keyof R
   > &
     R
+
+  /**
+   * Make listed props optional, preserving the rest.
+   *
+   * <pre>
+   *   type Data = { a: number, b: string }
+   *   PartialProps<Data, 'b'> => { a: number, b?: string }
+   * </pre>
+   */
+  type PartialProps<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
+
+  /**
+   * Make listed props required
+   * <pre>
+   *   type Data = { a?: number, b?: string }
+   *   RequiredProps<Data, 'a'> => { a: number, b?: string }
+   * </pre>
+   */
+  type RequiredProps<T, P extends keyof T> = Omit<T, P> & Required<Pick<T, P>>
 }
 
 // ---
