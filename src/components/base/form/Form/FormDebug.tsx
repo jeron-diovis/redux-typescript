@@ -122,7 +122,7 @@ function SimpleDraggable(props: { children: ReactNode }) {
         const offsetY = refMouseMove.current.y - box.top
         node.style.left = `${e.clientX - offsetX}px`
         node.style.top = `${e.clientY - offsetY}px`
-        node.style.right = ''
+        node.style.right = 'unset'
       }}
     >
       {children}
