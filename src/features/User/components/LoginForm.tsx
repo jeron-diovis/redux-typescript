@@ -27,14 +27,14 @@ export default function LoginForm() {
 
       <ControlSettings layout="vertical">
         <Fieldset>
-          <FieldInput
+          <FieldInput<ILoginFormFields>
             name="username"
             rules={{
               required: true,
             }}
           />
 
-          <FieldInput
+          <FieldInput<ILoginFormFields, 'password', 'password'>
             name="password"
             type="password"
             rules={{
