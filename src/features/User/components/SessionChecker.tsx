@@ -1,5 +1,7 @@
-import { ReactNode } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
+
+import { useDispatch } from 'src/hooks'
 
 import { selectIsAuthorized } from '../selectors'
 import { loadUser } from '../thunks'
@@ -7,23 +9,22 @@ import { loadUser } from '../thunks'
 let checked = false // probably don't need to put this in store?
 
 function useLoadUser() {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch()
   const isAuthorized = useSelector(selectIsAuthorized)
   if (!isAuthorized) {
     if (!checked) {
       checked = true
-      throw (
-        dispatch(loadUser())
-          // swallow error
-          // if can't load user, you're not authenticated yet, and that's all
-          .catch(() => {})
-      )
+      // Due to redux-toolkit logic, error in promise will be swallowed silently
+      // Which is what we need: if this request fails, there is no active session available. And that's all.
+      throw dispatch(loadUser())
     }
   }
 }
 
-export default function SessionChecker(props: { children: ReactNode }) {
-  const { children } = props
+const SessionChecker: React.FC = props => {
   useLoadUser()
+  const { children } = props
   return <>{children}</>
 }
+
+export default SessionChecker

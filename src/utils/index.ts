@@ -38,3 +38,7 @@ export function dictOf<T, K extends string | symbol = string>(
     return acc
   }, {} as Record<K, T>)
 }
+
+export function normalizeUrl(url: string) {
+  return /^https?:\/\//.test(url) ? url : `http://${url.trim()}`
+}

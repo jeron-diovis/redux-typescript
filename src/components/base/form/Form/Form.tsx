@@ -1,7 +1,7 @@
 import { cloneElement } from 'react'
 import { FieldValues } from 'react-hook-form'
 
-import { Button, Grid } from 'src/components/base/index'
+import { Button, Grid } from 'src/components/base'
 
 import { BaseForm, FormSubmitError } from './BaseForm'
 import { IFormProps } from './types'

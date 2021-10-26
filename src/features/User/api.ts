@@ -33,5 +33,6 @@ export async function logout() {
 export async function getUser(): Promise<IUser> {
   // await AuthAPI.get<IUserResponse>('/user')
 
+  await new Promise(res => setTimeout(res, 500))
   return Promise.reject('401 Unauthorized')
 }

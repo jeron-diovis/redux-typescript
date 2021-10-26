@@ -4,7 +4,7 @@ import {
   FormProvider,
   Path,
   useForm,
-  useFormContext,
+  useFormState,
 } from 'react-hook-form'
 
 import ErrorComponent, { IErrorProps } from 'src/components/base/ErrorComponent'
@@ -83,9 +83,7 @@ export function BaseForm<TFieldValues extends FieldValues = FieldValues>(
 }
 
 export function FormSubmitError(props: Omit<IErrorProps, 'children'>) {
-  const {
-    formState: { errors },
-  } = useFormContext()
+  const { errors } = useFormState()
   return (
     <ErrorComponent {...props}>
       {errors[FORM_ERROR_KEY_NAME]?.message}
