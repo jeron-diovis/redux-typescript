@@ -2,18 +2,20 @@ import { ChangeEvent, ForwardedRef, SelectHTMLAttributes } from 'react'
 
 type SelectValue = string | number
 
-interface IOption {
+export interface ISelectOption<V extends SelectValue = SelectValue> {
   label: string
-  value: SelectValue
+  value: V
 }
 
-export type SelectDataItem = SelectValue | IOption
-export type GetSelectOptionValue<T extends SelectDataItem> = T extends IOption
-  ? T['value']
-  : T
+export type SelectDataItem<V extends SelectValue = SelectValue> =
+  | V
+  | ISelectOption<V>
+
+export type GetSelectOptionValue<T extends SelectDataItem> =
+  T extends ISelectOption ? T['value'] : T
 
 export interface ISelectProps<
-  T extends SelectDataItem,
+  T extends SelectDataItem = SelectDataItem,
   Clearable extends boolean = false
 > extends Omit<
     SelectHTMLAttributes<HTMLSelectElement>,

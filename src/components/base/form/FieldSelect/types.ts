@@ -1,6 +1,6 @@
 import { FieldPath, FieldPathValue, FieldValues } from 'react-hook-form'
 
-import { ISelectProps } from 'src/components/base/controls'
+import { ISelectProps, SelectDataItem } from 'src/components/base/controls'
 
 import { IFormFieldProps } from '../FieldControl'
 
@@ -9,7 +9,7 @@ export interface IFieldSelectProps<
   Name extends FieldPath<Fields> = FieldPath<Fields>,
   Clearable extends boolean = false
 > extends IFormFieldProps<
-    ISelectProps<FieldPathValue<Fields, Name>, Clearable>,
+    ISelectProps<SelectDataItem<FieldPathValue<Fields, Name>>, Clearable>,
     Fields,
     Name
   > {}
