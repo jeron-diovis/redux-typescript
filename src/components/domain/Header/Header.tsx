@@ -10,11 +10,9 @@ import styles from './styles.module.scss'
 export default function Header() {
   return (
     <header className={styles.header}>
-      <div className={styles.logo_wrapper}>
-        <Link to={routes.home}>
-          <Logo width={40} />
-        </Link>
-      </div>
+      <Link to={routes.home}>
+        <Logo width={40} />
+      </Link>
 
       <AuthMenu />
     </header>

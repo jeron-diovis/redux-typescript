@@ -16,8 +16,8 @@ const Fieldset: React.FC<IFieldsetProps> = props => {
   return (
     <fieldset {...rest} className={clsx(styles.fieldset, className)}>
       <Grid
-        gap={stylesControl.controlErrorSpacing}
-        className={styles.paddedGrid}
+        gap={stylesControl.control_error_spacing}
+        className={styles.padded_grid}
       >
         {children}
       </Grid>

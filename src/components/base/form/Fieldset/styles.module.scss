@@ -7,8 +7,8 @@
 // Assume fieldset is used to hold controls.
 // Control needs a space below for an error.
 // Pseudo-element adds and extra row and thus an extra gap after the last child element.
-.paddedGrid {
+.padded_grid {
   &::after {
-    content: '';
+    content: "";
   }
 }

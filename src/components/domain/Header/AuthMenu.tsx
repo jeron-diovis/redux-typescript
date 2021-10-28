@@ -16,7 +16,7 @@ export default function AuthMenu() {
   return (
     <ul className={clsx(styles.auth_menu, styles.menu_list)}>
       <If condition={isAuthorized}>
-        <li className={styles.menu_item}>
+        <li>
           <span>Hi, </span>
           <span className={styles.username}>
             {user.first_name} {user.last_name}
@@ -25,7 +25,7 @@ export default function AuthMenu() {
         <li>|</li>
       </If>
 
-      <li className={styles.menu_item}>
+      <li>
         <Choose>
           <When condition={isAuthorized}>
             <span

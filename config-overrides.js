@@ -1,6 +1,7 @@
 const { useBabelRc, override, addBundleVisualizer } = require('customize-cra')
 const { merge } = require('lodash')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const StyleLintPlugin = require('stylelint-webpack-plugin')
 
 module.exports = override(
   useBabelRc(),
@@ -15,15 +16,19 @@ module.exports = override(
   }),
 
   // @link https://github.com/lodash/lodash-webpack-plugin
-  config => {
-    config.plugins.push(
-      new LodashModuleReplacementPlugin({
-        paths: true,
-        flattening: true,
-      })
-    )
-    return config
-  },
+  addPlugin(
+    new LodashModuleReplacementPlugin({
+      paths: true,
+      flattening: true,
+    })
+  ),
+
+  // @link https://www.npmjs.com/package/stylelint-webpack-plugin
+  addPlugin(
+    new StyleLintPlugin({
+      fix: true,
+    })
+  ),
 
   // Separate chunk for react-modules, for better build analysis.
   config => {
@@ -38,3 +43,12 @@ module.exports = override(
     return config
   }
 )
+
+// ---
+
+function addPlugin(plugin) {
+  return config => {
+    config.plugins.push(plugin)
+    return config
+  }
+}

@@ -18,7 +18,7 @@
   padding-left: 16px;
   padding-right: 16px;
   margin-top: 2px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", "Courier", monospace;
 }
 
 .button {
@@ -29,10 +29,10 @@
   padding-right: 12px;
   outline: none;
   border: 2px solid transparent;
-  color: rgb(112, 76, 182);
+  color: rgb(112 76 182);
   padding-bottom: 4px;
   cursor: pointer;
-  background-color: rgba(112, 76, 182, 0.1);
+  background-color: rgb(112 76 182 / 10%);
   border-radius: 2px;
   transition: all 0.15s;
 }
@@ -47,33 +47,33 @@
 
 .button:hover,
 .button:focus {
-  border: 2px solid rgba(112, 76, 182, 0.4);
+  border: 2px solid rgb(112 76 182 / 40%);
 }
 
 .button:active {
-  background-color: rgba(112, 76, 182, 0.2);
+  background-color: rgb(112 76 182 / 20%);
 }
 
-.asyncButton {
+.async_button {
   composes: button;
   position: relative;
 }
 
-.asyncButton:after {
-  content: '';
-  background-color: rgba(112, 76, 182, 0.15);
+.async_button::after {
+  content: "";
+  background-color: rgb(112 76 182 / 15%);
   display: block;
   position: absolute;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
-  opacity: 0;
+  opacity: 0%;
   transition: width 1s linear, opacity 0.5s ease 1s;
 }
 
-.asyncButton:active:after {
+.async_button:active::after {
   width: 0%;
-  opacity: 1;
+  opacity: 100%;
   transition: 0s;
 }

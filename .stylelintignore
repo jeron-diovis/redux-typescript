@@ -1,0 +1,9 @@
+/node_modules
+
+# `build` is used in prod env (defined in react-scripts config)
+/build
+# `dist` is used in dev env (webpack's default)
+/dist
+
+# any 3-party styles which has to be added as-is
+/src/styles/vendor

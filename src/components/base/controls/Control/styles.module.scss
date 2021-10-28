@@ -1,6 +1,6 @@
-$errorFontSize: 12px;
-$errorMarginTopLeft: 2px;
-$errorMarginBottom: 4px;
+$error-font-size: 12px;
+$error-margin-top-left: 2px;
+$error-margin-bottom: 4px;
 
 .root {
   display: grid;
@@ -13,28 +13,25 @@ $errorMarginBottom: 4px;
   }
 }
 
-
 .input_holder {
   display: grid;
 }
 
-
 .error {
-  font-size: $errorFontSize;
+  font-size: $error-font-size;
   color: red;
   position: absolute;
   white-space: nowrap;
 
   &_right {
-    left: calc(100% + #{$errorMarginTopLeft});
+    left: calc(100% + #{$error-margin-top-left});
   }
 
   &_bottom {
-    top: calc(100% + #{$errorMarginTopLeft});
+    top: calc(100% + #{$error-margin-top-left});
   }
 }
 
-
 :export {
-  controlErrorSpacing: $errorFontSize + 2 * $errorMarginTopLeft + $errorMarginBottom;
+  control_error_spacing: $error-font-size + 2 * $error-margin-top-left + $error-margin-bottom;
 }
