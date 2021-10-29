@@ -14,7 +14,7 @@ export default function FieldRadio<
   const { control, name, rules, refInput, ...rest } = props
 
   return (
-    <FieldControl {...control} name={name} rules={rules}>
+    <FieldControl<Fields, Name> {...control} name={name} rules={rules}>
       {controller => {
         const {
           field: { ref, ...field },

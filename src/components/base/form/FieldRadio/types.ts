@@ -7,7 +7,6 @@ export interface IFieldRadioProps<
   Fields extends FieldValues = FieldValues,
   Name extends FieldPath<Fields> = FieldPath<Fields>
 > extends IFormFieldProps<
-    // IRadioGroupProps<FieldPathValue<Fields, Name>>,
     IRadioGroupProps<RadioDataItem<FieldPathValue<Fields, Name>>>,
     Fields,
     Name

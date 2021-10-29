@@ -17,7 +17,7 @@ export default function FieldCheckbox<
   return (
     /* Force override `columns`. Checkbox is always rendered in a single row */
     <ControlSettings layout="max-content auto">
-      <FieldControl
+      <FieldControl<Fields, Name>
         {...control}
         labelPosition={labelPosition}
         stretch={stretch}

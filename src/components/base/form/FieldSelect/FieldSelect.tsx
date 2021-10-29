@@ -2,7 +2,7 @@ import { FieldPath, FieldValues } from 'react-hook-form'
 
 import { assignRef } from 'src/utils'
 
-import { Select } from '../../controls'
+import Select from '../../controls/Select'
 import FieldControl from '../FieldControl'
 
 import { IFieldSelectProps } from './types'
@@ -15,7 +15,7 @@ export default function FieldSelect<
   const { control, name, rules, refInput, ...rest } = props
 
   return (
-    <FieldControl {...control} name={name} rules={rules}>
+    <FieldControl<Fields, Name> {...control} name={name} rules={rules}>
       {controller => {
         const {
           field: { ref, ...field },

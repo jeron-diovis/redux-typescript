@@ -10,7 +10,7 @@ const isPrimitive = (x: RadioDataItem): x is string | number =>
 const getValue = (x: RadioDataItem) => (isPrimitive(x) ? x : x.value)
 const getLabel = (x: RadioDataItem) => (isPrimitive(x) ? x : x.label)
 
-export default function RadioGroup<T extends RadioDataItem>(
+export default function RadioGroup<T extends RadioDataItem = RadioDataItem>(
   props: IRadioGroupProps<T>
 ) {
   const {

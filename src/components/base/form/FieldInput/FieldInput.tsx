@@ -16,7 +16,12 @@ export default function FieldInput<
   const { control, name, rules, refInput, ...rest } = props
 
   return (
-    <FieldControl {...control} name={name} rules={rules} key={name}>
+    <FieldControl<Fields, Name>
+      {...control}
+      name={name}
+      rules={rules}
+      key={name}
+    >
       {controller => {
         const {
           field: { ref, ...field },

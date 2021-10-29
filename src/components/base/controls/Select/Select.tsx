@@ -8,7 +8,7 @@ const getLabel = (x: SelectDataItem) => (isPrimitive(x) ? x : x.label)
 const EMPTY_VALUE = ''
 
 export default function Select<
-  T extends SelectDataItem,
+  T extends SelectDataItem = SelectDataItem,
   Clearable extends boolean = false
 >(props: ISelectProps<T, Clearable>) {
   const {
