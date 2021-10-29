@@ -1,6 +1,10 @@
 module.exports = {
   "plugins": [
+    // https://github.com/storybookjs/paths.macro
+    "macros",
+    // https://www.npmjs.com/package/jsx-control-statements
     "jsx-control-statements",
+    // https://www.npmjs.com/package/babel-plugin-transform-imports
     ["transform-imports", {
       ...getLodashImportsTransforms(),
       ...getMuiImportsTransforms(),

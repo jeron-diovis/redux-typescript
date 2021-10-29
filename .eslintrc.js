@@ -167,4 +167,14 @@ module.exports = {
     // It reports code like `ReturnType<typeof something>` as `'something' is not defined`.
     'jsx-control-statements/jsx-jcs-no-undef': 'off',
   },
+
+  // storybook:
+  overrides: [
+    {
+      files: ['**/{*.,}stories.*'],
+      rules: {
+        'import/no-anonymous-default-export': 'off',
+      },
+    },
+  ],
 }
