@@ -25,6 +25,17 @@ export function assignRef<T>(
   }
 }
 
+export function combineRefs<T>(...args: Array<ForwardedRef<T> | undefined>) {
+  const refs = args.filter(x => x !== undefined)
+  if (refs.length < 2) return refs[0]
+  // add `null` here because ForwardedRef adds it implicitly
+  return (value: T | null) => {
+    refs.forEach(ref => {
+      assignRef(ref, value)
+    })
+  }
+}
+
 export function parseQueryString(string: string) {
   return qs.parse(string, { ignoreQueryPrefix: true })
 }

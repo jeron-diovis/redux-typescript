@@ -1,9 +1,9 @@
 import { HTMLInputTypeAttribute } from 'react'
 import { FieldPath, FieldValues } from 'react-hook-form'
 
-import { Input } from 'src/components/base/controls'
-import { assignRef } from 'src/utils'
+import { combineRefs } from 'src/utils'
 
+import Input from '../../controls/Input'
 import FieldControl from '../FieldControl'
 
 import { IFieldInputProps } from './types'
@@ -13,7 +13,7 @@ export default function FieldInput<
   Name extends FieldPath<Fields> = FieldPath<Fields>,
   Type extends HTMLInputTypeAttribute = 'text'
 >(props: IFieldInputProps<Fields, Name, Type>) {
-  const { control, name, rules, refInput, ...rest } = props
+  const { control, name, rules, ...rest } = props
 
   return (
     <FieldControl<Fields, Name>
@@ -28,18 +28,12 @@ export default function FieldInput<
           fieldState,
         } = controller
         const { invalid } = fieldState
+        const { refInput } = rest
         return (
           <Input<Type>
             {...rest}
             {...field}
-            refInput={
-              refInput === undefined
-                ? ref
-                : x => {
-                    assignRef(ref, x)
-                    assignRef(refInput, x)
-                  }
-            }
+            refInput={combineRefs(ref, refInput)}
             invalid={invalid}
           />
         )

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 
 import clsx from 'clsx'
 
@@ -10,7 +10,7 @@ export interface IErrorProps extends IStyled {
   bordered?: boolean
 }
 
-export default function ErrorComponent(props: IErrorProps) {
+const ErrorComponent = React.memo(function ErrorComponent(props: IErrorProps) {
   const {
     children: error,
     inline = false,
@@ -31,4 +31,6 @@ export default function ErrorComponent(props: IErrorProps) {
       </Tag>
     </If>
   )
-}
+})
+
+export default ErrorComponent

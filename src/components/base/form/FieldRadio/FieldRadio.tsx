@@ -1,6 +1,6 @@
 import { FieldPath, FieldValues } from 'react-hook-form'
 
-import { assignRef } from 'src/utils'
+import { combineRefs } from 'src/utils'
 
 import RadioGroup from '../../controls/RadioGroup'
 import FieldControl from '../FieldControl'
@@ -11,7 +11,7 @@ export default function FieldRadio<
   Fields extends FieldValues = FieldValues,
   Name extends FieldPath<Fields> = FieldPath<Fields>
 >(props: IFieldRadioProps<Fields, Name>) {
-  const { control, name, rules, refInput, ...rest } = props
+  const { control, name, rules, ...rest } = props
 
   return (
     <FieldControl<Fields, Name> {...control} name={name} rules={rules}>
@@ -19,18 +19,12 @@ export default function FieldRadio<
         const {
           field: { ref, ...field },
         } = controller
+        const { refInput } = rest
         return (
           <RadioGroup
             {...rest}
             {...field}
-            refInput={
-              refInput === undefined
-                ? ref
-                : x => {
-                    assignRef(ref, x)
-                    assignRef(refInput, x)
-                  }
-            }
+            refInput={combineRefs(ref, refInput)}
             onChange={field.onChange}
           />
         )

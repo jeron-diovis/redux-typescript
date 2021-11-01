@@ -1,6 +1,6 @@
 import { FieldPath, FieldValues } from 'react-hook-form'
 
-import { assignRef } from 'src/utils'
+import { combineRefs } from 'src/utils'
 
 import Select from '../../controls/Select'
 import FieldControl from '../FieldControl'
@@ -12,7 +12,7 @@ export default function FieldSelect<
   Name extends FieldPath<Fields> = FieldPath<Fields>,
   Clearable extends boolean = false
 >(props: IFieldSelectProps<Fields, Name, Clearable>) {
-  const { control, name, rules, refInput, ...rest } = props
+  const { control, name, rules, ...rest } = props
 
   return (
     <FieldControl<Fields, Name> {...control} name={name} rules={rules}>
@@ -20,18 +20,12 @@ export default function FieldSelect<
         const {
           field: { ref, ...field },
         } = controller
+        const { refInput } = rest
         return (
           <Select
             {...rest}
             {...field}
-            refInput={
-              refInput === undefined
-                ? ref
-                : x => {
-                    assignRef(ref, x)
-                    assignRef(refInput, x)
-                  }
-            }
+            refInput={combineRefs(ref, refInput)}
             onChange={
               // Type '(...event: any[]) => void' is not assignable to type 'Clearable extends false ? .. : ...
               field.onChange as any /* eslint-disable-line @typescript-eslint/no-explicit-any */

@@ -24,16 +24,19 @@ export interface IFormControllerProps<
 // Omit 'error' prop, it's provided by form state
 export interface IFieldControlProps extends Omit<IControlProps, 'error'> {}
 
+export type FieldControlChildRenderer<
+  Fields extends FieldValues = FieldValues,
+  Name extends FieldPath<Fields> = FieldPath<Fields>
+> = (
+  controller: UseControllerReturn<Fields, ControllerValue, Name>
+) => ReactElement
+
 export interface IFieldControlComponentProps<
   Fields extends FieldValues = FieldValues,
   Name extends FieldPath<Fields> = FieldPath<Fields>
 > extends IFieldControlProps,
     IFormControllerProps<Fields, Name> {
-  children:
-    | ReactElement
-    | ((
-        controller: UseControllerReturn<Fields, ControllerValue, Name>
-      ) => ReactElement)
+  children: ReactElement | FieldControlChildRenderer<Fields, Name>
 }
 
 export type IFormFieldProps<

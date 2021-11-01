@@ -9,7 +9,7 @@ import styles from './styles.module.scss'
 
 const DEFAULT_ERROR_TEXT = 'This field is invalid'
 
-export default function Control(props: IControlComponentProps) {
+function Control(props: IControlComponentProps) {
   const { ignoreContext = false, className: ownClassName, ...rest } = props
   const { className: contextClassName, ...context } =
     React.useContext(ControlContext)
@@ -75,3 +75,5 @@ export default function Control(props: IControlComponentProps) {
     </label>
   )
 }
+
+export default React.memo(Control)

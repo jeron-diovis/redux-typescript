@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import clsx from 'clsx'
 
@@ -6,7 +6,7 @@ import { IGridProps } from './types'
 
 import styles from './styles.module.scss'
 
-export default function Grid(props: IGridProps) {
+function Grid(props: IGridProps) {
   const {
     children,
     tag: Tag = 'div',
@@ -38,6 +38,10 @@ export default function Grid(props: IGridProps) {
     </Tag>
   )
 }
+
+export default React.memo(Grid)
+
+// ---
 
 function createColumnsTemplate(
   count: number,

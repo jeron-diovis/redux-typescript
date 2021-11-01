@@ -1,4 +1,4 @@
-import { cloneElement } from 'react'
+import { CSSProperties, cloneElement } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 import { Button, Grid } from 'src/components/base'
@@ -30,9 +30,7 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
           <Grid
             columns={isResettable ? 2 : 1}
             columnWidth="max-content"
-            style={{
-              justifyContent: 'flex-end',
-            }}
+            style={CONTROLS_GRID_STYLE}
           >
             <If condition={isResettable}>
               <Button type="reset" disabled={isSubmitting}>
@@ -51,7 +49,7 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
         }
 
         const $footer = (
-          <Grid style={{ marginTop: 8, justifyContent: 'flex-end' }} gap={8}>
+          <Grid style={FOOTER_GRID_STYLE} gap={8}>
             {cloneElement($error, { bordered: true })}
             {$controls}
           </Grid>
@@ -66,4 +64,15 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
       }}
     </BaseForm>
   )
+}
+
+// ---
+
+const CONTROLS_GRID_STYLE: CSSProperties = {
+  justifyContent: 'flex-end',
+}
+
+const FOOTER_GRID_STYLE: CSSProperties = {
+  marginTop: 8,
+  justifyContent: 'flex-end',
 }

@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { GetSelectOptionValue, ISelectProps, SelectDataItem } from './types'
 
 const noop = () => {}
@@ -7,7 +9,7 @@ const getValue = (x: SelectDataItem) => (isPrimitive(x) ? x : x.value)
 const getLabel = (x: SelectDataItem) => (isPrimitive(x) ? x : x.label)
 const EMPTY_VALUE = ''
 
-export default function Select<
+function Select<
   T extends SelectDataItem = SelectDataItem,
   Clearable extends boolean = false
 >(props: ISelectProps<T, Clearable>) {
@@ -44,3 +46,5 @@ export default function Select<
     </select>
   )
 }
+
+export default React.memo(Select) as typeof Select

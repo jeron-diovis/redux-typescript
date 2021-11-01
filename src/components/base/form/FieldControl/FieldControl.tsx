@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import {
   FieldError,
   FieldPath,
@@ -9,6 +9,7 @@ import {
 import { capitalize } from 'lodash'
 
 import { Control } from 'src/components/base/controls'
+import { useClosureCallback } from 'src/hooks'
 import { ErrorType, getDefaultMsg } from 'src/validation'
 
 import { IFieldControlComponentProps } from './types'
@@ -26,7 +27,7 @@ export default function FieldControl<
     ...rest
   } = props
 
-  const controller = useController({
+  const controller = useMemoController({
     name,
     rules,
     shouldUnregister,
@@ -52,4 +53,29 @@ export default function FieldControl<
         : React.cloneElement(React.Children.only(children), controller.field)}
     </Control>
   )
+}
+
+// ---
+
+// Memoize callbacks, provided by `controller.field`
+const useMemoController: typeof useController = (...args) => {
+  const controller = useController(...args)
+  const { field } = controller
+
+  const onChange = useClosureCallback(field.onChange)
+  const onBlur = useClosureCallback(field.onBlur)
+  const ref = useClosureCallback(field.ref)
+
+  controller.field = useMemo(
+    () => ({
+      name: field.name,
+      value: field.value,
+      onChange,
+      onBlur,
+      ref,
+    }),
+    [field.name, field.value, onChange, onBlur, ref]
+  )
+
+  return controller
 }

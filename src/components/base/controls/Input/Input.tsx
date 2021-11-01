@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute } from 'react'
+import React, { HTMLInputTypeAttribute } from 'react'
 
 import clsx from 'clsx'
 
@@ -8,7 +8,7 @@ import styles from './styles.module.scss'
 
 const noop = () => {}
 
-export default function BaseInput<Type extends HTMLInputTypeAttribute = 'text'>(
+function BaseInput<Type extends HTMLInputTypeAttribute = 'text'>(
   props: IInputProps<Type>
 ) {
   const {
@@ -39,3 +39,5 @@ export default function BaseInput<Type extends HTMLInputTypeAttribute = 'text'>(
     />
   )
 }
+
+export default React.memo(BaseInput) as typeof BaseInput

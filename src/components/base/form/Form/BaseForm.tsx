@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import {
   FieldValues,
   FormProvider,
@@ -35,9 +35,16 @@ export function BaseForm<TFieldValues extends FieldValues = FieldValues>(
   const form = useForm({ mode, ...config })
   const handleSubmit = form.handleSubmit(onSubmit ?? noop, onValidationError)
 
+  const refForm = useRef(form)
+  refForm.current = form
+
+  const refResetOptions = useRef(resetOptions)
+  refResetOptions.current = resetOptions
+
   // provide support of 'form error' property in errors dict
   const onSubmitWithFormError = useCallback(
     async e => {
+      const form = refForm.current
       try {
         form.clearErrors(FORM_ERROR_KEY_NAME)
         await handleSubmit(e)
@@ -50,15 +57,17 @@ export function BaseForm<TFieldValues extends FieldValues = FieldValues>(
         onSubmitError?.(error)
       }
     },
-    [form, handleSubmit, onSubmitError]
+    [handleSubmit, onSubmitError]
   )
 
   const onReset = useCallback(() => {
+    const form = refForm.current
+    const resetOptions = refResetOptions.current
     if (!resetOptions?.keepErrors) {
       form.clearErrors(FORM_ERROR_KEY_NAME)
     }
     form.reset(undefined, resetOptions)
-  }, [form, resetOptions])
+  }, [])
 
   return (
     <FormProvider {...form}>
@@ -83,11 +92,13 @@ export function BaseForm<TFieldValues extends FieldValues = FieldValues>(
   )
 }
 
-export function FormSubmitError(props: Omit<IErrorProps, 'children'>) {
+export const FormSubmitError = React.memo(function FormSubmitError(
+  props: Omit<IErrorProps, 'children'>
+) {
   const { errors } = useFormState()
   return (
     <ErrorComponent {...props}>
       {errors[FORM_ERROR_KEY_NAME]?.message}
     </ErrorComponent>
   )
-}
+})
