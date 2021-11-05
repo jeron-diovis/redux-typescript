@@ -9,15 +9,11 @@ import {
 
 import { IControlProps } from 'src/components/base/controls'
 
-// In lib itself, default value also is `any`.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ControllerValue = any
-
 export interface IFormControllerProps<
   Fields extends FieldValues = FieldValues,
   Name extends FieldPath<Fields> = FieldPath<Fields>
 > extends Pick<
-    UseControllerProps<Fields, ControllerValue, Name>,
+    UseControllerProps<Fields, Name>,
     'name' | 'rules' | 'shouldUnregister'
   > {}
 
@@ -27,9 +23,7 @@ export interface IFieldControlProps extends Omit<IControlProps, 'error'> {}
 export type FieldControlChildRenderer<
   Fields extends FieldValues = FieldValues,
   Name extends FieldPath<Fields> = FieldPath<Fields>
-> = (
-  controller: UseControllerReturn<Fields, ControllerValue, Name>
-) => ReactElement
+> = (controller: UseControllerReturn<Fields, Name>) => ReactElement
 
 export interface IFieldControlComponentProps<
   Fields extends FieldValues = FieldValues,
