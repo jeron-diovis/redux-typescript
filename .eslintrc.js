@@ -11,6 +11,7 @@ module.exports = {
   ],
 
   rules: {
+    quotes: ['warn', 'single'],
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-var': 'error',
     'prefer-const': 'warn',
