@@ -40,7 +40,7 @@
     "eject": "react-scripts eject",
     "lint:js": "eslint src --ext .js,.jsx,.ts,.tsx",
     "lint:ts": "tsc --noEmit",
-    "lint:css": "stylelint src/**/*.{s,}css",
+    "lint:css": "stylelint 'src/**/*.{s,}css'",
     "lint": "yarn lint:js && yarn lint:ts && yarn lint:css",
     "fix": "yarn lint:js --fix && yarn lint:css --fix",
     "clean:lint": "rimraf .eslintcache && rimraf node_modules/.cache/eslint-loader",
