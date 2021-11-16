@@ -2,14 +2,14 @@ const { useBabelRc, override, addBundleVisualizer } = require('customize-cra')
 const { merge } = require('lodash')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
+const detectPort = require('detect-port')
 
 module.exports = override(
   useBabelRc(),
 
   // @link https://www.npmjs.com/package/webpack-bundle-analyzer
-  addBundleVisualizer({
+  addBundleAnalyzerPlugin({
     analyzerHost: '0.0.0.0',
-    analyzerPort: process.env.ANALYZER_PORT || 8888,
     openAnalyzer: false,
     analyzerMode: process.env.NODE_ENV === 'production' ? 'static' : 'server',
     generateStatsFile: true,
@@ -51,4 +51,31 @@ function addPlugin(plugin) {
     config.plugins.push(plugin)
     return config
   }
+}
+
+function addBundleAnalyzerPlugin(opts) {
+  let port = process.env.ANALYZER_PORT || 8888
+
+  // Find free port, like CRA does for webpack-dev-server port
+  // It's not 100% reliable, since build won't wait for this operation
+  // (in difference from CRA, where it's integrated into workflow)
+  // But mostly, we can expect it will have enough time while CRA runs all it's async startup logic.
+  detectPort(port, (err, freePort) => {
+    if (err) {
+      console.log(err);
+    }
+
+    if (freePort !== port) {
+      console.log(`\n[WBA] analyzer port ${port} is occupied. Switching to ${freePort}\n`);
+      port = freePort
+    }
+  })
+
+  return addBundleVisualizer({
+    ...opts,
+    // Use getter to provide dynamic value
+    get analyzerPort() {
+      return port
+    },
+  })
 }
