@@ -1,4 +1,4 @@
-import { CSSProperties, ChangeEvent, ReactHTML } from 'react'
+import { CSSProperties, ChangeEvent, ReactElement } from 'react'
 
 import { IInputProps } from '../Input'
 
@@ -17,11 +17,19 @@ export type GetRadioOptionValue<T extends RadioDataItem> =
   T extends IRadioOption ? T['value'] : T
 
 export interface IRadioGroupProps<T extends RadioDataItem = RadioDataItem>
-  extends Omit<IInputProps<'radio'>, 'onChange' | 'value' | 'type'> {
+  extends Omit<
+    IInputProps<'radio'>,
+    'onChange' | 'value' | 'type' | 'className' | 'style'
+  > {
   data: Readonly<T[]>
   value?: GetRadioOptionValue<T>
   onChange?: (value: GetRadioOptionValue<T>, item: T, e: ChangeEvent) => void
+  renderOption?: (params: {
+    option: T
+    $input: ReactElement
+    $label: ReactElement
+  }) => ReactElement
   optionClassName?: string
   optionStyle?: CSSProperties
-  tag?: keyof ReactHTML
+  layout?: 'row' | 'col' | ((children: ReactElement) => ReactElement)
 }

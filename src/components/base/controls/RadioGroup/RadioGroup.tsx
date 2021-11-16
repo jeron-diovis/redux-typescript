@@ -14,34 +14,28 @@ function RadioGroup<T extends RadioDataItem = RadioDataItem>(
   props: IRadioGroupProps<T>
 ) {
   const {
-    tag: Tag = 'div',
     data,
     value,
     onChange = noop,
     name,
-    className,
-    style,
+    layout = 'row',
     optionClassName,
     optionStyle,
+    renderOption = defaultRenderOption,
     refInput,
   } = props
-  return (
-    <Tag className={className} style={style}>
-      {data.map(x => (
-        <label
-          key={getValue(x)}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-          }}
-        >
+
+  const $children = (
+    <>
+      {data.map(option => {
+        const $input = (
           <Input
             type="radio"
             refInput={refInput}
             name={name}
-            value={getValue(x)}
+            value={getValue(option)}
             checked={
-              value === undefined ? false : getValue(value) === getValue(x)
+              value === undefined ? false : getValue(value) === getValue(option)
             }
             onChange={(v, e) => {
               const item = data.find(x => getValue(x).toString() === v)
@@ -51,11 +45,45 @@ function RadioGroup<T extends RadioDataItem = RadioDataItem>(
             className={optionClassName}
             style={optionStyle}
           />
-          {getLabel(x)}
-        </label>
-      ))}
-    </Tag>
+        )
+        const $label = <>{getLabel(option)}</>
+
+        return renderOption({ option, $input, $label })
+      })}
+    </>
+  )
+
+  if (typeof layout === 'function') {
+    return layout($children)
+  }
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: layout === 'col' ? 'column' : layout,
+      }}
+    >
+      {$children}
+    </div>
   )
 }
+
+const defaultRenderOption: NonNullable<IRadioGroupProps['renderOption']> =
+  params => {
+    const { option, $input, $label } = params
+    return (
+      <label
+        key={getValue(option)}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+        }}
+      >
+        {$input}
+        {$label}
+      </label>
+    )
+  }
 
 export default React.memo(RadioGroup) as typeof RadioGroup
