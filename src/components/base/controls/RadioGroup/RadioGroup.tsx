@@ -21,23 +21,35 @@ function RadioGroup<T extends RadioDataItem = RadioDataItem>(
     name,
     className,
     style,
+    optionClassName,
+    optionStyle,
     refInput,
   } = props
   return (
     <Tag className={className} style={style}>
       {data.map(x => (
-        <label key={getValue(x)}>
+        <label
+          key={getValue(x)}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+          }}
+        >
           <Input
             type="radio"
             refInput={refInput}
             name={name}
             value={getValue(x)}
-            checked={value === getValue(x)}
+            checked={
+              value === undefined ? false : getValue(value) === getValue(x)
+            }
             onChange={(v, e) => {
               const item = data.find(x => getValue(x).toString() === v)
               const itemValue = item === undefined ? undefined : getValue(item)
               onChange(itemValue as GetRadioOptionValue<T>, item as T, e)
             }}
+            className={optionClassName}
+            style={optionStyle}
           />
           {getLabel(x)}
         </label>
