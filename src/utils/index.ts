@@ -2,9 +2,7 @@ import { ForwardedRef } from 'react'
 
 import qs from 'qs'
 
-export * from './redux'
-
-export { shallowEqual } from 'react-redux'
+export { default as shallowEqual } from 'shallowequal'
 
 export function assert<T>(val: T): asserts val is NonNullable<T> {
   if (val === undefined || val === null) {
