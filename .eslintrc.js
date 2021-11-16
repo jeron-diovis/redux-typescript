@@ -31,6 +31,13 @@ module.exports = {
         allowAfterThis: true,
       },
     ],
+    'prefer-arrow-callback': [
+      'warn',
+      {
+        allowUnboundThis: false,
+        allowNamedFunctions: true,
+      },
+    ],
 
     'no-nested-ternary': 'warn',
     'no-unneeded-ternary': 'warn',
