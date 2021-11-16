@@ -2,7 +2,7 @@ $error-font-size: 12px;
 $error-margin-top-left: 2px;
 $error-margin-bottom: 4px;
 
-.root {
+.control {
   display: grid;
   gap: 4px;
   position: relative;
@@ -13,7 +13,7 @@ $error-margin-bottom: 4px;
   }
 }
 
-.input_holder {
+.content {
   display: grid;
 }
 

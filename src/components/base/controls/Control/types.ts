@@ -4,7 +4,7 @@ export interface IControlProps extends IStyled {
   label?: ReactNode
   labelPosition?: 'before' | 'after'
   labelVerticalAlign?: 'start' | 'end' | 'center'
-  layout?: 'vertical' | 'horizontal' | CSSProperties['gridTemplateColumns']
+  layout?: 'row' | 'col' | CSSProperties['gridTemplateColumns']
   stretch?: boolean
   gap?: number
   error?: string

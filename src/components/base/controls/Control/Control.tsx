@@ -3,6 +3,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 import { ControlContext } from './ControlContext'
+import { useContentStyle } from './lib'
 import { IControlComponentProps } from './types'
 
 import styles from './styles.module.scss'
@@ -18,7 +19,7 @@ function Control(props: IControlComponentProps) {
     label,
     labelPosition = 'before',
     labelVerticalAlign = 'center',
-    layout = 'horizontal',
+    layout = 'row',
     children,
     style,
     inline = false,
@@ -27,22 +28,6 @@ function Control(props: IControlComponentProps) {
     error,
     errorPosition = 'bottom',
   } = ignoreContext ? rest : { ...context, ...rest }
-
-  const resolvedInputStyle = React.useMemo(() => {
-    return {
-      ...style,
-      alignItems: labelVerticalAlign,
-      justifyContent: stretch ? 'space-between' : undefined,
-      gridTemplateColumns:
-        // eslint-disable-next-line no-nested-ternary
-        layout === 'vertical'
-          ? '1fr'
-          : layout === 'horizontal'
-          ? 'max-content 1fr'
-          : layout,
-      gap,
-    }
-  }, [style, stretch, gap, labelVerticalAlign, layout])
 
   const $error =
     error === undefined ? undefined : (
@@ -56,21 +41,32 @@ function Control(props: IControlComponentProps) {
       </span>
     )
 
-  const $input = (
-    <div className={styles.input_holder} style={resolvedInputStyle}>
+  const $content = (
+    <div
+      className={styles.content}
+      style={useContentStyle({
+        style,
+        labelVerticalAlign,
+        layout,
+        stretch,
+        gap,
+      })}
+    >
       <If condition={labelPosition === 'before'}>{label}</If>
-      {children}
+      {/* Control expects a single input child.
+      Although it can be bypassed with Fragment, but that's completely up you then. */}
+      {React.Children.only(children)}
       <If condition={labelPosition === 'after'}>{label}</If>
     </div>
   )
 
   return (
     <label
-      className={clsx(styles.root, contextClassName, ownClassName, {
-        [styles.root_inline]: inline,
+      className={clsx(styles.control, contextClassName, ownClassName, {
+        [styles.control_inline]: inline,
       })}
     >
-      {$input}
+      {$content}
       {$error}
     </label>
   )
