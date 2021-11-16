@@ -11,4 +11,4 @@ npx lint-staged
 # This means, ts will report errors even for non-staged files.
 # But if you have ts errors somewhere, your app won't compile anyway,
 # so unlikely you'll ever won't to do commit in that state.
-tsc --noEmit
+npx tsc --noEmit
