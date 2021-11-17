@@ -17,9 +17,9 @@ export type GetRadioOptionValue<T extends RadioDataItem> =
   T extends IRadioOption ? T['value'] : T
 
 export interface IRadioGroupProps<T extends RadioDataItem = RadioDataItem>
-  extends Omit<
+  extends Pick<
     IInputProps<'radio'>,
-    'onChange' | 'value' | 'type' | 'className' | 'style'
+    'invalid' | 'refInput' | 'name' | 'disabled'
   > {
   data: Readonly<T[]>
   value?: GetRadioOptionValue<T>

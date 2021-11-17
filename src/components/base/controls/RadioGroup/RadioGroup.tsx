@@ -17,12 +17,11 @@ function RadioGroup<T extends RadioDataItem = RadioDataItem>(
     data,
     value,
     onChange = noop,
-    name,
     layout = 'row',
     optionClassName,
     optionStyle,
     renderOption = defaultRenderOption,
-    refInput,
+    ...rest
   } = props
 
   const $children = (
@@ -30,9 +29,8 @@ function RadioGroup<T extends RadioDataItem = RadioDataItem>(
       {data.map(option => {
         const $input = (
           <Input
+            {...rest}
             type="radio"
-            refInput={refInput}
-            name={name}
             value={getValue(option)}
             checked={
               value === undefined ? false : getValue(value) === getValue(option)
