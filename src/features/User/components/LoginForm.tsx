@@ -25,7 +25,7 @@ export default function LoginForm() {
         <Hint>demo: use 'test / test' credentials to log in</Hint>
       </p>
 
-      <ControlSettings layout="vertical">
+      <ControlSettings layout="col">
         <Fieldset>
           <FieldInput<ILoginFormFields>
             name="username"
