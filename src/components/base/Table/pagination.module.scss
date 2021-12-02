@@ -1,0 +1,28 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn_navigation {
+  min-width: unset;
+  width: 32px;
+}
+
+.page_size {
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+}
+
+.page_counter {
+  display: inline-flex;
+  gap: inherit;
+}
+
+.page_size,
+.page_counter {
+  &::before {
+    content: " | ";
+  }
+}

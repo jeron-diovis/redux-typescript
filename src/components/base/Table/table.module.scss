@@ -1,0 +1,38 @@
+.table {
+  border-collapse: collapse;
+
+  th {
+    font-weight: bold;
+  }
+}
+
+.cell {
+  border: 1px solid black;
+  padding: 4px;
+  vertical-align: middle;
+}
+
+.cell_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid grey;
+  border-top: none;
+  padding: 8px;
+  font-style: italic;
+}
+
+.container {
+  display: grid;
+  grid-auto-columns: max-content;
+  grid-auto-rows: max-content;
+  gap: 8px;
+}
+
+.placeholder_container { /* nothing so far */ }

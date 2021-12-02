@@ -1,36 +1,59 @@
-import { useTable } from 'react-table'
+import { TableCellProps, usePagination, useTable } from 'react-table'
 
+import clsx from 'clsx'
 import { merge } from 'lodash'
 
-import { ICustomColumnOptions, ITableProps } from './types'
+import Pagination from './Pagination'
+import Placeholder from './Placeholder'
+import { ITableProps } from './types'
 
-import styles from './styles.module.scss'
+import styles from './table.module.scss'
 
 export default function Table<Row extends object>(props: ITableProps<Row>) {
-  const { data, columns } = props
+  const {
+    getRowProps,
+    className,
+    placeholder = 'No data available',
+    // pagination
+    autoHidePagination = false,
+    pageSizesList,
+    pageSizeLabel,
+    pageNumberLabel,
+    // hook config
+    ...config
+  } = props
+  const table = useTable(config, usePagination)
 
-  const table = useTable({
-    columns,
-    data,
-  })
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    table
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    page: rows,
+    state: { pageIndex, pageSize },
+    pageCount,
+  } = table
 
   /* keys are provided internally by `getXXXProps` methods */
   /* eslint-disable react/jsx-key */
-  return (
+  const $table = (
     <table
       {...getTableProps({
-        className: styles.table,
+        className: clsx(styles.table, className),
       })}
     >
       <thead>
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => {
+              const { tx, th } = column
               return (
-                <th {...column.getHeaderProps(resolveCellProps(column, true))}>
+                <th
+                  {...mergeCellProps(
+                    column.getHeaderProps(tx),
+                    column.getHeaderProps(patchPropGetter(th))
+                  )}
+                >
                   {column.render('Header')}
                 </th>
               )
@@ -43,10 +66,16 @@ export default function Table<Row extends object>(props: ITableProps<Row>) {
         {rows.map((row, i) => {
           prepareRow(row)
           return (
-            <tr {...row.getRowProps()}>
+            <tr {...row.getRowProps(patchPropGetter(getRowProps))}>
               {row.cells.map(cell => {
+                const { tx, td } = cell.column
                 return (
-                  <td {...cell.getCellProps(resolveCellProps(cell.column))}>
+                  <td
+                    {...mergeCellProps(
+                      cell.getCellProps(tx),
+                      cell.getCellProps(patchPropGetter(td))
+                    )}
+                  >
                     <div className={styles.cell_content}>
                       {cell.render('Cell')}
                     </div>
@@ -59,24 +88,46 @@ export default function Table<Row extends object>(props: ITableProps<Row>) {
       </tbody>
     </table>
   )
+
+  // ---
+
+  const isEmpty = pageCount === 0
+  const shouldShowPagination =
+    !isEmpty && (pageCount > 1 || !autoHidePagination)
+
+  const $pagination = shouldShowPagination && (
+    <Pagination
+      {...table}
+      pageIndex={pageIndex}
+      pageSize={pageSize}
+      pageSizesList={pageSizesList}
+      pageSizeLabel={pageSizeLabel}
+      pageNumberLabel={pageNumberLabel}
+    />
+  )
+
+  const $placeholder = isEmpty && <Placeholder>{placeholder}</Placeholder>
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.placeholder_container}>
+        {$table}
+        {$placeholder}
+      </div>
+      {$pagination}
+    </div>
+  )
 }
 
-function resolveCellProps(opts: ICustomColumnOptions, head = false) {
-  const { tx = {}, td = {}, th = {}, nowrap = false } = opts
-  const cell = head ? th : td
-  const staticProps = merge(
-    tx,
-    cell,
-    nowrap
-      ? {
-          style: {
-            whiteSpace: 'nowrap',
-          },
-        }
-      : null
-  )
-  return {
-    ...staticProps,
-    className: styles.cell,
-  }
+// ---
+
+function patchPropGetter<Meta, Props, R>(fn?: (meta: Meta, props: Props) => R) {
+  return (props: Props, meta: Meta) =>
+    !fn ? props : merge({}, props, fn(meta, props))
+}
+
+function mergeCellProps(common: TableCellProps, extra: TableCellProps) {
+  return merge({}, common, extra, {
+    className: clsx(styles.cell, common.className, extra.className),
+  })
 }
