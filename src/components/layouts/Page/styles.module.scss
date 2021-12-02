@@ -1,4 +1,6 @@
 .page {
+  max-width: 100%;
+
   &_center {
     margin: auto;
 
@@ -19,4 +21,6 @@
   text-transform: capitalize;
 }
 
-.page_content { /* css-modules placeholder */ }
+.page_content {
+  overflow-x: auto;
+}
