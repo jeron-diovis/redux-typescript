@@ -15,7 +15,6 @@ export default function Table<Row extends object>(props: ITableProps<Row>) {
     className,
     placeholder = 'No data available',
     // pagination
-    autoHidePagination = false,
     pageSizesList,
     pageSizeLabel,
     pageNumberLabel,
@@ -92,8 +91,7 @@ export default function Table<Row extends object>(props: ITableProps<Row>) {
   // ---
 
   const isEmpty = pageCount === 0
-  const shouldShowPagination =
-    !isEmpty && (pageCount > 1 || !autoHidePagination)
+  const shouldShowPagination = !isEmpty
 
   const $pagination = shouldShowPagination && (
     <Pagination

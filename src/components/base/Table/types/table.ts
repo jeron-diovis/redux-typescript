@@ -18,9 +18,7 @@ export interface ITableProps<Row extends object>
   getRowProps?: PatchPropGetter<RowPropGetter<Row>>
 }
 
-export interface ITablePaginationOptions extends ICustomPaginationProps {
-  autoHidePagination?: boolean
-}
+export interface ITablePaginationOptions extends ICustomPaginationProps {}
 
 // ---
 
