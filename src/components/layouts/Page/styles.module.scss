@@ -23,8 +23,4 @@
 
 .page_content {
   overflow-x: auto;
-
-  // must be set explicitly
-  // because by default it's automatically set to same as overflow-x
-  overflow-y: initial;
 }
