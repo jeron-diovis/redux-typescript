@@ -12730,6 +12730,13 @@ raw-loader@^4.0.2:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
+react-app-error-boundary@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-app-error-boundary/-/react-app-error-boundary-1.0.0.tgz#65a9e600be6268f28c0e03b03a7753acfb313dde"
+  integrity sha512-QUJv2D7SyxBfGDc/RJM4mPVu84Qy1RkUmAXvFrgnkTg7GUMrqCoL2p0pu1nPxRUWrbRJQAQRvLHKmTC4h/4ckQ==
+  dependencies:
+    react-error-boundary ">=3.1.4"
+
 react-app-polyfill@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-app-polyfill/-/react-app-polyfill-2.0.0.tgz#a0bea50f078b8a082970a9d853dc34b6dcc6a3cf"
@@ -12850,7 +12857,7 @@ react-element-to-jsx-string@^14.3.2:
     is-plain-object "5.0.0"
     react-is "17.0.2"
 
-react-error-boundary@^3.1.4:
+react-error-boundary@>=3.1.4:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-3.1.4.tgz#255db92b23197108757a888b01e5b729919abde0"
   integrity sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==

@@ -4,13 +4,15 @@ import clsx from 'clsx'
 
 import styles from './styles.module.scss'
 
-export interface IErrorProps extends IStyled {
+export interface IErrorMessageProps extends IStyled {
   children: ReactNode
   inline?: boolean
   bordered?: boolean
 }
 
-const ErrorComponent = React.memo(function ErrorComponent(props: IErrorProps) {
+const ErrorMessage = React.memo(function ErrorMessage(
+  props: IErrorMessageProps
+) {
   const {
     children: error,
     inline = false,
@@ -33,4 +35,4 @@ const ErrorComponent = React.memo(function ErrorComponent(props: IErrorProps) {
   )
 })
 
-export default ErrorComponent
+export default ErrorMessage

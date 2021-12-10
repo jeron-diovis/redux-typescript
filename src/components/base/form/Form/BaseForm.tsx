@@ -7,7 +7,9 @@ import {
   useFormState,
 } from 'react-hook-form'
 
-import ErrorComponent, { IErrorProps } from 'src/components/base/ErrorComponent'
+import ErrorMessage, {
+  IErrorMessageProps,
+} from 'src/components/base/ErrorMessage'
 
 import FormDebug from './FormDebug'
 import { IBaseFormProps } from './types'
@@ -93,12 +95,12 @@ export function BaseForm<TFieldValues extends FieldValues = FieldValues>(
 }
 
 export const FormSubmitError = React.memo(function FormSubmitError(
-  props: Omit<IErrorProps, 'children'>
+  props: Omit<IErrorMessageProps, 'children'>
 ) {
   const { errors } = useFormState()
   return (
-    <ErrorComponent {...props}>
+    <ErrorMessage {...props}>
       {errors[FORM_ERROR_KEY_NAME]?.message}
-    </ErrorComponent>
+    </ErrorMessage>
   )
 })
