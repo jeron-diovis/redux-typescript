@@ -55,5 +55,17 @@ module.exports = {
         },
       },
     ],
+
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        // react-app config sets this to `none`.
+        // Which ignores unused args completely.
+        args: 'after-used',
+        // @see https://eslint.org/docs/rules/no-unused-vars#ignorerestsiblings
+        // react-app config already sets this to `true`, we should restore it since we override those options.
+        ignoreRestSiblings: true,
+      },
+    ],
   }
 }
