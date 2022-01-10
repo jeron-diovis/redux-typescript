@@ -1,8 +1,8 @@
-import { MutableRefObject, useEffect, useRef } from 'react'
+import { MutableRefObject, useEffect, useLayoutEffect, useRef } from 'react'
 
 import { shallowEqual } from 'src/utils'
 
-import { useOnMount } from './effects'
+import { useOnMount, useOnMountLayout } from './effects'
 
 // ---
 
@@ -50,6 +50,7 @@ export function useChanged<T>(value: T, eq: Comparator<T> = shallowEqual): T {
 type UseOnChangeHookOptions<T = unknown> = {
   onMount?: boolean
   eq?: Comparator<T>
+  layout?: boolean
 }
 
 export function useOnChange<T>(
@@ -57,20 +58,52 @@ export function useOnChange<T>(
   callback: (current: T, prev: T) => void,
   options: UseOnChangeHookOptions<T> = {}
 ): void {
-  const { eq = shallowEqual, onMount = false } = options
+  const { eq = shallowEqual, onMount = false, layout = false } = options
 
   const previous = useRef(value)
 
-  useEffect(() => {
+  const isLayoutMode = useInvariant(layout, {
+    label: 'Option "layout"',
+  })
+
+  const useEffectHook = isLayoutMode ? useLayoutEffect : useEffect
+  const useMountHook = isLayoutMode ? useOnMountLayout : useOnMount
+
+  useEffectHook(() => {
     if (!eq(value, previous.current)) {
       callback(value, previous.current)
       previous.current = value
     }
   })
 
-  useOnMount(() => {
+  useMountHook(() => {
     if (onMount) {
       callback(value, previous.current)
     }
   })
+}
+
+// ---
+
+interface UseInvariantOptions<T> {
+  label?: string
+  eq?: Comparator<T>
+}
+
+export function useInvariant<T>(x: T, opts: UseInvariantOptions<T> = {}): T {
+  const { label = 'value', eq = shallowEqual } = opts
+  const ref = useRef(x)
+
+  if (!eq(x, ref.current)) {
+    console.error(
+      `${label} is not supposed to change during component lifecycle.\nGot change: %o -> %o`,
+      ref.current,
+      x
+    )
+    throw new Error(
+      `${label} is not supposed to change during component lifecycle.\nGot change: ${ref.current} -> ${x}`
+    )
+  }
+
+  return x
 }
