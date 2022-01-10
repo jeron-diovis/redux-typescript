@@ -1,13 +1,27 @@
-.root {
-  background-color: black;
-  color: white;
-  border: none;
+.btn {
   border-radius: 8px;
+  border-style: solid;
   padding: 8px;
   cursor: pointer;
 
-  &[disabled] {
-    background-color: darkgrey;
-    cursor: default;
+  --btn-bg-color: #efefef;
+
+  &:not(:disabled) {
+    cursor: pointer;
+    background-color: var(--btn-bg-color);
+
+    &:hover {
+      --btn-bg-color: gray;
+      border-color: white;
+    }
   }
+}
+
+.primary { /* TDB */ }
+
+.secondary { /* TBD */ }
+
+.bare {
+  border: none;
+  --btn-bg-color: none;
 }

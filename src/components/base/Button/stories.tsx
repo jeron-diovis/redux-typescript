@@ -3,7 +3,7 @@ import React from 'react'
 import createTitle from '@parachutehome/create-title.macro'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import Component from './Button'
+import { Button as Component } from './Button'
 
 export default {
   title: createTitle(),
