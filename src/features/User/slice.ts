@@ -15,6 +15,7 @@ const GuestUser: IUser = {
   username: 'Guest',
   first_name: '',
   last_name: '',
+  roles: [],
 }
 
 const initialState: IUserState = {

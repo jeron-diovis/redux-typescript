@@ -2,11 +2,10 @@ import { push } from 'connected-react-router'
 
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import routes from 'src/routes'
-
 import { selectReferrer } from '../HistoryReferrer'
 
 import * as API from './api'
+import { resolveAuthReferrerPath } from './lib'
 import { ILoginFormFields, IUser } from './types'
 
 export const login = createAsyncThunk(
@@ -16,11 +15,8 @@ export const login = createAsyncThunk(
     const user = await API.login(data)
 
     const ref = selectReferrer(state)
-    if (!ref || ref.pathname === routes.login) {
-      dispatch(push(routes.home))
-    } else {
-      dispatch(push(ref.pathname))
-    }
+    const returnTo = resolveAuthReferrerPath(ref, user)
+    dispatch(push(returnTo))
 
     return user
   }

@@ -12,7 +12,7 @@ import { useDispatch } from 'src/hooks'
 import { login } from '../thunks'
 import { ILoginFormFields } from '../types'
 
-export default function LoginForm() {
+export function LoginForm() {
   const dispatch = useDispatch()
   return (
     <Form<ILoginFormFields>

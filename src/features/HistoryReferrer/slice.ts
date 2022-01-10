@@ -1,13 +1,17 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { Location } from 'history'
 
-type ReferrerState = Location | null
+import { ReferrerState } from './lib'
+
+const initialState: ReferrerState = {
+  ref: null,
+  force: false,
+}
 
 export const HistoryReferrerSlice = createSlice({
   name: 'referrer',
-  initialState: null as ReferrerState,
+  initialState,
   reducers: {
-    setReferrer(state, action: PayloadAction<Location>) {
+    setReferrer(state, action: PayloadAction<ReferrerState>) {
       return action.payload
     },
   },

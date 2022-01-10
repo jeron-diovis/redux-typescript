@@ -1,6 +1,6 @@
 // import { API_BASE_URL, createInstance } from 'src/api/api'
 
-import { ILoginFormFields, IUser /*IUserResponse*/ } from './types'
+import { ILoginFormFields, IUser /*, IUserResponse*/, UserRole } from './types'
 
 // const AuthAPI = createInstance({
 //   baseURL: `${API_BASE_URL}/auth`,
@@ -21,6 +21,7 @@ export async function login(data: ILoginFormFields): Promise<IUser> {
     username: 'test',
     first_name: 'Tasty',
     last_name: 'Tester',
+    roles: [UserRole.test],
   }
 }
 

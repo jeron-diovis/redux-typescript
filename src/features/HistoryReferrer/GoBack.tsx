@@ -1,19 +1,21 @@
 import { goBack, push } from 'connected-react-router'
+import { HTMLAttributes } from 'react'
 import { useSelector } from 'react-redux'
 import { matchPath } from 'react-router'
 
-import Button, { IButtonProps } from 'src/components/base/Button'
+import { Button } from 'src/components'
 import { useDispatch } from 'src/hooks'
 
 import { selectReferrer } from './slice'
 
-interface IGoBackButtonProps extends Omit<IButtonProps, 'onClick' | 'type'> {
+interface IGoBackButtonProps
+  extends Omit<HTMLAttributes<HTMLButtonElement>, 'onClick' | 'type'> {
   expect?: string
 }
 
-export default function GoBackButton(props: IGoBackButtonProps) {
+export function GoBackButton(props: IGoBackButtonProps) {
   const { expect, children, ...rest } = props
-  const referrer = useSelector(selectReferrer)
+  const { ref: referrer } = useSelector(selectReferrer)
   const dispatch = useDispatch()
   return (
     <Button
