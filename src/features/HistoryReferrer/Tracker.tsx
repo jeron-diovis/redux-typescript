@@ -6,7 +6,7 @@ import { useDispatch, useLatest, useOnChange } from 'src/hooks'
 
 import { PrevLocationContext } from './hooks'
 import { getLocationReferrer } from './lib'
-import { HistoryReferrerSlice } from './slice'
+import { HistoryReferrerSlice, selectReferrer } from './slice'
 
 /* TODO: probably this better be done in middleware? */
 export const ReferrerTracker: React.FC = ({ children }) => {
@@ -16,6 +16,7 @@ export const ReferrerTracker: React.FC = ({ children }) => {
     location: { key, query, ...loc },
   } = useSelector(getRouter)
 
+  const isFirstLoad = useSelector(selectReferrer).ref === null
   const prev = useLatest(loc)
 
   useOnChange(
@@ -37,7 +38,7 @@ export const ReferrerTracker: React.FC = ({ children }) => {
   )
 
   return (
-    <PrevLocationContext.Provider value={prev}>
+    <PrevLocationContext.Provider value={isFirstLoad ? null : prev}>
       {children}
     </PrevLocationContext.Provider>
   )
