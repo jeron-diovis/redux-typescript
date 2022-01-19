@@ -4,7 +4,7 @@ import { IPageProps } from './types'
 
 import styles from './styles.module.scss'
 
-export default function Page(props: IPageProps) {
+export function Page(props: IPageProps) {
   const { title, children, center = false } = props
   return (
     <div

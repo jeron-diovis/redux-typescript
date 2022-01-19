@@ -6,7 +6,7 @@ interface INullableProps<T> {
   children?: (x: NonNullable<T>) => ReactElement
 }
 
-export default function Nullable<T>(props: INullableProps<T>) {
+export function Nullable<T>(props: INullableProps<T>) {
   const { value, children, placeholder = '–' } = props
 
   if (value === null || value === undefined) {

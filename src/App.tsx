@@ -6,7 +6,7 @@ import {
 } from 'react-app-error-boundary'
 
 import AppRouter from 'src/Router'
-import { ErrorMessage, Loader, MainLayout, Suspense } from 'src/components'
+import { ErrorMessage, Loader, SiteLayout, Suspense } from 'src/components'
 import { ReferrerTracker } from 'src/features/HistoryReferrer'
 import { SessionChecker } from 'src/features/User'
 import { history } from 'src/routes'
@@ -21,9 +21,9 @@ const App: React.FC = () => {
       <SessionChecker>
         <ConnectedRouter history={history}>
           <ReferrerTracker />
-          <MainLayout>
+          <SiteLayout>
             <AppRouter />
-          </MainLayout>
+          </SiteLayout>
         </ConnectedRouter>
       </SessionChecker>
     </Guard>

@@ -1,7 +1,8 @@
 import { CSSProperties, cloneElement } from 'react'
 import { FieldValues } from 'react-hook-form'
 
-import { Button, Grid } from 'src/components/base'
+import { Button } from 'src/components/base'
+import { Grid } from 'src/components/layouts'
 
 import { BaseForm, FormSubmitError } from './BaseForm'
 import { IFormProps } from './types'
@@ -29,7 +30,7 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
         const $controls = (
           <Grid
             columns={isResettable ? 2 : 1}
-            columnWidth="max-content"
+            autoColumns="max-content"
             style={CONTROLS_GRID_STYLE}
           >
             <If condition={isResettable}>

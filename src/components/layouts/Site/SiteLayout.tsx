@@ -1,11 +1,10 @@
-import { Footer, Header } from 'src/components/domain'
+import React from 'react'
 
-import { IMainLayoutProps } from './types'
+import { Footer, Header } from 'src/components/domain'
 
 import styles from './styles.module.scss'
 
-export default function MainLayout(props: IMainLayoutProps) {
-  const { children } = props
+export const SiteLayout: React.FC = ({ children }) => {
   return (
     <div className={styles.main_layout}>
       <Header />

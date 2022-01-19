@@ -53,3 +53,7 @@ export function dictOf<T, K extends string | symbol = string>(
 export function normalizeUrl(url: string) {
   return /^https?:\/\//.test(url) ? url : `http://${url.trim()}`
 }
+
+export function formatBool(x: boolean): string {
+  return x ? 'Yes' : 'No'
+}
