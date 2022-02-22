@@ -23,8 +23,7 @@ export const login = createAsyncThunk(
 )
 
 export const logout = createAsyncThunk('user/logout', async () => {
-  // for optimistic-update purposes, ignore returned promise; assume request always succeeds
-  API.logout()
+  await API.logout() // not interested in returning response
 })
 
 export const loadUser = createAsyncThunk('user/load', API.getUser)
