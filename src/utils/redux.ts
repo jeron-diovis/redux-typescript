@@ -65,8 +65,10 @@ export function addAsyncThunkReducers<
     | FilterKeys<State | State[Slice], Payload>,
   sliceKey?: Slice
 ): ActionReducerMapBuilder<State> {
-  const resolve = (state: Draft<State>) =>
-    sliceKey === undefined ? state : (state as State)[sliceKey]
+  const resolve = (state: Draft<State>): AsyncState =>
+    sliceKey === undefined
+      ? state
+      : ((state as State)[sliceKey] as unknown as AsyncState)
 
   builder
     .addCase(thunk.pending, state => {

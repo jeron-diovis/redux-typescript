@@ -67,21 +67,22 @@ function RadioGroup<T extends RadioDataItem = RadioDataItem>(
   )
 }
 
-const defaultRenderOption: NonNullable<IRadioGroupProps['renderOption']> =
-  params => {
-    const { option, $input, $label } = params
-    return (
-      <label
-        key={getValue(option)}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-        }}
-      >
-        {$input}
-        {$label}
-      </label>
-    )
-  }
+const defaultRenderOption: NonNullable<
+  IRadioGroupProps['renderOption']
+> = params => {
+  const { option, $input, $label } = params
+  return (
+    <label
+      key={getValue(option)}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+      }}
+    >
+      {$input}
+      {$label}
+    </label>
+  )
+}
 
 export default React.memo(RadioGroup) as typeof RadioGroup

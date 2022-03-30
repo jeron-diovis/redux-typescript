@@ -68,12 +68,12 @@
   height: 100%;
   left: 0;
   top: 0;
-  opacity: 0%;
+  opacity: 0;
   transition: width 1s linear, opacity 0.5s ease 1s;
 }
 
 .async_button:active::after {
   width: 0%;
-  opacity: 100%;
+  opacity: 1;
   transition: 0s;
 }

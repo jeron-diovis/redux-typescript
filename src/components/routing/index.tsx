@@ -1,3 +1,4 @@
+import { RouteChildrenProps } from 'react-router'
 import { Route, RouteProps } from 'react-router-dom'
 
 export function ExcludeRoute(
@@ -8,7 +9,7 @@ export function ExcludeRoute(
   const { children } = props
   return (
     <Route {...props}>
-      {params => (
+      {(params: RouteChildrenProps) => (
         <If condition={!params.match}>
           {typeof children === 'function' ? children(params) : children}
         </If>
