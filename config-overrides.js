@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires,react-hooks/rules-of-hooks */
 const { useBabelRc, override, addBundleVisualizer } = require('customize-cra')
+const detectPort = require('detect-port')
 const { merge } = require('lodash')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
-const detectPort = require('detect-port')
 
 module.exports = override(
   useBabelRc(),
@@ -31,6 +32,20 @@ module.exports = override(
   ),
 
   // Separate chunk for react-modules, for better build analysis.
+  config => {
+    merge(config.optimization, {
+      splitChunks: {
+        cacheGroups: {
+          react: {
+            test: /[\\/]node_modules[\\/].*react.*/,
+            reuseExistingChunk: true,
+          },
+        },
+      },
+    })
+    return config
+  },
+
   config => {
     merge(config.optimization.splitChunks, {
       cacheGroups: {
@@ -62,11 +77,13 @@ function addBundleAnalyzerPlugin(opts) {
   // But mostly, we can expect it will have enough time while CRA runs all it's async startup logic.
   detectPort(port, (err, freePort) => {
     if (err) {
-      console.log(err);
+      console.log(err)
     }
 
     if (freePort !== port) {
-      console.log(`\n[WBA] analyzer port ${port} is occupied. Switching to ${freePort}\n`);
+      console.log(
+        `\n[WBA] analyzer port ${port} is occupied. Switching to ${freePort}\n`
+      )
       port = freePort
     }
   })
