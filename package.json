@@ -91,7 +91,7 @@
     "postcss-normalize": "^10.0.1",
     "prettier": "^2.6.1",
     "react-app-rewired": "^2.2.1",
-    "react-scripts": "5.0.0",
+    "react-scripts": "4.0.3",
     "rimraf": "^3.0.2",
     "stylelint": "^14.6.1",
     "stylelint-config-css-modules": "^4.1.0",
