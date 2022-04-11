@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires,react-hooks/rules-of-hooks */
-const { useBabelRc, override, addBundleVisualizer } = require('customize-cra')
+const {
+  useBabelRc,
+  override,
+  addBundleVisualizer,
+  addWebpackPlugin,
+} = require('customize-cra')
 const detectPort = require('detect-port')
 const { merge } = require('lodash')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
@@ -17,7 +22,7 @@ module.exports = override(
   }),
 
   // @link https://github.com/lodash/lodash-webpack-plugin
-  addPlugin(
+  addWebpackPlugin(
     new LodashModuleReplacementPlugin({
       paths: true,
       flattening: true,
@@ -25,7 +30,7 @@ module.exports = override(
   ),
 
   // @link https://www.npmjs.com/package/stylelint-webpack-plugin
-  addPlugin(
+  addWebpackPlugin(
     new StyleLintPlugin({
       fix: true,
     })
@@ -60,13 +65,6 @@ module.exports = override(
 )
 
 // ---
-
-function addPlugin(plugin) {
-  return config => {
-    config.plugins.push(plugin)
-    return config
-  }
-}
 
 function addBundleAnalyzerPlugin(opts) {
   let port = process.env.ANALYZER_PORT || 8888
