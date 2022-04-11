@@ -44,5 +44,6 @@ module.exports = {
     'no-unneeded-ternary': 'warn',
 
     'react/jsx-key': 'warn',
+    'react/jsx-boolean-value': 'warn',
   },
 }
