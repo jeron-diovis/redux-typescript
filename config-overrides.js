@@ -78,7 +78,7 @@ function addBundleAnalyzerPlugin(opts) {
       console.log(err)
     }
 
-    if (freePort !== port) {
+    if (freePort.toString() !== port.toString()) {
       console.log(
         `\n[WBA] analyzer port ${port} is occupied. Switching to ${freePort}\n`
       )
