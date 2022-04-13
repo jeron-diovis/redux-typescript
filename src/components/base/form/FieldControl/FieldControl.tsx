@@ -47,7 +47,7 @@ export default function FieldControl<
   }
 
   return (
-    <Control {...rest} label={label} error={defaultMsg ?? error?.message}>
+    <Control {...rest} label={label} error={error?.message || defaultMsg}>
       {typeof children === 'function'
         ? children(controller)
         : React.cloneElement(React.Children.only(children), controller.field)}
