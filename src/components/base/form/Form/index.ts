@@ -1,4 +1,5 @@
-export { BaseForm, FormSubmitError } from './BaseForm'
+export * from './BaseForm'
+export * from './FormError'
 export { default as Form } from './Form'
 export { default as FormDebug } from './FormDebug'
 export { default } from './Form'

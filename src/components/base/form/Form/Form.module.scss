@@ -1,0 +1,12 @@
+.controls {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  justify-content: flex-end;
+}

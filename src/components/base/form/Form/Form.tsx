@@ -1,4 +1,4 @@
-import { CSSProperties, cloneElement } from 'react'
+import { cloneElement } from 'react'
 import { FieldValues } from 'react-hook-form'
 
 import { Button } from 'src/components/base'
@@ -7,6 +7,8 @@ import { Grid } from 'src/components/layouts'
 import { BaseForm, FormSubmitError } from './BaseForm'
 import { IFormProps } from './types'
 
+import styles from './Form.module.scss'
+
 export default function Form<TFieldValues extends FieldValues = FieldValues>(
   props: IFormProps<TFieldValues>
 ) {
@@ -14,6 +16,7 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
     reset = false,
     btnResetText = 'Reset',
     btnSubmitText = 'Submit',
+    buttonsLayout = '1fr',
     children,
     ...rest
   } = props
@@ -29,9 +32,9 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
         const $error = <FormSubmitError />
         const $controls = (
           <Grid
+            className={styles.controls}
             columns={isResettable ? 2 : 1}
-            autoColumns="max-content"
-            style={CONTROLS_GRID_STYLE}
+            autoColumns={buttonsLayout}
           >
             <If condition={isResettable}>
               <Button type="reset" disabled={isSubmitting}>
@@ -50,10 +53,10 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
         }
 
         const $footer = (
-          <Grid style={FOOTER_GRID_STYLE} gap={8}>
+          <div className={styles.footer}>
             {cloneElement($error, { bordered: true })}
             {$controls}
-          </Grid>
+          </div>
         )
 
         return (
@@ -65,15 +68,4 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
       }}
     </BaseForm>
   )
-}
-
-// ---
-
-const CONTROLS_GRID_STYLE: CSSProperties = {
-  justifyContent: 'flex-end',
-}
-
-const FOOTER_GRID_STYLE: CSSProperties = {
-  marginTop: 8,
-  justifyContent: 'flex-end',
 }

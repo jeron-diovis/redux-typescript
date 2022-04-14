@@ -5,7 +5,7 @@ import { pick } from 'lodash'
 
 import { useSwitch } from 'src/hooks'
 
-import styles from './debugger.module.scss'
+import styles from './FormDebug.module.scss'
 
 function toggleHighlight(e: React.SyntheticEvent, state: boolean) {
   const form = (e.target as HTMLElement).closest('form')

@@ -22,7 +22,7 @@ export function Grid(props: IGridProps) {
     return {
       ...style,
       gap,
-      gridAutoFlow: columns === true ? 'column' : undefined, // `row` is browser's default
+      gridAutoFlow: isColumnLayout(columns) ? 'column' : undefined, // `row` is browser's default
       gridAutoRows: autoRows,
       gridAutoColumns: autoColumns,
       gridTemplateColumns: createTemplateColumns({ columns, autoColumns }),
@@ -40,11 +40,15 @@ export function Grid(props: IGridProps) {
 
 const DEFAULT_AUTO_COLUMN_WIDTH = 'auto'
 
+function isColumnLayout(x: IGridProps['columns']) {
+  return x === true || x === 1
+}
+
 function createTemplateColumns(
   params: Pick<IGridProps, 'columns' | 'autoColumns'>
 ): string | undefined {
   const { columns, autoColumns } = params
-  if (columns === true) {
+  if (isColumnLayout(columns)) {
     return undefined
   }
 

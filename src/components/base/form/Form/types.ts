@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react'
+import { CSSProperties, ReactElement, ReactNode } from 'react'
 import {
   FieldValues,
   KeepStateOptions,
@@ -24,6 +24,7 @@ export interface IFormProps<TFieldValues extends FieldValues = FieldValues>
   reset?: true | KeepStateOptions
   btnSubmitText?: ReactNode
   btnResetText?: ReactNode
+  buttonsLayout?: CSSProperties['gridAutoColumns']
   children?:
     | ReactNode
     | ((
