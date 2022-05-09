@@ -2,7 +2,6 @@ import { CSSProperties, ReactElement, ReactNode } from 'react'
 import {
   FieldValues,
   KeepStateOptions,
-  Resolver,
   SubmitErrorHandler,
   SubmitHandler,
   UseFormProps,
@@ -23,17 +22,18 @@ export interface IBaseFormProps<TFieldValues extends FieldValues = FieldValues>
 export interface IFormProps<TFieldValues extends FieldValues = FieldValues>
   extends Omit<IBaseFormProps<TFieldValues>, 'reset'> {
   reset?: true | KeepStateOptions
+  error?: unknown
   btnSubmitText?: ReactNode
   btnResetText?: ReactNode
   buttonsLayout?: CSSProperties['gridAutoColumns']
-  /**
-   * @see https://react-hook-form.com/advanced-usage#CustomHookwithResolver
-   */
-  resolver?: Resolver<TFieldValues>
   children?:
     | ReactNode
     | ((
         form: UseFormReturn<TFieldValues>,
-        params: { controls: ReactElement; error: ReactElement }
+        params: {
+          controls: ReactElement
+          error: ReactElement
+          externalError: ReactElement | undefined
+        }
       ) => ReactNode)
 }

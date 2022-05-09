@@ -1,7 +1,7 @@
 import { cloneElement } from 'react'
 import { FieldValues } from 'react-hook-form'
 
-import { Button } from 'src/components/base'
+import { Button, ErrorMessage } from 'src/components/base'
 import { Grid } from 'src/components/layouts'
 
 import { BaseForm, FormSubmitError } from './BaseForm'
@@ -14,6 +14,7 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
 ) {
   const {
     reset = false,
+    error,
     btnResetText = 'Reset',
     btnSubmitText = 'Submit',
     buttonsLayout = '1fr',
@@ -42,20 +43,35 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
               </Button>
             </If>
 
-            <Button type="submit" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              style={isSubmitting ? { cursor: 'progress' } : undefined}
+            >
               {btnSubmitText}
             </Button>
           </Grid>
         )
 
+        const $externalError = (
+          <If condition={error !== undefined && error !== null}>
+            <ErrorMessage bordered>{error}</ErrorMessage>
+          </If>
+        )
+
         if (typeof children === 'function') {
-          return children(form, { controls: $controls, error: $error })
+          return children(form, {
+            controls: $controls,
+            error: $error,
+            externalError: $externalError,
+          })
         }
 
         const $footer = (
           <div className={styles.footer}>
-            {cloneElement($error, { bordered: true })}
             {$controls}
+            {cloneElement($error, { bordered: true })}
+            {$externalError}
           </div>
         )
 

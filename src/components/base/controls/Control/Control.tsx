@@ -9,6 +9,8 @@ import { IControlComponentProps } from './types'
 import styles from './styles.module.scss'
 
 const DEFAULT_ERROR_TEXT = 'This field is invalid'
+const DEFAULT_LAYOUT: IControlComponentProps['layout'] = 'row'
+const DEFAULT_JUSTIFY: IControlComponentProps['justify'] = 'space-between'
 
 function Control(props: IControlComponentProps) {
   const { ignoreContext = false, className: ownClassName, ...rest } = props
@@ -17,20 +19,21 @@ function Control(props: IControlComponentProps) {
 
   const {
     label,
+    layout,
     labelPosition = 'before',
     labelVerticalAlign = 'center',
-    layout = 'row',
     children,
     style,
     inline = false,
-    stretch = true,
+    justify,
     gap = 8,
     error,
     errorPosition = 'bottom',
+    showError = true,
   } = ignoreContext ? rest : { ...context, ...rest }
 
   const $error =
-    error === undefined ? undefined : (
+    error === undefined || !showError ? undefined : (
       <span
         className={clsx(styles.error, {
           [styles.error_bottom]: errorPosition === 'bottom',
@@ -41,15 +44,20 @@ function Control(props: IControlComponentProps) {
       </span>
     )
 
+  const hasLabel = !(label === '' || label === null || label === undefined)
+
   const $content = (
     <div
       className={styles.content}
       style={useContentStyle({
         style,
         labelVerticalAlign,
-        layout,
-        stretch,
         gap,
+
+        // If label is not specified, don't apply any additional styles to align it with input.
+        // Just render input as it is.
+        layout: layout ?? (hasLabel ? DEFAULT_LAYOUT : undefined),
+        justify: justify ?? (hasLabel ? DEFAULT_JUSTIFY : undefined),
       })}
     >
       <If condition={labelPosition === 'before'}>{label}</If>

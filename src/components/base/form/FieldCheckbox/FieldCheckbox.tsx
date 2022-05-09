@@ -17,7 +17,7 @@ export default function FieldCheckbox<
   // unless other props will be passed to it directly.
   const {
     labelPosition = 'after',
-    stretch = false,
+    justify = false,
     layout = 'max-content auto',
   } = control
 
@@ -27,7 +27,7 @@ export default function FieldCheckbox<
       layout={layout}
       label={label}
       labelPosition={labelPosition}
-      stretch={stretch}
+      justify={justify}
       name={name}
       rules={rules}
     >

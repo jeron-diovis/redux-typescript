@@ -1,6 +1,8 @@
 import { HTMLInputTypeAttribute } from 'react'
 import { FieldPath, FieldValues } from 'react-hook-form'
 
+import { capitalize } from 'lodash'
+
 import { combineRefs } from 'src/utils'
 
 import Input from '../../controls/Input'
@@ -13,7 +15,15 @@ export default function FieldInput<
   Name extends FieldPath<Fields> = FieldPath<Fields>,
   Type extends HTMLInputTypeAttribute = 'text'
 >(props: IFieldInputProps<Fields, Name, Type>) {
-  const { control, label, name, rules, ...rest } = props
+  const {
+    control,
+    label,
+    name,
+    rules,
+    placeholder = capitalize(name),
+    defaultValue,
+    ...rest
+  } = props
 
   return (
     <FieldControl<Fields, Name>
@@ -22,6 +32,7 @@ export default function FieldInput<
       name={name}
       rules={rules}
       key={name}
+      defaultValue={defaultValue}
     >
       {controller => {
         const {
@@ -44,6 +55,7 @@ export default function FieldInput<
             {...rest}
             {...extras}
             {...field}
+            placeholder={placeholder}
             refInput={combineRefs(ref, refInput)}
             invalid={invalid}
           />

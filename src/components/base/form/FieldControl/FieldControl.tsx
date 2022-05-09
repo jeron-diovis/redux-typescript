@@ -6,8 +6,6 @@ import {
   useController,
 } from 'react-hook-form'
 
-import { capitalize } from 'lodash'
-
 import { Control } from 'src/components/base/controls'
 import { useClosureCallback } from 'src/hooks'
 import { ErrorType, getDefaultMsg } from 'src/validation'
@@ -23,7 +21,8 @@ export default function FieldControl<
     rules,
     children,
     shouldUnregister,
-    label = capitalize(name),
+    label,
+    defaultValue,
     ...rest
   } = props
 
@@ -31,6 +30,7 @@ export default function FieldControl<
     name,
     rules,
     shouldUnregister,
+    defaultValue,
   })
 
   const error = controller.fieldState.error as FieldError

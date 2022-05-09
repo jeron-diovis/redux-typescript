@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 $error-font-size: 12px;
 $error-margin-top-left: 2px;
 $error-margin-bottom: 4px;
@@ -19,7 +21,7 @@ $error-margin-bottom: 4px;
 
 .error {
   font-size: $error-font-size;
-  color: red;
+  color: $red-color;
   position: absolute;
   white-space: nowrap;
 

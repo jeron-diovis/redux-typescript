@@ -1,6 +1,7 @@
 export * from './Checkbox'
 export * from './Control'
 export * from './Input'
+export * from './FileInput'
 export * from './Select'
 export * from './RadioGroup'
 

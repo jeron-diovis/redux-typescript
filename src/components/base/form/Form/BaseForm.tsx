@@ -22,7 +22,7 @@ export function BaseForm<TFieldValues extends FieldValues = FieldValues>(
   props: IBaseFormProps<TFieldValues>
 ) {
   const {
-    debug,
+    debug = process.env.REACT_APP_DEBUG_FORMS === 'true',
     style,
     className,
     children,

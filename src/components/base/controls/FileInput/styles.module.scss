@@ -1,0 +1,15 @@
+.root {
+  overflow: hidden;
+
+  label {
+    composes: btn from "src/components/base/Button/styles.module.scss";
+  }
+}
+
+.filename {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 5px;
+}

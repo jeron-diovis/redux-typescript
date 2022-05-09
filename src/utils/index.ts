@@ -1,6 +1,7 @@
-import { ForwardedRef } from 'react'
+import { ForwardedRef, ReactElement, ReactNode, isValidElement } from 'react'
 
 import qs from 'qs'
+import { isPrimitive } from 'utility-types'
 
 export * from './redux'
 
@@ -56,4 +57,20 @@ export function normalizeUrl(url: string) {
 
 export function formatBool(x: boolean): string {
   return x ? 'Yes' : 'No'
+}
+
+export function resolveErrorMessage(e: unknown): ReactNode {
+  if (e === null || e === undefined) {
+    return null
+  }
+  if (isValidElement(e as object)) {
+    return e as ReactElement
+  }
+  if (isPrimitive(e)) {
+    return e
+  }
+  if (e instanceof Error || 'message' in (e as Dict)) {
+    return (e as Error).message
+  }
+  return JSON.stringify(e, null, 4)
 }

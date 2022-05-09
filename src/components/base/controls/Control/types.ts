@@ -5,12 +5,13 @@ export interface IControlProps extends IStyled {
   labelPosition?: 'before' | 'after'
   labelVerticalAlign?: 'start' | 'end' | 'center'
   layout?: 'row' | 'col' | CSSProperties['gridTemplateColumns']
-  stretch?: boolean
+  justify?: false | CSSProperties['justifyContent']
   gap?: number
   error?: string
   errorPosition?: 'bottom' | 'right'
   inline?: boolean
   ignoreContext?: boolean
+  showError?: boolean
 }
 
 export interface IControlComponentProps extends IControlProps {

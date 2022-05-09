@@ -1,11 +1,13 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 
 import clsx from 'clsx'
+
+import { resolveErrorMessage } from 'src/utils'
 
 import styles from './styles.module.scss'
 
 export interface IErrorMessageProps extends IStyled {
-  children: ReactNode
+  children: unknown
   inline?: boolean
   bordered?: boolean
 }
@@ -29,7 +31,7 @@ const ErrorMessage = React.memo(function ErrorMessage(
         })}
         style={style}
       >
-        {error}
+        {resolveErrorMessage(error)}
       </Tag>
     </If>
   )

@@ -5,19 +5,19 @@ import { IControlComponentProps } from './types'
 export function useContentStyle(
   config: Pick<
     IControlComponentProps,
-    'style' | 'labelVerticalAlign' | 'stretch' | 'layout' | 'gap'
+    'style' | 'labelVerticalAlign' | 'justify' | 'layout' | 'gap'
   >
 ) {
-  const { style, labelVerticalAlign, layout, gap, stretch } = config
+  const { style, labelVerticalAlign, layout, gap, justify } = config
   return useMemo((): CSSProperties => {
     return {
       ...style,
       gap,
       alignItems: labelVerticalAlign,
-      justifyContent: stretch ? 'space-between' : undefined,
+      justifyContent: justify === false ? undefined : justify,
       ...getContentGridStyle(layout),
     }
-  }, [style, stretch, gap, labelVerticalAlign, layout])
+  }, [style, justify, gap, labelVerticalAlign, layout])
 }
 
 function getContentGridStyle(

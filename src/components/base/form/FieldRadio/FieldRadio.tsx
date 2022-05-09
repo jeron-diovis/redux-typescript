@@ -11,10 +11,16 @@ export default function FieldRadio<
   Fields extends FieldValues = FieldValues,
   Name extends FieldPath<Fields> = FieldPath<Fields>
 >(props: IFieldRadioProps<Fields, Name>) {
-  const { control, name, rules, ...rest } = props
+  const { control, name, rules, defaultValue, label, ...rest } = props
 
   return (
-    <FieldControl<Fields, Name> {...control} name={name} rules={rules}>
+    <FieldControl<Fields, Name>
+      {...control}
+      name={name}
+      rules={rules}
+      label={label}
+      defaultValue={defaultValue}
+    >
       {controller => {
         const {
           field: { ref, ...field },

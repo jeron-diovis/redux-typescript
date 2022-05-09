@@ -14,7 +14,7 @@ export interface IFormControllerProps<
   Name extends FieldPath<Fields> = FieldPath<Fields>
 > extends Pick<
     UseControllerProps<Fields, Name>,
-    'name' | 'rules' | 'shouldUnregister'
+    'name' | 'rules' | 'shouldUnregister' | 'defaultValue'
   > {}
 
 // Omit 'error' prop, it's provided by form state
