@@ -29,10 +29,20 @@ export default function FieldInput<
           fieldState,
         } = controller
         const { invalid } = fieldState
-        const { refInput } = rest
+        const { refInput, type } = rest
+
+        const extras = {}
+        if (type === 'number') {
+          Object.assign(extras, {
+            min: rules?.min,
+            max: rules?.max,
+          })
+        }
+
         return (
           <Input<Type>
             {...rest}
+            {...extras}
             {...field}
             refInput={combineRefs(ref, refInput)}
             invalid={invalid}
