@@ -12,10 +12,15 @@ export default function FieldSelect<
   Name extends FieldPath<Fields> = FieldPath<Fields>,
   Clearable extends boolean = false
 >(props: IFieldSelectProps<Fields, Name, Clearable>) {
-  const { control, name, rules, ...rest } = props
+  const { label, control, name, rules, ...rest } = props
 
   return (
-    <FieldControl<Fields, Name> {...control} name={name} rules={rules}>
+    <FieldControl<Fields, Name>
+      {...control}
+      name={name}
+      rules={rules}
+      label={label}
+    >
       {controller => {
         const {
           field: { ref, ...field },

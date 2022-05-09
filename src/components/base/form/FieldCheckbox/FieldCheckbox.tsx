@@ -10,7 +10,7 @@ export default function FieldCheckbox<
   Fields extends FieldValues = FieldValues,
   Name extends FieldPath<Fields> = FieldPath<Fields>
 >(props: IFieldCheckboxProps<Fields, Name>) {
-  const { control = {}, name, rules, ...rest } = props
+  const { control = {}, label, name, rules, ...rest } = props
 
   // Explicit props will take precedence over ControlSettingsContext.
   // Thus, Checkbox will always render with these settings regardless of context,
@@ -25,6 +25,7 @@ export default function FieldCheckbox<
     <FieldControl<Fields, Name>
       {...control}
       layout={layout}
+      label={label}
       labelPosition={labelPosition}
       stretch={stretch}
       name={name}
