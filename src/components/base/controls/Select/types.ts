@@ -31,5 +31,6 @@ export interface ISelectProps<
         e: ChangeEvent
       ) => void
   clearable?: Clearable
+  invalid?: boolean
   refInput?: ForwardedRef<HTMLSelectElement>
 }

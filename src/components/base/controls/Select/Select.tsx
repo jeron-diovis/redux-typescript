@@ -22,6 +22,7 @@ function Select<
     value = EMPTY_VALUE,
     placeholder = 'Select...',
     clearable = false,
+    invalid = false,
     onChange = noop,
     refInput,
     className,
@@ -31,7 +32,9 @@ function Select<
   return (
     <select
       {...rest}
-      className={clsx(styles.select, className)}
+      className={clsx(className, styles.select, {
+        [styles.invalid]: invalid,
+      })}
       ref={refInput}
       value={value}
       onChange={e => {

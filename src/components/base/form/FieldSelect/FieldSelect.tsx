@@ -24,12 +24,14 @@ export default function FieldSelect<
       {controller => {
         const {
           field: { ref, ...field },
+          fieldState: { invalid },
         } = controller
         const { refInput } = rest
         return (
           <Select
             {...rest}
             {...field}
+            invalid={invalid}
             refInput={combineRefs(ref, refInput)}
             onChange={
               // Type '(...event: any[]) => void' is not assignable to type 'Clearable extends false ? .. : ...
