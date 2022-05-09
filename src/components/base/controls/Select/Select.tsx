@@ -1,6 +1,10 @@
 import React from 'react'
 
+import clsx from 'clsx'
+
 import { GetSelectOptionValue, ISelectProps, SelectDataItem } from './types'
+
+import styles from './styles.module.scss'
 
 const noop = () => {}
 const isPrimitive = (x: SelectDataItem): x is string | number =>
@@ -20,12 +24,14 @@ function Select<
     clearable = false,
     onChange = noop,
     refInput,
+    className,
     ...rest
   } = props
 
   return (
     <select
       {...rest}
+      className={clsx(styles.select, className)}
       ref={refInput}
       value={value}
       onChange={e => {
