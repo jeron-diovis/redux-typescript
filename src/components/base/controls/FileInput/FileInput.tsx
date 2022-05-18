@@ -23,6 +23,8 @@ export function FileInput(props: IFileInputProps) {
     maxSize,
     minSize,
     maxFiles: 1,
+    // as long as <input> is inside <label>, clicking label will open file dialog natively
+    noClick: true,
     onDropAccepted([file]) {
       onChange?.(file)
     },
