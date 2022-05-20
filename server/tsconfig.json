@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "outDir": "../build/server",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "src",
+    "paths": {
+      "src/*": [ "../../src/*" ]
+    }
+  },
+  "include": [
+    "src",
+    "../src/types/global.d.ts"
+  ],
+  "ts-node": {
+    "require": [ "tsconfig-paths/register" ]
+  }
+}

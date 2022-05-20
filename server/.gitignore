@@ -1,0 +1,3 @@
+node_modules
+# db is modified by json-server, should not be under git
+src/db.json

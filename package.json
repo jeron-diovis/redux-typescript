@@ -50,7 +50,8 @@
     "clean:lint": "rimraf .eslintcache && rimraf node_modules/.cache/eslint-loader",
     "clean": "yarn clean:lint && rimraf node_modules/.cache",
     "report": "open build/report.html",
-    "prepare": "husky install && ./install-cra-deps.sh",
+    "prepare": "./prepare.sh",
+    "server": "cd server && yarn watch",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },

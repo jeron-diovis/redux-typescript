@@ -1,0 +1,5 @@
+{
+  "src/**/*.{js,ts}{,x}": [
+    "eslint --cache --fix --max-warnings=0"
+  ]
+}
