@@ -1,9 +1,10 @@
+const { configs } = require('eslint-plugin-storybook')
 module.exports = {
   overrides: [
     {
       files: ['**/{*.,}stories.*'],
       rules: {
-        'import/no-anonymous-default-export': 'off',
+        ...configs.recommended.overrides[0].rules,
       },
     },
   ],

@@ -2,16 +2,15 @@ module.exports = {
   extends: [
     'react-app',
     'eslint:recommended',
-    'plugin:prettier/recommended',
 
     './.eslint/typescript',
     './.eslint/jsx-control-statements',
     './.eslint/imports',
     './.eslint/storybook',
+    './.eslint/prettier',
   ],
 
   rules: {
-    quotes: ['warn', 'single'],
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-unreachable': 'warn',
     'no-var': 'error',
