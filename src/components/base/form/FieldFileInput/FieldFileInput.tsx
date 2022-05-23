@@ -7,6 +7,7 @@ import {
   useFormContext,
 } from 'react-hook-form'
 
+import filesize from 'filesize'
 import { zipObject } from 'lodash'
 
 import { FileInput } from '../../controls'
@@ -80,7 +81,7 @@ function useDropzoneValidation() {
     setErrors(errors: DropzoneFileError[]) {
       refErrors.current = zipObject(
         errors.map(x => x.code),
-        errors.map(x => x.message)
+        errors.map(x => formatDropzoneError(x.message))
       )
     },
 
@@ -93,4 +94,8 @@ function useDropzoneValidation() {
       return errors === undefined ? undefined : Object.values(errors)[0]
     },
   }
+}
+
+function formatDropzoneError(x: string) {
+  return x.replace(/(\d+) bytes?/, (match, num) => filesize(num))
 }
