@@ -3,6 +3,7 @@ import {
   FieldValues,
   FormProvider,
   Path,
+  UseFormReturn,
   useForm,
   useFormState,
 } from 'react-hook-form'
@@ -34,7 +35,7 @@ export function BaseForm<TFieldValues extends FieldValues = FieldValues>(
     ...config
   } = props
 
-  const form = useForm({ mode, ...config })
+  const form = usePatchFormRegister(useForm({ mode, ...config }))
   const handleSubmit = form.handleSubmit(onSubmit ?? noop, onValidationError)
 
   const refForm = useRef(form)
@@ -104,3 +105,46 @@ export const FormSubmitError = React.memo(function FormSubmitError(
     </ErrorMessage>
   )
 })
+
+// ---
+
+/**
+ * Allow to use `setValueAs` handler on any control – either created with 'register' func directly or via `useController` hook.
+ * @see https://react-hook-form.com/api/useform/register
+ *
+ * Not sure why it is not allowed out of the box, internal logic of hook-form is very complicated.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function usePatchFormRegister<T extends UseFormReturn<any>>(form: T): T {
+  /* eslint-disable no-underscore-dangle */
+  const { control } = form
+  const { register } = control
+
+  type PatchedRegister = typeof control.register & { __patched?: boolean }
+
+  const patchedRegister: PatchedRegister = (...args) => {
+    const reg = register(...args)
+    return {
+      ...reg,
+      onChange(e) {
+        const { target } = e
+        const rules = control._fields?.[target.name]?._f
+        // This means it's fake event, provided by `useController`
+        // @see https://github.com/react-hook-form/react-hook-form/blob/7f621940883e49a56552c4e9c61af2f50a0528a9/src/useController.ts#L108
+        if (target.type === undefined) {
+          if (rules?.setValueAs) {
+            target.value = rules.setValueAs(target.value)
+          }
+        }
+        return reg.onChange(e)
+      },
+    }
+  }
+  patchedRegister.__patched = true
+
+  if (!(control.register as PatchedRegister).__patched) {
+    control.register = patchedRegister
+  }
+
+  return form
+}

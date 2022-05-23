@@ -3,6 +3,7 @@ import {
   ControllerRenderProps,
   FieldPath,
   FieldValues,
+  RegisterOptions,
   UseControllerProps,
   UseControllerReturn,
 } from 'react-hook-form'
@@ -14,8 +15,11 @@ export interface IFormControllerProps<
   Name extends FieldPath<Fields> = FieldPath<Fields>
 > extends Pick<
     UseControllerProps<Fields, Name>,
-    'name' | 'rules' | 'shouldUnregister' | 'defaultValue'
-  > {}
+    'name' | 'shouldUnregister' | 'defaultValue'
+  > {
+  rules?: UseControllerProps<Fields, Name>['rules'] &
+    Pick<RegisterOptions<Fields, Name>, 'setValueAs'> // See implementation at components/base/form/Form/BaseForm.tsx::usePatchFormRegister // Allow to use `setValueAs` for `useController` too.
+}
 
 // Omit 'error' prop, it's provided by form state
 export interface IFieldControlProps extends Omit<IControlProps, 'error'> {}
