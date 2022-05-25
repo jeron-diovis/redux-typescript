@@ -26,6 +26,8 @@ module.exports = override(
     new LodashModuleReplacementPlugin({
       paths: true,
       flattening: true,
+      currying: true,
+      collections: true,
     })
   ),
 
