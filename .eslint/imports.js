@@ -31,7 +31,7 @@ module.exports = {
         ],
         pathGroups: [
           {
-            pattern: '*{react,redux}*',
+            pattern: '*{react,redux}*{/**,}',
             group: 'external',
             position: 'before',
           },
