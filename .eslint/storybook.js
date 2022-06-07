@@ -1,5 +1,8 @@
 const { configs } = require('eslint-plugin-storybook')
 module.exports = {
+  extends: [
+    'plugin:storybook/recommended',
+  ],
   overrides: [
     {
       files: ['**/{*.,}stories.*'],
