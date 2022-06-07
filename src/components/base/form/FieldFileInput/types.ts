@@ -9,9 +9,19 @@ export interface IFieldFileInputProps<
   Fields extends FieldValues = FieldValues,
   Name extends FieldPath<Fields> = FieldPath<Fields>
 > extends Overwrite<
-    IFormFieldProps<Pick<IFileInputProps, 'accept'>, Fields, Name>,
+    IFormFieldProps<ExportedFileInputProps, Fields, Name>,
     {
-      rules?: Pick<RegisterOptions<Fields, Name>, 'required' | 'validate'> &
-        Pick<IFileInputProps, 'maxSize' | 'minSize'>
+      rules?: Rules<Fields, Name>
     }
   > {}
+
+type ExportedFileInputProps = Pick<
+  IFileInputProps,
+  'accept' | 'placeholder' | 'icon'
+>
+
+type Rules<Fields, Name extends FieldPath<Fields>> = Pick<
+  RegisterOptions<Fields, Name>,
+  'required' | 'validate'
+> &
+  Pick<IFileInputProps, 'maxSize' | 'minSize'>

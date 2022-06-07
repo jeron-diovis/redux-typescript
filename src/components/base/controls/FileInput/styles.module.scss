@@ -1,8 +1,12 @@
+@import "src/styles/variables";
+@import "src/components/base/Button/styles.module";
+
 .root {
   overflow: hidden;
 
   label {
-    composes: btn from "src/components/base/Button/styles.module.scss";
+    @include button;
+    flex-wrap: nowrap;
   }
 }
 
@@ -10,6 +14,12 @@
   display: block;
   white-space: nowrap;
   overflow: hidden;
+  color: $gray-color;
   text-overflow: ellipsis;
   margin-top: 5px;
+}
+
+.icon_holder {
+  display: inline-flex;
+  flex-shrink: 0;
 }

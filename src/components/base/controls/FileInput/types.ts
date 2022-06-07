@@ -7,5 +7,6 @@ export interface IFileInputProps
   name?: string
   onChange?: (file: File) => void
   onError?: (rejection: FileRejection) => void
-  children?: ReactNode
+  placeholder?: ReactNode
+  icon?: ReactNode
 }

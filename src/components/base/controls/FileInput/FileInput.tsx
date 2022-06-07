@@ -15,15 +15,16 @@ export function FileInput(props: IFileInputProps) {
     accept = 'image/*',
     maxSize,
     minSize,
-    children = 'Upload',
+    placeholder = 'Upload image',
+    icon = null,
   } = props
 
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     accept: resolveAcceptProp(accept),
     maxSize,
     minSize,
-    maxFiles: 1,
-    // as long as <input> is inside <label>, clicking label will open file dialog natively
+    multiple: false,
+    // our input is inside <label>, thus clicking it will open file dialog anyway
     noClick: true,
     onDropAccepted([file]) {
       onChange?.(file)
@@ -36,7 +37,8 @@ export function FileInput(props: IFileInputProps) {
   return (
     <div {...getRootProps()} className={styles.root}>
       <label>
-        {children}
+        {placeholder}
+        <span className={styles.icon_holder}>{icon}</span>
         <input name={name} {...getInputProps()} />
       </label>
 
