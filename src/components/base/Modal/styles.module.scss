@@ -1,0 +1,42 @@
+@import "src/styles/variables";
+
+/* stylelint-disable declaration-no-important, selector-class-pattern */
+:global {
+  .ReactModal__Overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ReactModal__Content {
+    position: relative !important;
+    background-color: $main-background-color !important;
+    max-width: 80%;
+    max-height: 80%;
+
+    // to show fancy "close" btn
+    overflow: visible !important;
+
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+}
+/* stylelint-enable */
+
+.header { /* todo */ }
+
+.body {
+  overflow: auto;
+}
+
+.btn_close {
+  --size: 25px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  position: absolute;
+  right: calc(-1 * var(--size) / 3);
+  top: calc(-1 * var(--size) / 3);
+  background-color: black;
+  cursor: pointer;
+}
