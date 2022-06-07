@@ -1,6 +1,7 @@
 export * from './Accordion'
 export * from './Button'
 export * from './Modal'
+export * from './Tooltip'
 export { default as ErrorMessage } from './ErrorMessage'
 export { default as Table } from './Table'
 export { default as Hint } from './Hint'
