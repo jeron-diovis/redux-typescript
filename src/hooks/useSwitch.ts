@@ -1,10 +1,9 @@
+import useSwitchOriginal from '@react-hook/switch'
 import { useCallback, useRef } from 'react'
 
-import useSwitchOriginal from '@react-hook/switch'
-
-type IUseSwitch = typeof useSwitchOriginal
-type SwitchTuple = ReturnType<IUseSwitch>
-type SwitchCallback = SwitchTuple[1]
+export type IUseSwitch = typeof useSwitchOriginal
+export type SwitchTuple = ReturnType<IUseSwitch>
+export type SwitchCallback = SwitchTuple[1]
 
 /**
  * Patch `useSwitch` to make it return constant callbacks.

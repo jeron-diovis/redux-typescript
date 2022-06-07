@@ -1,7 +1,6 @@
+import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { combineReducers } from 'redux'
-
-import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 
 import { CounterSlice } from './features/Counter'
 import { HistoryReferrerSlice } from './features/HistoryReferrer'

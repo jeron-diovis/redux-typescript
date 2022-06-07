@@ -1,6 +1,5 @@
-import { push } from 'connected-react-router'
-
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { push } from 'connected-react-router'
 
 import { selectReferrer } from '../HistoryReferrer'
 
