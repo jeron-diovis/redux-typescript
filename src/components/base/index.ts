@@ -1,3 +1,4 @@
+export * from './Accordion'
 export * from './Button'
 export { default as ErrorMessage } from './ErrorMessage'
 export { default as Table } from './Table'

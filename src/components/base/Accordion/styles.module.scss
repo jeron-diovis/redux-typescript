@@ -1,0 +1,65 @@
+.header {
+  position: relative;
+  cursor: pointer;
+  padding: 15px;
+  padding-right: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  transition: 0.3s;
+}
+
+.body {
+  position: relative;
+  padding: 0 15px;
+  box-sizing: content-box;
+
+  overflow: hidden;
+  max-height: 0;
+  transition: 0.5s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    display: block;
+    height: 1px;
+    background-color: #535d6a;
+    width: 60%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+}
+
+.accordion {
+  // explicit value is required for transition. Values like `max-content` can't be animated.
+  --body-max-height: 300px;
+
+  position: relative;
+
+  &:hover::after {
+    height: 100%;
+  }
+
+  &.open {
+    .body {
+      padding: 15px;
+      max-height: var(--body-max-height);
+
+      // Here should be "overflow: auto", to override "hidden" in closed state,
+      // but this will cause scrollbar flickering while opening.
+      // No idea how to beat this, so probably it's has to be a children element's concern.
+    }
+
+    .icon {
+      transform: scale(1, -1) translateY(50%);
+    }
+  }
+}
