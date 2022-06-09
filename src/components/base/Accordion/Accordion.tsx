@@ -16,7 +16,7 @@ export function Accordion(props: IAccordionProps) {
     lazy = true,
     isOpen: isOpenControlled,
     onToggle,
-    maxBodyHeight,
+    bodyMaxHeight,
     className,
     style,
   } = props
@@ -36,7 +36,10 @@ export function Accordion(props: IAccordionProps) {
       style={
         {
           ...style,
-          '--max-body-height': maxBodyHeight,
+          '--body-max-height':
+            typeof bodyMaxHeight === 'number'
+              ? `${bodyMaxHeight}px`
+              : bodyMaxHeight,
         } as typeof style
       }
     >

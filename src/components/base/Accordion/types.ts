@@ -7,5 +7,5 @@ export interface IAccordionProps extends IStyled {
   lazy?: boolean
   isOpen?: boolean
   onToggle?: (isOpen: boolean) => void
-  maxBodyHeight?: number | string
+  bodyMaxHeight?: number | string
 }
