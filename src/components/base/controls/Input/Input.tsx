@@ -23,11 +23,15 @@ function BaseInput<Type extends HTMLInputTypeAttribute = 'text'>(
     ...rest
   } = props
 
+  const isCheckbox = type === 'checkbox' || type === 'radio'
+
   return (
     <input
       {...rest}
-      className={clsx(className, {
+      className={clsx(className, styles.base, {
         [styles.invalid]: invalid,
+        [styles.check]: isCheckbox,
+        [styles.text]: !isCheckbox,
       })}
       ref={refInput}
       type={type}

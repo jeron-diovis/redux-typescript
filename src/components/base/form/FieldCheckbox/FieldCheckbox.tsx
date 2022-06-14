@@ -1,5 +1,7 @@
 import { FieldPath, FieldValues } from 'react-hook-form'
 
+import { capitalize } from 'lodash'
+
 import { Checkbox } from 'src/components/base/controls'
 
 import FieldControl from '../FieldControl'
@@ -10,7 +12,7 @@ export default function FieldCheckbox<
   Fields extends FieldValues = FieldValues,
   Name extends FieldPath<Fields> = FieldPath<Fields>
 >(props: IFieldCheckboxProps<Fields, Name>) {
-  const { control = {}, label, name, rules, ...rest } = props
+  const { control = {}, name, label = capitalize(name), rules, ...rest } = props
 
   // Explicit props will take precedence over ControlSettingsContext.
   // Thus, Checkbox will always render with these settings regardless of context,
