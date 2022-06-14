@@ -53,6 +53,18 @@ module.exports = override(
     return config
   },
 
+  // Fix resolution for native modules
+  // @see https://github.com/reactioncommerce/reaction-component-library/issues/399#issuecomment-467860022
+  config => {
+    config.module.rules.push({
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: 'javascript/auto',
+    })
+
+    return config
+  },
+
   config => {
     merge(config.optimization.splitChunks, {
       cacheGroups: {
