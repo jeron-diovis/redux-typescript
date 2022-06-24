@@ -1,7 +1,7 @@
 import { cloneElement } from 'react'
 import { FieldValues } from 'react-hook-form'
 
-import { Button, ErrorMessage } from 'src/components/base'
+import { Button, ErrorMessage, Loader } from 'src/components/base'
 import { Grid } from 'src/components/layouts'
 
 import { BaseForm, FormSubmitError } from './BaseForm'
@@ -18,6 +18,7 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
     btnResetText = 'Reset',
     btnSubmitText = 'Submit',
     buttonsLayout = '1fr',
+    buttonsAlign = 'center',
     children,
     ...rest
   } = props
@@ -36,20 +37,25 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
             className={styles.controls}
             columns={isResettable ? 2 : 1}
             autoColumns={buttonsLayout}
+            style={{ justifyContent: buttonsAlign }}
           >
-            <If condition={isResettable}>
-              <Button type="reset" disabled={isSubmitting}>
-                {btnResetText}
-              </Button>
-            </If>
+            <Choose>
+              <When condition={isSubmitting}>
+                <Loader style={{ justifySelf: 'center' }} />
+              </When>
 
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              style={isSubmitting ? { cursor: 'progress' } : undefined}
-            >
-              {btnSubmitText}
-            </Button>
+              <Otherwise>
+                <If condition={isResettable}>
+                  <Button type="reset" disabled={isSubmitting}>
+                    {btnResetText}
+                  </Button>
+                </If>
+
+                <Button type="submit" disabled={isSubmitting}>
+                  {btnSubmitText}
+                </Button>
+              </Otherwise>
+            </Choose>
           </Grid>
         )
 

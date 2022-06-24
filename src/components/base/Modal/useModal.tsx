@@ -6,7 +6,7 @@ import { Modal } from './Modal'
 import { IModalProps } from './types'
 
 export interface IUseModalResult {
-  $element: ReactElement
+  $element: ReactElement | null
   isOpen: boolean
   toggle: SwitchCallback
 }
@@ -15,20 +15,24 @@ export type IUseModalOptions = Omit<IModalProps, 'children' | 'isOpen'> & {
   defaultOpen?: boolean
 }
 
-export function useModal(children: ReactElement): IUseModalResult
+type ContentRenderer =
+  | ReactElement
+  | ((modal: { toggle: SwitchCallback }) => ReactElement)
+
+export function useModal(children: ContentRenderer): IUseModalResult
 export function useModal(
   props: IUseModalOptions,
-  children: ReactElement
+  children: ContentRenderer
 ): IUseModalResult
 
 export function useModal(...args: unknown[]): IUseModalResult {
-  let children: ReactElement
+  let children: ContentRenderer
   let props: IUseModalOptions
   if (args.length === 1) {
-    children = args[0] as ReactElement
+    children = args[0] as ContentRenderer
     props = {}
   } else {
-    ;[props, children] = args as [IUseModalOptions, ReactElement]
+    ;[props, children] = args as [IUseModalOptions, ContentRenderer]
   }
 
   const { defaultOpen = false, onRequestClose } = props
@@ -45,10 +49,12 @@ export function useModal(...args: unknown[]): IUseModalResult {
   return {
     isOpen,
     toggle,
-    $element: React.createElement(
-      Modal,
-      { ...props, isOpen, onRequestClose: handleRequestClose },
-      children
-    ),
+    $element: !isOpen
+      ? null
+      : React.createElement(
+          Modal,
+          { ...props, isOpen, onRequestClose: handleRequestClose },
+          typeof children !== 'function' ? children : children({ toggle })
+        ),
   }
 }

@@ -6,11 +6,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: transparentize(darkgreen, 0.6) !important;
   }
 
   .ReactModal__Content {
     position: relative !important;
     background-color: $main-background-color !important;
+    inset: unset !important;
+
     max-width: 80%;
     max-height: 80%;
 

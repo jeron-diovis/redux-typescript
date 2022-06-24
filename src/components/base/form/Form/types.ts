@@ -33,7 +33,7 @@ export interface IUseFormReturn<TFieldValues extends FieldValues = FieldValues>
 export interface IBaseFormProps<TFieldValues extends FieldValues = FieldValues>
   extends IStyled,
     IUseFormProps<TFieldValues> {
-  debug?: true
+  debug?: boolean
   children?: ReactNode | ((form: IUseFormReturn<TFieldValues>) => ReactNode)
 }
 
@@ -44,6 +44,7 @@ export interface IFormProps<TFieldValues extends FieldValues = FieldValues>
   btnSubmitText?: ReactNode
   btnResetText?: ReactNode
   buttonsLayout?: CSSProperties['gridAutoColumns']
+  buttonsAlign?: CSSProperties['justifyContent']
   children?:
     | ReactNode
     | ((
