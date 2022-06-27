@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires,react-hooks/rules-of-hooks */
 const {
   useBabelRc,
   override,

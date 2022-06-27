@@ -2,8 +2,9 @@
  * See explanations in ./install-cra-deps.sh
  */
 
-const { devDependencies: host_dependencies } = require('./package.json')
 const { dependencies } = require('react-scripts/package.json')
+
+const { devDependencies: host_dependencies } = require('./package.json')
 
 const re_eslint = /(^eslint$)|(@typescript-eslint)|(eslint-(plugin|config))/
 
