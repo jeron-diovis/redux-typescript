@@ -1,4 +1,4 @@
-export * from './SessionChecker'
+export * from './SessionGuard'
 
 export * from './AuthOnly'
 export * from './GuestOnly'

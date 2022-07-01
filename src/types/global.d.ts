@@ -5,10 +5,21 @@ import React, { CSSProperties } from 'react'
  * - use imports
  * - use module augmentations, without overriding module completely
  */
+
+// put some of the most common helpers into globals
+declare global {
+  export type {
+    Primitive,
+    Optional,
+    Required as RequiredProps,
+    Overwrite,
+    Assign,
+  } from 'utility-types'
+}
+
 declare global {
   // ---
   // Handy shortcuts
-  type Primitive = string | number | boolean
   type Values<T> = T[keyof T]
   type Dict<V = unknown> = Record<string, V>
   type Func<V = any> = (...args: any[]) => V // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -66,7 +77,7 @@ declare global {
    * <pre>
    *   // `number | string` is not assignable to `number`:
    *   FilterKeys<{ a: number }, number | string, 'pick', 'assignable'> => never
-   *   // `number` does extends `number | string`:
+   *   // `number` does extend `number | string`:
    *   FilterKeys<{ a: number }, number | string, 'pick', 'extending'> => 'a'
    * </pre>
    */
@@ -84,36 +95,6 @@ declare global {
         : null
     }>
   >
-
-  /**
-   * <pre>
-   *  Replace<{ a: string, b: number }, { a: boolean }> => { a: boolean, b: number }
-   * </pre>
-   */
-  type Replace<O, R extends Partial<Record<keyof O, unknown>>> = Omit<
-    O,
-    keyof R
-  > &
-    R
-
-  /**
-   * Make listed props optional, preserving the rest.
-   *
-   * <pre>
-   *   type Data = { a: number, b: string }
-   *   PartialProps<Data, 'b'> => { a: number, b?: string }
-   * </pre>
-   */
-  type PartialProps<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
-
-  /**
-   * Make listed props required
-   * <pre>
-   *   type Data = { a?: number, b?: string }
-   *   RequiredProps<Data, 'a'> => { a: number, b?: string }
-   * </pre>
-   */
-  type RequiredProps<T, P extends keyof T> = Omit<T, P> & Required<Pick<T, P>>
 }
 
 // ---

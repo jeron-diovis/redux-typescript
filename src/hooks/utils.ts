@@ -35,11 +35,8 @@ export function useDraft<T extends object>(data: T): T {
  * Should be used for callbacks which depend on some values in context,
  * whose changes themselves should not cause children elements update.
  */
-export function useClosureCallback<F extends Func>(fn: F) {
+export function useClosureCallback<F extends Func>(fn: F): F {
   const ref = useRef(fn)
   ref.current = fn
-  return useCallback(
-    (...args: Parameters<F>): ReturnType<F> => ref.current(...args),
-    []
-  )
+  return useCallback((...args: Parameters<F>) => ref.current(...args), []) as F
 }

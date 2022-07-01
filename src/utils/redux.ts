@@ -2,7 +2,9 @@ import { ActionReducerMapBuilder, AsyncThunk, Draft } from '@reduxjs/toolkit'
 
 import { AsyncState } from 'src/types'
 
-// TODO: consider using https://redux-toolkit.js.org/rtk-query/overview
+/**
+ * Consider using {@link https://redux-toolkit.js.org/rtk-query/overview} for proper cache management.
+ */
 
 export function addAsyncThunkReducers<State extends AsyncState, Payload>(
   builder: ActionReducerMapBuilder<State>,

@@ -21,7 +21,7 @@ function useLoadUser() {
   }
 }
 
-export const SessionChecker: React.FC = props => {
+export const SessionGuard: React.FC = props => {
   useLoadUser()
   const { children } = props
   return <>{children}</>

@@ -4,7 +4,7 @@ import { DebounceSettings, debounce } from 'lodash'
 
 import { useChanged } from './changes'
 
-export default function useDebounce<F extends Func>(
+export function useDebounce<F extends Func>(
   fn: F,
   delay: number,
   options?: DebounceSettings

@@ -2,7 +2,8 @@ import { MutableRefObject, useEffect, useLayoutEffect, useRef } from 'react'
 
 import { shallowEqual } from 'src/utils'
 
-import { useOnMount, useOnMountLayout } from './effects'
+import { useOnMount } from './effects'
+import { useInvariant } from './useInvariant'
 
 // ---
 
@@ -67,7 +68,6 @@ export function useOnChange<T>(
   })
 
   const useEffectHook = isLayoutMode ? useLayoutEffect : useEffect
-  const useMountHook = isLayoutMode ? useOnMountLayout : useOnMount
 
   useEffectHook(() => {
     if (!eq(value, previous.current)) {
@@ -76,34 +76,14 @@ export function useOnChange<T>(
     }
   })
 
-  useMountHook(() => {
-    if (onMount) {
-      callback(value, previous.current)
+  useOnMount(
+    () => {
+      if (onMount) {
+        callback(value, previous.current)
+      }
+    },
+    {
+      layout,
     }
-  })
-}
-
-// ---
-
-interface UseInvariantOptions<T> {
-  label?: string
-  eq?: Comparator<T>
-}
-
-export function useInvariant<T>(x: T, opts: UseInvariantOptions<T> = {}): T {
-  const { label = 'value', eq = shallowEqual } = opts
-  const ref = useRef(x)
-
-  if (!eq(x, ref.current)) {
-    console.error(
-      `${label} is not supposed to change during component lifecycle.\nGot change: %o -> %o`,
-      ref.current,
-      x
-    )
-    throw new Error(
-      `${label} is not supposed to change during component lifecycle.\nGot change: ${ref.current} -> ${x}`
-    )
-  }
-
-  return x
+  )
 }

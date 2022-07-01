@@ -11,7 +11,7 @@ interface CookieOptions<T> extends Cookie.CookieOptions {
   encode?: (x: T) => string
 }
 
-export default function useCookie<T = CookieValue>(
+export function useCookie<T = CookieValue>(
   name: string,
   options?: CookieOptions<T>
 ) {

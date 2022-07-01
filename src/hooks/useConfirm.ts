@@ -26,7 +26,7 @@ interface IConfirm<T extends IOptions> {
 
 // ---
 
-export default function useConfirm<T extends IOptions>(
+export function useConfirm<T extends IOptions>(
   options: T = {} as T
 ): IConfirm<T> {
   const [checked, toggle] = useSwitch(false)

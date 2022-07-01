@@ -62,18 +62,6 @@ module.exports = override(
     })
 
     return config
-  },
-
-  config => {
-    merge(config.optimization.splitChunks, {
-      cacheGroups: {
-        react: {
-          test: /[\\/]node_modules[\\/].*react.*/,
-          reuseExistingChunk: true,
-        },
-      },
-    })
-    return config
   }
 )
 
