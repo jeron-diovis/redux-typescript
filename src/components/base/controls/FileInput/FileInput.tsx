@@ -36,7 +36,7 @@ export function FileInput(props: IFileInputProps) {
 
   return (
     <div {...getRootProps()} className={styles.root}>
-      <label>
+      <label className={styles.label}>
         {placeholder}
         <span className={styles.icon_holder}>{icon}</span>
         <input name={name} {...getInputProps()} />

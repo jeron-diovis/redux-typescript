@@ -1,10 +1,10 @@
 .root {
   overflow: hidden;
+}
 
-  label {
-    composes: btn from "src/components/base/Button/styles.module.scss";
-    flex-wrap: nowrap;
-  }
+.label {
+  composes: btn from "src/components/base/Button/styles.module.scss";
+  flex-wrap: nowrap;
 }
 
 .filename {
