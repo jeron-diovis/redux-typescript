@@ -1,5 +1,3 @@
-@import "src/styles/variables";
-
 /* stylelint-disable declaration-no-important, selector-class-pattern */
 :global {
   .ReactModal__Overlay {
@@ -11,7 +9,6 @@
 
   .ReactModal__Content {
     position: relative !important;
-    background-color: $main-background-color !important;
     inset: unset !important;
 
     max-width: 80%;

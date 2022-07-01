@@ -1,9 +1,6 @@
-@import "src/styles/variables";
-
 :global {
   /* stylelint-disable selector-class-pattern */
   .awesome-react-tooltip {
-    background-color: $gray-color;
     padding: 8px;
     border-radius: 5px;
   }
