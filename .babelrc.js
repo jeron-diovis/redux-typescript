@@ -30,18 +30,12 @@ function getLodashImportsTransforms() {
   }
 }
 
+/* Specifically for MUI, this optimization is not needed in production mode – imports will be tree-shaked automatically.
+* But for dev mode, it's crucial – by default MUI imports EVERYTHING, where icons alone are 5+ MB – which dramatically slows down build process. */
 function getMuiImportsTransforms() {
   return {
-    "@material-ui/icons": noFullImport("@material-ui/icons/esm/${member}"),
-    "@material-ui/styles": noFullImport("@material-ui/styles/esm/${member}"),
-    "@material-ui/core": noFullImport((importName) => {
-      // @see https://github.com/mui-org/material-ui/issues/13394
-      // If this issue will be fixed, replace transform with just `@material-ui/core/esm/${member}"
-      if (importName === 'createMuiTheme') {
-        return "@material-ui/core/styles/createMuiStrictModeTheme"
-      } else {
-        return `@material-ui/core/esm/${importName}`
-      }
-    }),
+    "@mui/material": noFullImport("@mui/material/${member}"),
+    "@mui/material/styles": noFullImport("@mui/material/styles/${member}"),
+    "@mui/icons-material": noFullImport("@mui/icons-material/${member}"),
   }
 }
