@@ -9,7 +9,7 @@ import { IControlComponentProps } from './types'
 import styles from './styles.module.scss'
 
 const DEFAULT_ERROR_TEXT = 'This field is invalid'
-const DEFAULT_LAYOUT: IControlComponentProps['layout'] = 'row'
+const DEFAULT_LAYOUT: IControlComponentProps['layout'] = 'col'
 const DEFAULT_JUSTIFY: IControlComponentProps['justify'] = 'space-between'
 
 function Control(props: IControlComponentProps) {

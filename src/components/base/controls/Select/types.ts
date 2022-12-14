@@ -21,7 +21,7 @@ export interface ISelectProps<
     SelectHTMLAttributes<HTMLSelectElement>,
     'onChange' | 'multiple'
   > {
-  data: Readonly<T[]>
+  options: Readonly<T[]>
   value?: GetSelectOptionValue<T>
   onChange?: Clearable extends false
     ? (value: GetSelectOptionValue<T>, item: T, e: ChangeEvent) => void

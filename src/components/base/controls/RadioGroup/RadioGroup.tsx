@@ -5,8 +5,8 @@ import Input from '../Input'
 import { GetRadioOptionValue, IRadioGroupProps, RadioDataItem } from './types'
 
 const noop = () => {}
-const isPrimitive = (x: RadioDataItem): x is string | number =>
-  typeof x === 'string' || typeof x === 'number'
+const isPrimitive = (x: RadioDataItem): x is string | number | boolean =>
+  typeof x === 'string' || typeof x === 'number' || typeof x === 'boolean'
 const getValue = (x: RadioDataItem) => (isPrimitive(x) ? x : x.value)
 const getLabel = (x: RadioDataItem) => (isPrimitive(x) ? x : x.label)
 
@@ -31,7 +31,7 @@ function RadioGroup<T extends RadioDataItem = RadioDataItem>(
           <Input
             {...rest}
             type="radio"
-            value={getValue(option)}
+            value={getValue(option).toString()}
             checked={
               value === undefined ? false : getValue(value) === getValue(option)
             }
@@ -73,10 +73,11 @@ const defaultRenderOption: NonNullable<
   const { option, $input, $label } = params
   return (
     <label
-      key={getValue(option)}
+      key={getValue(option).toString()}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
+        gap: 8,
       }}
     >
       {$input}

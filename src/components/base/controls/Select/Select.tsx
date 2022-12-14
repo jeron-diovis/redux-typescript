@@ -18,7 +18,7 @@ function Select<
   Clearable extends boolean = false
 >(props: ISelectProps<T, Clearable>) {
   const {
-    data,
+    options,
     value = EMPTY_VALUE,
     placeholder = 'Select...',
     clearable = false,
@@ -39,7 +39,7 @@ function Select<
       value={value}
       onChange={e => {
         const selectValue = e.target.value
-        const item = data.find(x => getValue(x).toString() === selectValue)
+        const item = options.find(x => getValue(x).toString() === selectValue)
         const itemValue = item === undefined ? undefined : getValue(item)
         onChange(itemValue as GetSelectOptionValue<T>, item as T, e)
       }}
@@ -47,7 +47,7 @@ function Select<
       <If condition={clearable}>
         <option value={EMPTY_VALUE}>{placeholder}</option>
       </If>
-      {data.map(item => (
+      {options.map(item => (
         <option key={getValue(item)} value={getValue(item)}>
           {getLabel(item)}
         </option>

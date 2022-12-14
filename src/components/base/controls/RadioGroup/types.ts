@@ -2,7 +2,7 @@ import { CSSProperties, ChangeEvent, ReactElement } from 'react'
 
 import { IInputProps } from '../Input'
 
-type RadioValue = string | number
+type RadioValue = string | number | boolean
 
 export interface IRadioOption<V extends RadioValue = RadioValue> {
   label: string

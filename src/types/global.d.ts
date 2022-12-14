@@ -95,6 +95,15 @@ declare global {
         : null
     }>
   >
+
+  /**
+   * <pre>
+   *   OverwriteByValue<{ a: string, b: number }, number, boolean> => { a: string, b: boolean }
+   * </pre>
+   */
+  type OverwriteByValue<O, TypeToReplace, NewType> = {
+    [K in keyof O]: O[K] extends TypeToReplace ? NewType : O[K]
+  }
 }
 
 // ---
