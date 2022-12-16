@@ -6,6 +6,10 @@ import React, { CSSProperties } from 'react'
  * - use module augmentations, without overriding module completely
  */
 
+/* In some weird way, presence of this import makes export into global namespace below work properly.
+ * Without it, all re-exported helpers resolve to `any`. */
+import 'utility-types'
+
 // put some of the most common helpers into globals
 declare global {
   export type {

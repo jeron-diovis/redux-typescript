@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import {
+  FieldValues,
   UseFormReturn,
   UseFormStateReturn,
   useFormContext,
@@ -7,7 +8,7 @@ import {
   useWatch,
 } from 'react-hook-form'
 
-export function FormContext<Values>(props: {
+export function FormContext<Values extends FieldValues>(props: {
   children: (data: {
     ctx: UseFormReturn<Values>
     state: UseFormStateReturn<Values>

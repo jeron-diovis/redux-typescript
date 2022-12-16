@@ -20,7 +20,7 @@ type ExportedFileInputProps = Pick<
   'accept' | 'placeholder' | 'icon'
 >
 
-type Rules<Fields, Name extends FieldPath<Fields>> = Pick<
+type Rules<Fields extends FieldValues, Name extends FieldPath<Fields>> = Pick<
   RegisterOptions<Fields, Name>,
   'required' | 'validate'
 > &
