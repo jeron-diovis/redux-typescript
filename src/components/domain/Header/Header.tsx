@@ -10,7 +10,7 @@ import styles from './styles.module.scss'
 export default function Header() {
   return (
     <header className={styles.header}>
-      <Link to={routes.home}>
+      <Link to={routes.home} className={styles.logo}>
         <Logo width={40} />
       </Link>
 

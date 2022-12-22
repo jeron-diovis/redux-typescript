@@ -6,6 +6,16 @@
   color: #7f8b98;
 }
 
+.logo {
+  text-decoration: none;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;
+  color: white;
+}
+
 .auth_menu {
   margin-left: auto;
 }
