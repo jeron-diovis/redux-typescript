@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
 import App from './App'
+import { Modal } from './components'
 import * as serviceWorker from './serviceWorker'
 import { store } from './store'
 
@@ -11,13 +12,17 @@ import './index.css'
 
 setupReactAppOverlayErrorHandler()
 
+const $root = document.getElementById('root') as HTMLElement
+
+Modal.setAppElement($root)
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  $root
 )
 
 // If you want your app to work offline and load faster, you can change

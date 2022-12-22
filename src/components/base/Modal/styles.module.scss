@@ -21,9 +21,11 @@
     grid-template-rows: 1fr auto;
   }
 }
+
 /* stylelint-enable */
 
-.header { /* todo */ }
+.header { /* todo */
+}
 
 .body {
   overflow: auto;
@@ -37,6 +39,12 @@
   position: absolute;
   right: calc(-1 * var(--size) / 3);
   top: calc(-1 * var(--size) / 3);
-  background-color: black;
   cursor: pointer;
+
+  background-color: black;
+  border: 1px solid black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

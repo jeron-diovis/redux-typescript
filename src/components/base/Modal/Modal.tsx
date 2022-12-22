@@ -7,7 +7,7 @@ import { IModalProps } from './types'
 
 import styles from './styles.module.scss'
 
-export function Modal(props: IModalProps) {
+function ModalComponent(props: IModalProps) {
   const {
     children,
     isOpen,
@@ -39,7 +39,11 @@ export function Modal(props: IModalProps) {
       shouldCloseOnEsc={shouldCloseOnEsc}
       shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
     >
-      <If condition={showCloseBtn}>X</If>
+      <If condition={showCloseBtn}>
+        <span onClick={handleRequestClose} className={styles.btn_close}>
+          X
+        </span>
+      </If>
       <div className={styles.body}>{children}</div>
     </BaseModal>
   )
@@ -61,3 +65,14 @@ function renderEventInterceptor(
     </div>
   )
 }
+
+// ---
+
+type IModal = ((props: IModalProps) => ReactElement) & {
+  setAppElement: typeof BaseModal.setAppElement
+}
+
+const Modal = ModalComponent as IModal
+Modal.setAppElement = BaseModal.setAppElement
+
+export { Modal }
