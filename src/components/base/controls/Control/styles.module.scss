@@ -3,14 +3,9 @@ $error-margin-top-left: 2px;
 $error-margin-bottom: 4px;
 
 .control {
-  display: grid;
   gap: 4px;
   position: relative;
   word-break: break-all;
-
-  &_inline {
-    display: inline-grid;
-  }
 }
 
 .content {

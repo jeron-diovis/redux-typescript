@@ -10,7 +10,9 @@ type IControlContextParams = Omit<IControlProps, 'label' | 'error'>
 
 export const ControlContext = React.createContext<IControlContextParams>({})
 
-export const ControlSettings: React.FC<IControlContextParams> = props => {
+export function ControlSettings(
+  props: IControlContextParams & { children: React.ReactNode }
+) {
   const { children, ...rest } = props
   const parent = useContext(ControlContext)
   const value = useChanged({

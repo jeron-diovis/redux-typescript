@@ -1,6 +1,7 @@
 import { CSSProperties, ReactElement, ReactNode } from 'react'
 
 export interface IControlProps extends IStyled {
+  flex?: boolean
   label?: ReactNode
   labelPosition?: 'before' | 'after'
   labelVerticalAlign?: 'start' | 'end' | 'center'

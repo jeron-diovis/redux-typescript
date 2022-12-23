@@ -18,6 +18,7 @@ function Control(props: IControlComponentProps) {
     React.useContext(ControlContext)
 
   const {
+    flex = false,
     label,
     layout,
     labelPosition = 'before',
@@ -70,9 +71,8 @@ function Control(props: IControlComponentProps) {
 
   return (
     <label
-      className={clsx(styles.control, contextClassName, ownClassName, {
-        [styles.control_inline]: inline,
-      })}
+      className={clsx(styles.control, contextClassName, ownClassName)}
+      style={{ display: `${inline ? 'inline-' : ''}${flex ? 'flex' : 'grid'}` }}
     >
       {$content}
       {$error}
