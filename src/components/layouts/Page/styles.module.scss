@@ -12,11 +12,11 @@
       margin: 0 auto;
     }
   }
+}
 
-  &_non_scrollable {
-    display: flex;
-    flex-direction: column;
-  }
+.flex_column {
+  display: flex;
+  flex-direction: column;
 }
 
 .page_title {

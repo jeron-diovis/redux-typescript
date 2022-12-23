@@ -4,6 +4,6 @@ export interface IPageProps {
   title?: ReactNode
   center?: boolean | 'v' | 'h'
   scrollable?: boolean
-  width?: CSSProperties['width']
+  style?: CSSProperties
   children: ReactNode
 }
