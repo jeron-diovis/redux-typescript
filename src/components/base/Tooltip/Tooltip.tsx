@@ -5,7 +5,7 @@ import { ITooltipProps } from './types'
 import 'rc-simple-tooltip/dist/styles.css'
 import './styles.module.scss'
 
-export default function Tooltip(props: ITooltipProps) {
+export function Tooltip(props: ITooltipProps) {
   const {
     position = 'top',
     trigger = 'hover',

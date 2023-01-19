@@ -10,4 +10,5 @@ export interface FlexProps {
   inline?: boolean
   className?: string
   style?: CSSProperties
+  title?: string
 }

@@ -3,6 +3,8 @@
   .awesome-react-tooltip {
     padding: 8px;
     border-radius: 5px;
+    /* stylelint-disable-next-line declaration-no-important */
+    transition-duration: 200ms !important;
   }
   /* stylelint-enable */
 }

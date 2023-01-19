@@ -16,6 +16,7 @@ export const Flex: React.FC<FlexProps> = props => {
     wrap = true,
     className,
     style,
+    title,
   } = props
 
   return (
@@ -30,6 +31,7 @@ export const Flex: React.FC<FlexProps> = props => {
         flexWrap: wrap === true ? 'wrap' : wrap === false ? 'nowrap' : wrap,
       }}
       className={className}
+      title={title}
     >
       {children}
     </Tag>
