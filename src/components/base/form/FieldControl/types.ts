@@ -22,7 +22,16 @@ export interface IFormControllerProps<
 }
 
 // Omit 'error' prop, it's provided by form state
-export interface IFieldControlProps extends Omit<IControlProps, 'error'> {}
+export interface IFieldControlProps<
+  Fields extends FieldValues = FieldValues,
+  Name extends FieldPath<Fields> = FieldPath<Fields>
+> extends Omit<IControlProps, 'error' | 'render'> {
+  render?(params: {
+    $content: ReactElement
+    $error?: ReactElement
+    controller: UseControllerReturn<Fields, Name>
+  }): ReactElement
+}
 
 export type FieldControlChildRenderer<
   Fields extends FieldValues = FieldValues,
@@ -32,7 +41,7 @@ export type FieldControlChildRenderer<
 export interface IFieldControlComponentProps<
   Fields extends FieldValues = FieldValues,
   Name extends FieldPath<Fields> = FieldPath<Fields>
-> extends IFieldControlProps,
+> extends IFieldControlProps<Fields, Name>,
     IFormControllerProps<Fields, Name> {
   children: ReactElement | FieldControlChildRenderer<Fields, Name>
 }
@@ -44,5 +53,5 @@ export type IFormFieldProps<
 > = Omit<InputType, keyof ControllerRenderProps> &
   IFormControllerProps<Fields, Name> & {
     label?: IControlProps['label'] // put label at top-level props for convenience
-    control?: Omit<IFieldControlProps, 'label'>
+    control?: Omit<IFieldControlProps<Fields, Name>, 'label'>
   }

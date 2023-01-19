@@ -31,6 +31,7 @@ function Control(props: IControlComponentProps) {
     error,
     errorPosition = 'bottom',
     showError = true,
+    render,
   } = ignoreContext ? rest : { ...context, ...rest }
 
   const $error =
@@ -69,13 +70,21 @@ function Control(props: IControlComponentProps) {
     </div>
   )
 
+  const $el = !render ? (
+    <>
+      {$content}
+      {$error}
+    </>
+  ) : (
+    render({ $content, $error })
+  )
+
   return (
     <label
       className={clsx(styles.control, contextClassName, ownClassName)}
       style={{ display: `${inline ? 'inline-' : ''}${flex ? 'flex' : 'grid'}` }}
     >
-      {$content}
-      {$error}
+      {$el}
     </label>
   )
 }

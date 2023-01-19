@@ -23,6 +23,7 @@ export default function FieldControl<
     shouldUnregister,
     label,
     defaultValue,
+    render,
     ...rest
   } = props
 
@@ -47,7 +48,16 @@ export default function FieldControl<
   }
 
   return (
-    <Control {...rest} label={label} error={error?.message || defaultMsg}>
+    <Control
+      {...rest}
+      label={label}
+      error={error?.message || defaultMsg}
+      render={
+        render === undefined
+          ? undefined
+          : params => render({ ...params, controller })
+      }
+    >
       {typeof children === 'function'
         ? children(controller)
         : React.cloneElement(React.Children.only(children), controller.field)}

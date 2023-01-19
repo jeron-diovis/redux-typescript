@@ -13,6 +13,10 @@ export interface IControlProps extends IStyled {
   inline?: boolean
   ignoreContext?: boolean
   showError?: boolean
+  render?(params: {
+    $content: ReactElement
+    $error?: ReactElement
+  }): ReactElement
 }
 
 export interface IControlComponentProps extends IControlProps {
