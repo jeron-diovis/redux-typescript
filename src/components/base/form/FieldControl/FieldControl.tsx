@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { ReactElement, Ref, useMemo } from 'react'
 import {
   FieldError,
   FieldPath,
@@ -8,6 +8,7 @@ import {
 
 import { Control } from 'src/components/base/controls'
 import { useClosureCallback } from 'src/hooks'
+import { combineRefs } from 'src/utils'
 import { ErrorType, getDefaultMsg } from 'src/validation'
 
 import { IFieldControlComponentProps } from './types'
@@ -47,6 +48,25 @@ export default function FieldControl<
     defaultMsg = getDefaultMsg(type, rule, value)
   }
 
+  function renderContent() {
+    if (typeof children === 'function') {
+      return children(controller)
+    }
+
+    const child = React.Children.only(children) as ReactElement & {
+      ref: Ref<unknown>
+    }
+    return React.cloneElement(
+      child,
+      child.ref === undefined
+        ? controller.field
+        : {
+            ...controller.field,
+            ref: combineRefs(child.ref, controller.field.ref),
+          }
+    )
+  }
+
   return (
     <Control
       {...rest}
@@ -58,9 +78,7 @@ export default function FieldControl<
           : params => render({ ...params, controller })
       }
     >
-      {typeof children === 'function'
-        ? children(controller)
-        : React.cloneElement(React.Children.only(children), controller.field)}
+      {renderContent()}
     </Control>
   )
 }
