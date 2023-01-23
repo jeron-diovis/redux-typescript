@@ -14,6 +14,7 @@ module.exports = {
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-unreachable': 'warn',
     'no-var': 'error',
+    'no-undef': 'error',
     'prefer-const': 'warn',
     'no-param-reassign': [
       'error',
