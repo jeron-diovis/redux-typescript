@@ -1,3 +1,4 @@
+/*
 import React from 'react'
 
 import createTitle from '@parachutehome/create-title.macro'
@@ -19,3 +20,5 @@ export const Default = Template.bind({})
 Default.args = {
   children: 'Button',
 }
+*/
+export const Default = () => null

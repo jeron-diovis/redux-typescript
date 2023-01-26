@@ -18,7 +18,7 @@
 # Since there is a lot of them, supporting them manually is kinda pain,
 # so it would be better to extract deps list from react-scripts as it is.
 
-DEPS=$(node ./get-cra-deps)
+DEPS=$(node ./get-cra-deps.cjs)
 
 if [[ -n $DEPS ]]; then
   echo 'Installing implicit CRA deps:'

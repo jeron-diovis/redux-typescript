@@ -13,7 +13,7 @@ export function BaseForm<TFieldValues extends FieldValues = FieldValues>(
   props: IBaseFormProps<TFieldValues>
 ) {
   const {
-    debug = process.env.REACT_APP_DEBUG_FORMS === 'true',
+    debug = import.meta.env.VITE_DEBUG_FORMS === 'true',
     style,
     className,
     children,
@@ -35,7 +35,9 @@ export function BaseForm<TFieldValues extends FieldValues = FieldValues>(
         onReset={form.onReset}
       >
         <If
-          condition={debug === true && process.env.NODE_ENV === 'development'}
+          condition={
+            debug === true && import.meta.env.NODE_ENV === 'development'
+          }
         >
           <FormDebug />
         </If>

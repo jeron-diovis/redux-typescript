@@ -1,7 +1,7 @@
 #!/bin/sh
 
-echo "[prepare] check create-react-app dependencies"
-./install-cra-deps.sh
+#echo "[prepare] check create-react-app dependencies"
+#./install-cra-deps.sh
 
 echo "[prepare] check json-server dependencies"
 cd server
