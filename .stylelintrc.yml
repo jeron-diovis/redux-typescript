@@ -72,6 +72,10 @@ rules:
   comment-whitespace-inside: null
   comment-empty-line-before: null
 
+  # This rule enforces using only placeholder selectors in `@extend`.
+  # Which is not always the real usecase.
+  scss/at-extend-no-missing-placeholder: null
+
   # see https://github.com/stylelint-scss/stylelint-scss/blob/HEAD/src/rules/no-global-function-names/README.md
   # It's either not supported by node-sass, or smth else,
   # but following this rule cause compiler to crash with like `SassError: There is no module with the namespace "color"`
