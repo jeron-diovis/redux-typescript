@@ -3,11 +3,11 @@ module.exports = {
     'react-app',
     'eslint:recommended',
 
-    './.eslint/typescript',
-    './.eslint/jsx-control-statements',
-    './.eslint/imports',
-    './.eslint/storybook',
-    './.eslint/prettier',
+    './.eslint/typescript.cjs',
+    './.eslint/jsx-control-statements.cjs',
+    './.eslint/imports.cjs',
+    // './.eslint/storybook.cjs',
+    './.eslint/prettier.cjs',
   ],
 
   rules: {
