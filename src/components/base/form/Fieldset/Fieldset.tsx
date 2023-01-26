@@ -12,7 +12,7 @@ export interface IFieldsetProps extends HTMLAttributes<HTMLFieldSetElement> {
   grid?: Omit<IGridProps, 'children'>
 }
 
-const Fieldset: React.FC<IFieldsetProps> = props => {
+const Fieldset: FC<IFieldsetProps> = props => {
   const { children, className, grid, ...rest } = props
   return (
     <fieldset {...rest} className={clsx(styles.fieldset, className)}>

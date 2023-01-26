@@ -59,11 +59,10 @@ export default function Form<TFieldValues extends FieldValues = FieldValues>(
           </Grid>
         )
 
-        const $externalError = (
-          <If condition={error !== undefined && error !== null}>
+        const $externalError =
+          error !== undefined && error !== null ? (
             <ErrorMessage bordered>{error}</ErrorMessage>
-          </If>
-        )
+          ) : undefined
 
         if (typeof children === 'function') {
           return children(form, {

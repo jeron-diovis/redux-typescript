@@ -22,18 +22,20 @@ const ErrorMessage = React.memo(function ErrorMessage(
     className,
     style,
   } = props
+
   const Tag = inline ? 'span' : 'div'
+  if (error === undefined || error === null || error === '') {
+    return null
+  }
   return (
-    <If condition={error !== undefined && error !== null && error !== ''}>
-      <Tag
-        className={clsx(className, styles.root, {
-          [styles.bordered]: bordered,
-        })}
-        style={style}
-      >
-        {resolveErrorMessage(error)}
-      </Tag>
-    </If>
+    <Tag
+      className={clsx(className, styles.root, {
+        [styles.bordered]: bordered,
+      })}
+      style={style}
+    >
+      {resolveErrorMessage(error)}
+    </Tag>
   )
 })
 

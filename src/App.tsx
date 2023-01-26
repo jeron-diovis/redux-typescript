@@ -15,22 +15,23 @@ setDefaultErrorBoundaryFallback(({ error }) => (
   <ErrorMessage>{error.message}</ErrorMessage>
 ))
 
-const App: React.FC = () => {
+const App: FC = () => {
   return (
     <Guard>
       <SessionGuard>
         <ConnectedRouter history={history}>
-          <ReferrerTracker />
-          <SiteLayout>
-            <AppRouter />
-          </SiteLayout>
+          <ReferrerTracker>
+            <SiteLayout>
+              <AppRouter />
+            </SiteLayout>
+          </ReferrerTracker>
         </ConnectedRouter>
       </SessionGuard>
     </Guard>
   )
 }
 
-const Guard: React.FC = props => {
+function Guard(props: { children: React.ReactElement }) {
   const { children } = props
   return (
     /* for errors at the very top, display error-overlay as normal */

@@ -9,7 +9,8 @@ import { getLocationReferrer } from './lib'
 import { HistoryReferrerSlice, selectReferrer } from './slice'
 
 /* TODO: probably this better be done in middleware? */
-export const ReferrerTracker: React.FC = ({ children }) => {
+export function ReferrerTracker(props: { children?: React.ReactNode }) {
+  const { children } = props
   const dispatch = useDispatch()
   const {
     action,

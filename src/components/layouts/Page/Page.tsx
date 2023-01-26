@@ -5,13 +5,7 @@ import { IPageProps } from './types'
 import styles from './styles.module.scss'
 
 export function Page(props: IPageProps) {
-  const {
-    title,
-    children,
-    center = false,
-    scrollable = true,
-    width = '100%',
-  } = props
+  const { title, children, center = false, scrollable = true, style } = props
   return (
     <div
       className={clsx(styles.page, {
@@ -20,11 +14,9 @@ export function Page(props: IPageProps) {
         [styles.page_center_h]: center === 'h',
         [styles.page_non_scrollable]: !scrollable,
       })}
-      style={width === undefined ? undefined : { width }}
+      style={style}
     >
-      <If condition={title !== undefined}>
-        <h2 className={styles.page_title}>{title}</h2>
-      </If>
+      {title !== undefined && <h2 className={styles.page_title}>{title}</h2>}
       <div className={styles.page_content}>{children}</div>
     </div>
   )

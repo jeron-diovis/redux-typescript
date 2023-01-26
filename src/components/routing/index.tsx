@@ -9,11 +9,10 @@ export function ExcludeRoute(
   const { children } = props
   return (
     <Route {...props}>
-      {(params: RouteChildrenProps) => (
-        <If condition={!params.match}>
-          {typeof children === 'function' ? children(params) : children}
-        </If>
-      )}
+      {(params: RouteChildrenProps) =>
+        !params.match &&
+        (typeof children === 'function' ? children(params) : children)
+      }
     </Route>
   )
 }

@@ -3,7 +3,7 @@ import React from 'react'
 import { Page } from 'src/components'
 import { Counter } from 'src/features/Counter'
 
-export const Home: React.FC = () => {
+export const Home: FC = () => {
   return (
     <Page title="Redux + TypeScript">
       <p>

@@ -26,6 +26,12 @@ export function resolveErrorMessage(e: unknown): ReactNode {
     return e as ReactElement
   }
   if (isPrimitive(e)) {
+    if (typeof e === 'bigint') {
+      return Number(e)
+    }
+    if (typeof e === 'symbol') {
+      return e.toString()
+    }
     return e
   }
   if (e instanceof Error || 'message' in (e as Dict)) {

@@ -4,7 +4,7 @@ import { FlexProps } from './types'
 
 const DEFAULT_GAP = 12
 
-export const Flex: React.FC<FlexProps> = props => {
+export const Flex: FC<FlexProps> = props => {
   const {
     children,
     tag: Tag = 'div',

@@ -4,7 +4,8 @@ import { Footer, Header } from 'src/components/domain'
 
 import styles from './styles.module.scss'
 
-export const SiteLayout: React.FC = ({ children }) => {
+export function SiteLayout(props: { children: React.ReactNode }) {
+  const { children } = props
   return (
     <div className={styles.main_layout}>
       <Header />

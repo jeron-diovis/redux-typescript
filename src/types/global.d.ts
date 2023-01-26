@@ -22,6 +22,10 @@ declare global {
 }
 
 declare global {
+  // Get back `FC`, removed in react@18
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  type FC<Props = {}> = React.FC<Props & { children?: React.ReactNode }>
+
   // ---
   // Handy shortcuts
   type Values<T> = T[keyof T]
@@ -31,10 +35,10 @@ declare global {
   // ---
   // jsx-control-statements support
   // @see https://github.com/AlexGilleran/jsx-control-statements/issues/72#issuecomment-389484553
-  declare const If: React.FC<{ condition: boolean }>
-  declare const Choose: React.FC
-  declare const When: React.FC<{ condition: boolean }>
-  declare const Otherwise: React.FC
+  declare const If: FC<{ condition: boolean }>
+  declare const Choose: FC
+  declare const When: FC<{ condition: boolean }>
+  declare const Otherwise: FC
   // Don't support <With> / <For>, because they are hard to type properly,
   // and only complicate code readability anyway.
 

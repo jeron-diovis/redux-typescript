@@ -38,7 +38,7 @@ export interface IBaseFormProps<TFieldValues extends FieldValues = FieldValues>
 }
 
 export interface IFormProps<TFieldValues extends FieldValues = FieldValues>
-  extends Omit<IBaseFormProps<TFieldValues>, 'reset'> {
+  extends Omit<IBaseFormProps<TFieldValues>, 'reset' | 'children'> {
   reset?: true | KeepStateOptions
   error?: unknown
   btnSubmitText?: ReactNode
