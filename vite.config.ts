@@ -2,9 +2,13 @@ import sysPath from 'path'
 
 import { reactClickToComponent } from 'vite-plugin-react-click-to-component'
 
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import react from '@vitejs/plugin-react'
+import { flowRight as compose, merge } from 'lodash-es'
+import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 import { PluginVisualizerOptions, visualizer } from 'rollup-plugin-visualizer'
-import { type PluginOption, defineConfig } from 'vite'
+import { type PluginOption, UserConfigExport, defineConfig } from 'vite'
 import checker from 'vite-plugin-checker'
 import importus from 'vite-plugin-importus'
 import svgr from 'vite-plugin-svgr'
@@ -15,17 +19,15 @@ import pkg from './package.json'
 
 // Lots of stuff here: https://github.com/vitejs/awesome-vite#plugins
 
+const configure = compose(defineConfig, provideNodeCompat)
+
 // https://vitejs.dev/config/
-export default defineConfig({
+export default configure({
   resolve: {
     /** Note these aliases imply css files too – affecting paths in `composes` prop. */
     alias: {
       src: sysPath.resolve(__dirname, 'src'),
     },
-  },
-
-  define: {
-    global: 'window',
   },
 
   plugins: [
@@ -63,7 +65,9 @@ export default defineConfig({
        * Somehow, this does not affect behavior of dev mode.
        */
       eslint: { lintCommand: `${pkg.scripts['lint:js']} --max-warnings=0` },
-      stylelint: { lintCommand: `${pkg.scripts['lint:css']} --max-warnings=0` },
+      stylelint: {
+        lintCommand: `${pkg.scripts['lint:css']} --max-warnings=0`,
+      },
 
       /** Sadly, it's impossible to manage linter's severity with this plugin,
        * so by default it will open overlay for any non-important warnings.
@@ -95,6 +99,42 @@ export default defineConfig({
     },
   },
 })
+
+// ---
+
+/**
+ * @see https://stackoverflow.com/a/70666018/3437433
+ */
+function provideNodeCompat(config: UserConfigExport): UserConfigExport {
+  return merge(config, {
+    optimizeDeps: {
+      esbuildOptions: {
+        // Node.js global to browser globalThis
+        define: {
+          global: 'globalThis',
+        },
+        // Enable esbuild polyfill plugins
+        plugins: [
+          NodeGlobalsPolyfillPlugin({
+            process: true,
+            buffer: true,
+          }),
+          NodeModulesPolyfillPlugin(),
+        ],
+      },
+    },
+
+    build: {
+      rollupOptions: {
+        plugins: [
+          // Enable rollup polyfills plugin
+          // used during production bundling
+          rollupNodePolyFill(),
+        ],
+      },
+    },
+  })
+}
 
 function bundleVisualizer() {
   const templates: PluginVisualizerOptions['template'][] = [
