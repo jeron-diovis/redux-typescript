@@ -1,52 +1,71 @@
 import sysPath from 'path'
 
-import { reactClickToComponent } from 'vite-plugin-react-click-to-component'
-
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import react from '@vitejs/plugin-react'
-import { flowRight as compose, merge } from 'lodash-es'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 import { PluginVisualizerOptions, visualizer } from 'rollup-plugin-visualizer'
 import { type PluginOption, UserConfigExport, defineConfig } from 'vite'
 import checker from 'vite-plugin-checker'
 import importus from 'vite-plugin-importus'
+import { reactClickToComponent } from 'vite-plugin-react-click-to-component'
 import svgr from 'vite-plugin-svgr'
 import timeReporter from 'vite-plugin-time-reporter'
+
+import { type merge as Merge, flow, mergeWith, partialRight } from 'lodash-es'
 
 // @ts-expect-error This directive is for IDE only. Vite itself is fine with importing this module.
 import pkg from './package.json'
 
 // Lots of stuff here: https://github.com/vitejs/awesome-vite#plugins
 
-const configure = compose(defineConfig, provideNodeCompat)
+// ---
 
-// https://vitejs.dev/config/
-export default configure({
-  resolve: {
-    /** Note these aliases imply css files too – affecting paths in `composes` prop. */
-    alias: {
-      src: sysPath.resolve(__dirname, 'src'),
+const merge: typeof Merge = partialRight(mergeWith, (a, b) => {
+  if (Array.isArray(a) && Array.isArray(b)) {
+    return a.concat(b)
+  }
+})
+
+const useConfig =
+  <T extends UserConfigExport>(cfg: T) =>
+  (base: T): T =>
+    merge(base, cfg)
+
+/**
+ * @see https://stackoverflow.com/a/70666018/3437433
+ */
+const useNodeCompat = useConfig({
+  optimizeDeps: {
+    esbuildOptions: {
+      // Node.js global to browser globalThis
+      define: {
+        global: 'globalThis',
+      },
+      // Enable esbuild polyfill plugins
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          process: true,
+          buffer: true,
+        }),
+        NodeModulesPolyfillPlugin(),
+      ],
     },
   },
 
+  build: {
+    rollupOptions: {
+      plugins: [
+        // Enable rollup polyfills plugin
+        // used during production bundling
+        rollupNodePolyFill(),
+      ],
+    },
+  },
+})
+
+const useLint = useConfig({
   plugins: [
-    timeReporter(),
-
-    react({
-      babel: {
-        /** @see https://github.com/vitejs/vite/discussions/7927#discussioncomment-4767333 */
-        plugins: [
-          ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
-          'jsx-control-statements',
-        ],
-      },
-    }),
-    // Hold Alt to show component source location; click to open file in default editor:
-    reactClickToComponent(),
-
-    svgr(),
-
     /**
      * There are separate plugins for js and css:
      * @see https://www.npmjs.com/package/vite-plugin-eslint
@@ -75,7 +94,11 @@ export default configure({
        */
       overlay: { initialIsOpen: false },
     }),
+  ],
+})
 
+const useModularImports = useConfig({
+  plugins: [
     importus([
       {
         /**
@@ -87,10 +110,23 @@ export default configure({
         camel2DashComponentName: false,
         customName: name => `lodash/${name}`,
       },
+      // TODO: date-fns, MUI, ...
     ]),
-
-    ...bundleVisualizer(),
   ],
+})
+
+// ---
+
+const configure = flow(defineConfig, useLint, useModularImports, useNodeCompat)
+
+// https://vitejs.dev/config/
+export default configure({
+  resolve: {
+    /** Note these aliases imply css files too – affecting paths in `composes` prop. */
+    alias: {
+      src: sysPath.resolve(__dirname, 'src'),
+    },
+  },
 
   css: {
     devSourcemap: true,
@@ -98,45 +134,27 @@ export default configure({
       localsConvention: 'camelCase',
     },
   },
+
+  plugins: [
+    react({
+      babel: {
+        /** @see https://github.com/vitejs/vite/discussions/7927#discussioncomment-4767333 */
+        plugins: [
+          ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
+          'jsx-control-statements',
+        ],
+      },
+    }),
+    reactClickToComponent(), // Hold Alt to show component source location
+    svgr(),
+    timeReporter(),
+    pluginBundleVisualizer(),
+  ],
 })
 
 // ---
 
-/**
- * @see https://stackoverflow.com/a/70666018/3437433
- */
-function provideNodeCompat(config: UserConfigExport): UserConfigExport {
-  return merge(config, {
-    optimizeDeps: {
-      esbuildOptions: {
-        // Node.js global to browser globalThis
-        define: {
-          global: 'globalThis',
-        },
-        // Enable esbuild polyfill plugins
-        plugins: [
-          NodeGlobalsPolyfillPlugin({
-            process: true,
-            buffer: true,
-          }),
-          NodeModulesPolyfillPlugin(),
-        ],
-      },
-    },
-
-    build: {
-      rollupOptions: {
-        plugins: [
-          // Enable rollup polyfills plugin
-          // used during production bundling
-          rollupNodePolyFill(),
-        ],
-      },
-    },
-  })
-}
-
-function bundleVisualizer() {
+function pluginBundleVisualizer() {
   const templates: PluginVisualizerOptions['template'][] = [
     'sunburst',
     'treemap',

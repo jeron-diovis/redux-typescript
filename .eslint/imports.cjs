@@ -30,6 +30,12 @@ module.exports = {
           'index',
         ],
         pathGroups: [
+          // This is for vite.config.ts
+          {
+            pattern: '*{vite,esbuild,rollup}*{/**,}',
+            group: 'external',
+            position: 'before',
+          },
           {
             pattern: '*{react,redux}*{/**,}',
             group: 'external',
