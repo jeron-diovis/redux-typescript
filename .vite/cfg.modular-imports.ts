@@ -1,4 +1,5 @@
 import importus from 'vite-plugin-importus'
+
 import { useConfig } from './lib'
 
 export const useModularImports = useConfig({

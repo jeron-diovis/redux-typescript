@@ -1,10 +1,11 @@
 import { visualizer } from 'rollup-plugin-visualizer'
 import { PluginOption } from 'vite'
+
 import { useConfig } from './lib'
 
 export const useBundleVisualizer = useConfig({
   plugins: [
-    ([ 'sunburst', 'treemap', 'network' ] as const).map(
+    (['sunburst', 'treemap', 'network'] as const).map(
       template =>
         visualizer({
           emitFile: true,
@@ -13,6 +14,6 @@ export const useBundleVisualizer = useConfig({
           gzipSize: true,
           open: true,
         }) as unknown as PluginOption
-    )
-  ]
+    ),
+  ],
 })

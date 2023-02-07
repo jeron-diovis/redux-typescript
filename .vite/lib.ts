@@ -1,9 +1,8 @@
 import { UserConfig } from 'vite'
 
-import { merge as mergeBase, mergeWith, partialRight } from 'lodash-es'
+import { merge, mergeWith, partialRight } from 'lodash-es'
 
-type Merge = typeof mergeBase
-const merge: Merge = partialRight(mergeWith, (a: unknown, b: unknown) => {
+export const mergeConfig: typeof merge = partialRight(mergeWith, (a, b) => {
   if (Array.isArray(a) && Array.isArray(b)) {
     return a.concat(b)
   }
@@ -25,4 +24,4 @@ export const useConfig =
   base =>
     typeof cfg === 'function'
       ? ((cfg(base) ?? base) as UserConfig)
-      : merge(base, cfg)
+      : mergeConfig(base, cfg)

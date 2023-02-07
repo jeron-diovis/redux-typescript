@@ -1,4 +1,5 @@
 import mockDevServerPlugin from 'vite-plugin-mock-dev-server'
+
 import { useConfig } from './lib'
 
 export const useJsonServer = useConfig({
