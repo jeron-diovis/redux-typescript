@@ -4,32 +4,30 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import react from '@vitejs/plugin-react'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
-import { PluginVisualizerOptions, visualizer } from 'rollup-plugin-visualizer'
-import { type PluginOption, UserConfigExport, defineConfig } from 'vite'
+import { visualizer } from 'rollup-plugin-visualizer'
+import { type PluginOption, UserConfig, defineConfig } from 'vite'
 import checker from 'vite-plugin-checker'
 import importus from 'vite-plugin-importus'
 import { reactClickToComponent } from 'vite-plugin-react-click-to-component'
 import svgr from 'vite-plugin-svgr'
 import timeReporter from 'vite-plugin-time-reporter'
 
-import { type merge as Merge, flow, mergeWith, partialRight } from 'lodash-es'
+import { flow, merge as mergeBase, mergeWith, partialRight } from 'lodash-es'
 
 // @ts-expect-error This directive is for IDE only. Vite itself is fine with importing this module.
 import pkg from './package.json'
 
-// Lots of stuff here: https://github.com/vitejs/awesome-vite#plugins
-
 // ---
 
-const merge: typeof Merge = partialRight(mergeWith, (a, b) => {
+const merge: typeof mergeBase = partialRight(mergeWith, (a, b) => {
   if (Array.isArray(a) && Array.isArray(b)) {
     return a.concat(b)
   }
 })
 
 const useConfig =
-  <T extends UserConfigExport>(cfg: T) =>
-  (base: T): T =>
+  (cfg: UserConfig) =>
+  (base: UserConfig): UserConfig =>
     merge(base, cfg)
 
 /**
@@ -38,17 +36,15 @@ const useConfig =
 const useNodeCompat = useConfig({
   optimizeDeps: {
     esbuildOptions: {
-      // Node.js global to browser globalThis
       define: {
-        global: 'globalThis',
+        global: 'globalThis', // Node.js global to browser globalThis
       },
-      // Enable esbuild polyfill plugins
       plugins: [
+        NodeModulesPolyfillPlugin(),
         NodeGlobalsPolyfillPlugin({
           process: true,
           buffer: true,
         }),
-        NodeModulesPolyfillPlugin(),
       ],
     },
   },
@@ -56,8 +52,7 @@ const useNodeCompat = useConfig({
   build: {
     rollupOptions: {
       plugins: [
-        // Enable rollup polyfills plugin
-        // used during production bundling
+        // Enable rollup polyfills plugin used during production bundling
         rollupNodePolyFill(),
       ],
     },
@@ -115,11 +110,25 @@ const useModularImports = useConfig({
   ],
 })
 
+function pluginBundleVisualizer() {
+  return (['sunburst', 'treemap', 'network'] as const).map(
+    template =>
+      visualizer({
+        emitFile: true,
+        filename: `stats/${template}.html`,
+        template,
+        gzipSize: true,
+        open: true,
+      }) as unknown as PluginOption
+  )
+}
+
 // ---
 
 const configure = flow(defineConfig, useLint, useModularImports, useNodeCompat)
 
 // https://vitejs.dev/config/
+// Lots of stuff here: https://github.com/vitejs/awesome-vite#plugins
 export default configure({
   resolve: {
     /** Note these aliases imply css files too – affecting paths in `composes` prop. */
@@ -151,23 +160,3 @@ export default configure({
     pluginBundleVisualizer(),
   ],
 })
-
-// ---
-
-function pluginBundleVisualizer() {
-  const templates: PluginVisualizerOptions['template'][] = [
-    'sunburst',
-    'treemap',
-    'network',
-  ]
-  return templates.map(
-    template =>
-      visualizer({
-        emitFile: true,
-        filename: `stats/${template}.html`,
-        template,
-        gzipSize: true,
-        open: true,
-      }) as unknown as PluginOption
-  )
-}
