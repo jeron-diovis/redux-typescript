@@ -8,6 +8,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import { type PluginOption, UserConfig, defineConfig } from 'vite'
 import checker from 'vite-plugin-checker'
 import importus from 'vite-plugin-importus'
+import mockDevServerPlugin from 'vite-plugin-mock-dev-server'
 import { reactClickToComponent } from 'vite-plugin-react-click-to-component'
 import svgr from 'vite-plugin-svgr'
 import timeReporter from 'vite-plugin-time-reporter'
@@ -110,6 +111,29 @@ const useModularImports = useConfig({
   ],
 })
 
+const useJsonServer = useConfig({
+  plugins: [
+    /** @see https://github.com/pengzhanbo/vite-plugin-mock-dev-server#options */
+    mockDevServerPlugin(),
+  ],
+
+  server: {
+    proxy: {
+      /**
+       * DevServerPlugin requires a proxy to be set for mocked routes.
+       * Doesn't matter where it points to – you can set `target: ''` – it just has to be defined.
+       *
+       * For real app, replace this demo config with your backend.
+       */
+      '^/api': {
+        target: 'https://jsonplaceholder.typicode.com/',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ''),
+      },
+    },
+  },
+})
+
 function pluginBundleVisualizer() {
   return (['sunburst', 'treemap', 'network'] as const).map(
     template =>
@@ -125,7 +149,13 @@ function pluginBundleVisualizer() {
 
 // ---
 
-const configure = flow(defineConfig, useLint, useModularImports, useNodeCompat)
+const configure = flow(
+  defineConfig,
+  useLint,
+  useModularImports,
+  useNodeCompat,
+  useJsonServer
+)
 
 // https://vitejs.dev/config/
 // Lots of stuff here: https://github.com/vitejs/awesome-vite#plugins

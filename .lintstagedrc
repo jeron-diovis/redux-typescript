@@ -1,5 +1,5 @@
 {
-  "src/**/*.{js,ts}{,x}": [
+  "{src,mock}/**/*.{js,ts}{,x}": [
     "eslint --cache --fix --max-warnings=0"
   ],
   "src/**/*.{s,}css": [

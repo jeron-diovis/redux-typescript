@@ -47,9 +47,9 @@ module.exports = {
   },
 
   overrides: [
-    /* infrastructure js scripts */
+    /* infrastructure scripts/configs */
     {
-      files: ['!src/**/*.{js,ts}{,x}', 'src/setupProxy.js'],
+      files: ['{mock/**/,}*.{cjs,js,ts}'],
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
         'react-hooks/rules-of-hooks': 'off',

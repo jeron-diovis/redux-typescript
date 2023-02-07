@@ -23,6 +23,6 @@ npx lint-staged
 npx tsc --noEmit
 
 
-cd server
-npx lint-staged
+# Validate json-server mocks
+cd mock
 npx tsc --noEmit
