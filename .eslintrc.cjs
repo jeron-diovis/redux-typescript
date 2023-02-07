@@ -57,4 +57,7 @@ module.exports = {
       },
     },
   ],
+
+  /* Keep our configs pretty too */
+  ignorePatterns: ['!.eslint', '!.vite'],
 }
