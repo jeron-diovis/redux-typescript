@@ -9,47 +9,33 @@ function add_eslint() {
     eslint-plugin-prettier
 }
 
-function add_styles() {
-  echo Install stylelint and CSS preprocessor
-  yarn add -D sass \
-    stylelint \
-    stylelint-config-css-modules \
-    stylelint-config-standard-scss \
-    typescript-plugin-css-modules
-}
-
-function add_jsx_if() {
-  echo Install jsx-control-statements
-  yarn add -D eslint-plugin-jsx-control-statements babel-plugin-jsx-control-statements @babel/plugin-transform-react-jsx
-}
-
 function add_vite_plugins() {
   echo Install Vite quality-of-life plugins
   yarn add -D vite-plugin-checker \
-    vite-plugin-importus \
-    vite-plugin-mock-dev-server \
-    vite-plugin-react-click-to-component \
-    vite-plugin-svgr \
     vite-plugin-time-reporter \
     rollup-plugin-visualizer \
-    @esbuild-plugins/node-globals-polyfill \
-    @esbuild-plugins/node-modules-polyfill
+    vite-plugin-node
 }
 
 function add_musthave_packages() {
   echo Install must-have utility packages
-  yarn add lodash clsx axios qs date-fns utility-types
-  yarn add -D @types/lodash @types/qs @types/node lodash-es @types/lodash-es
+  yarn add lodash lodash-es date-fns utility-types axios node-fetch
+  yarn add -D @types/lodash @types/node @types/lodash-es
 }
 
 function add_precommit() {
+  echo Install git-hook tools
   yarn add -D 'husky@>=7' lint-staged
 }
 
+function remove_react() {
+  echo Remove react-related packages from default configuration
+  yarn remove react react-dom @types/react @types/react-dom @vitejs/plugin-react
+}
+
 function main() {
+  remove_react
   add_eslint
-  add_styles
-  add_jsx_if
   add_vite_plugins
   add_musthave_packages
   add_precommit

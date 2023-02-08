@@ -24,15 +24,6 @@ export const useLint = useConfig({
        * Somehow, this does not affect behavior of dev mode.
        */
       eslint: { lintCommand: `${pkg.scripts['lint:js']} --max-warnings=0` },
-      stylelint: {
-        lintCommand: `${pkg.scripts['lint:css']} --max-warnings=0`,
-      },
-
-      /** Sadly, it's impossible to manage linter's severity with this plugin,
-       * so by default it will open overlay for any non-important warnings.
-       * With this, it's collapses to a tiny window in a corner, and stay that until you ask.
-       */
-      overlay: { initialIsOpen: false },
     }),
   ],
 })

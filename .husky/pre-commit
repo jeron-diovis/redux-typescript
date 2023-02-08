@@ -21,8 +21,3 @@ npx lint-staged
 # But if you have ts errors somewhere, your app won't compile anyway,
 # so unlikely you'll ever won't to do commit in that state.
 npx tsc --noEmit
-
-
-# Validate json-server mocks
-cd mock
-npx tsc --noEmit

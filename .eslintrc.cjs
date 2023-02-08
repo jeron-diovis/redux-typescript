@@ -4,10 +4,13 @@ module.exports = {
     'eslint:recommended',
 
     './.eslint/typescript.cjs',
-    './.eslint/jsx-control-statements.cjs',
     './.eslint/imports.cjs',
     './.eslint/prettier.cjs',
   ],
+
+  // This just suppresses warning from react-app config of 'react is not installed'.
+  // Basically, the whole eslint-config-react-app is excessive for backend app. Should switch to smth more compact.
+  settings: { react: { version: '>=18.0.0' } },
 
   rules: {
     'no-unreachable': 'warn',
@@ -39,9 +42,6 @@ module.exports = {
 
     'no-nested-ternary': 'warn',
     'no-unneeded-ternary': 'warn',
-
-    'react/jsx-key': 'warn',
-    'react/jsx-boolean-value': 'warn',
   },
 
   overrides: [
