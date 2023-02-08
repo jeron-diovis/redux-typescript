@@ -10,7 +10,6 @@ module.exports = {
   ],
 
   rules: {
-    'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-unreachable': 'warn',
     'no-var': 'error',
     'prefer-const': 'warn',
@@ -48,11 +47,10 @@ module.exports = {
   overrides: [
     /* infrastructure scripts/configs */
     {
-      files: ['{mock/**/,}*.{cjs,js,ts}'],
+      files: ['!src/**/*.{cjs,js,ts}'],
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
         'react-hooks/rules-of-hooks': 'off',
-        'no-console': 'off',
       },
     },
   ],
