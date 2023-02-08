@@ -1,0 +1,41 @@
+.grid {
+  display: grid;
+  gap: 0.5rem;
+  column-gap: 4rem;
+  align-items: start;
+}
+
+.app {
+  composes: grid;
+
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+
+  hr {
+    width: 100%;
+  }
+
+  button {
+    justify-self: center;
+  }
+}
+
+.demo {
+  word-break: break-all;
+  composes: grid;
+}
+
+.section_title {
+  font-size: 2em;
+}
+
+pre {
+  text-align: start;
+  border: 1px solid white;
+  padding: 0.5rem;
+  background-color: black;
+  font-weight: bold;
+  font-size: 1.2em;
+}

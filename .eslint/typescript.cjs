@@ -65,5 +65,9 @@ module.exports = {
         ignoreRestSiblings: true,
       },
     ],
+
+    // With this operator there is much less code to write when you know what you're doing,
+    // then with optional chaining or other workarounds.
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
 }
