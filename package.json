@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "NODE_OPTIONS='--inspect' vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint:js": "eslint src --ext .cjs,.js,.ts",
