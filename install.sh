@@ -42,12 +42,17 @@ function add_musthave_packages() {
   yarn add -D @types/lodash @types/qs @types/node lodash-es @types/lodash-es
 }
 
+function add_precommit() {
+  yarn add -D 'husky@>=7' lint-staged
+}
+
 function main() {
   add_eslint
   add_styles
   add_jsx_if
   add_vite_plugins
   add_musthave_packages
+  add_precommit
 }
 
 main
