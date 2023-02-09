@@ -45,6 +45,7 @@ function add_musthave_packages() {
 }
 
 function add_precommit() {
+  echo Install git-hooks tools
   yarn add -D 'husky@>=7' lint-staged
 }
 

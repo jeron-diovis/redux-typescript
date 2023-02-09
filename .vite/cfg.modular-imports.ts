@@ -17,21 +17,29 @@ export const useModularImports = useConfig({
        * For normal lodash helpers, use lodash-es.
        * For fp version, switch to Ramda or whatever specialized lib.
        */
-      {
-        libraryName: 'lodash-es',
-        camel2DashComponentName: false,
-        customName: name => `lodash-es/${name}`,
-      },
-      {
-        libraryName: 'ramda',
-        camel2DashComponentName: false,
-        customName: name => `ramda/es/${name}`,
-      },
-      {
-        libraryName: 'date-fns',
-        camel2DashComponentName: false,
-        customName: name => `date-fns/${name}`,
-      },
+      patch('lodash-es'),
+
+      patch('ramda', 'ramda/es'),
+      patch('date-fns'),
     ]),
   ],
 })
+
+// ---
+
+// not exported from package, sadly
+type LibImportConfig = Parameters<typeof importus>[0][0]
+
+function patch(
+  libraryName: string,
+  transform: string | ((importName: string) => string) = libraryName
+): LibImportConfig {
+  return {
+    libraryName,
+    camel2DashComponentName: false,
+    customName:
+      typeof transform === 'function'
+        ? transform
+        : importName => `${transform}/${importName}`,
+  }
+}
