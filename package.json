@@ -54,6 +54,7 @@
     "typescript-plugin-css-modules": "^4.1.1",
     "vite": "^4.1.0",
     "vite-plugin-checker": "^0.5.5",
+    "vite-plugin-chunk-split": "^0.4.7",
     "vite-plugin-importus": "^1.0.4",
     "vite-plugin-mock-dev-server": "^0.3.19",
     "vite-plugin-react-click-to-component": "^1.0.3",

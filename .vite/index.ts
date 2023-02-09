@@ -1,6 +1,7 @@
 import { flow, identity } from 'lodash-es'
 
 import { useBundleVisualizer } from './cfg.bundle-visualizer'
+import { useChunkSplit } from './cfg.chunk-split'
 import { useJsonServer } from './cfg.json-server'
 import { useLint } from './cfg.lint'
 import { useModularImports } from './cfg.modular-imports'
@@ -12,6 +13,8 @@ const applyPlugins = flow(
   useModularImports,
   useNodeCompat,
   useJsonServer,
+  useChunkSplit,
+  // make sure this one is always the last – to get more accurate filesize data
   useBundleVisualizer
 )
 
