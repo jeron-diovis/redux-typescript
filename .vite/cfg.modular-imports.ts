@@ -27,6 +27,11 @@ export const useModularImports = useConfig({
         camel2DashComponentName: false,
         customName: name => `ramda/es/${name}`,
       },
+      {
+        libraryName: 'date-fns',
+        camel2DashComponentName: false,
+        customName: name => `date-fns/${name}`,
+      },
     ]),
   ],
 })
