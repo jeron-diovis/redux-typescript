@@ -1,7 +1,7 @@
 import { TableCellProps, usePagination, useTable } from 'react-table'
 
 import clsx from 'clsx'
-import { merge } from 'lodash'
+import { merge } from 'lodash-es'
 
 import Pagination from './Pagination'
 import Placeholder from './Placeholder'

@@ -1,7 +1,5 @@
 import { useCallback } from 'react'
 
-import { noop } from 'lodash'
-
 import { useSwitch } from './useSwitch'
 
 // ---
@@ -25,6 +23,8 @@ interface IConfirm<T extends IOptions> {
 }
 
 // ---
+
+const noop = () => {}
 
 export function useConfirm<T extends IOptions>(
   options: T = {} as T

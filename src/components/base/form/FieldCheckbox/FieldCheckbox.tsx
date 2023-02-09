@@ -1,6 +1,6 @@
 import { FieldPath, FieldValues } from 'react-hook-form'
 
-import { capitalize } from 'lodash'
+import { capitalize } from 'lodash-es'
 
 import { Checkbox } from 'src/components/base/controls'
 

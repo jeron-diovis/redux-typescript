@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react'
 
-import { DebounceSettings, debounce } from 'lodash'
+import { DebounceSettings, debounce } from 'lodash-es'
 
 import { useChanged } from './changes'
 

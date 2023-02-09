@@ -8,7 +8,7 @@ import {
 } from 'react-hook-form'
 
 import filesize from 'filesize'
-import { zipObject } from 'lodash'
+import { zipObject } from 'lodash-es'
 
 import { FileInput } from '../../controls'
 import FieldControl from '../FieldControl'

@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useMemo, useRef } from 'react'
 import { useFormContext, useWatch } from 'react-hook-form'
 
-import { pick } from 'lodash'
+import { pick } from 'lodash-es'
 
 import { useSwitch } from 'src/hooks'
 
