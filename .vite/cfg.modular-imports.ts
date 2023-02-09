@@ -15,6 +15,11 @@ export const useModularImports = useConfig({
         camel2DashComponentName: false,
         customName: name => `lodash/${name}`,
       },
+      {
+        libraryName: 'date-fns',
+        camel2DashComponentName: false,
+        customName: name => `date-fns/${name}`,
+      },
     ]),
   ],
 })
