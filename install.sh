@@ -38,8 +38,10 @@ function add_vite_plugins() {
 
 function add_musthave_packages() {
   echo Install must-have utility packages
-  yarn add lodash clsx axios qs date-fns utility-types
-  yarn add -D @types/lodash @types/qs @types/node lodash-es @types/lodash-es
+  yarn add lodash-es ramda date-fns \
+    clsx axios qs utility-types
+  yarn add -D @types/lodash-es @types/ramda \
+    @types/qs @types/node
 }
 
 function add_precommit() {
