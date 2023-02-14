@@ -15,7 +15,7 @@ import { ErrorBoundary } from 'react-app-error-boundary'
 
 import styles from './App.module.css'
 
-type FN = (...args: unknown[]) => Promise<unknown>
+type FN = (...args: any[]) => Promise<unknown>
 
 const cache = createCache(
   <F extends FN>(key: string, fn: F, ...args: Parameters<F>) => fn(...args),
@@ -123,6 +123,11 @@ type ITodo = {
   completed: boolean
 }
 
+async function fetchTodo(id: string | number): Promise<ITodo> {
+  const r = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+  return r.json()
+}
+
 function Example1() {
   const value = useSuspense(
     () =>
@@ -139,13 +144,7 @@ function Example1() {
 }
 
 function Example2() {
-  const value = useSuspense(
-    id =>
-      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`).then(r =>
-        r.json()
-      ) as Promise<ITodo>,
-    [2]
-  )
+  const value = useSuspense(fetchTodo, [2])
   return (
     <div>
       #{value.id}: {value.title}
