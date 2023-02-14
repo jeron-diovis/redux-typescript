@@ -41,7 +41,7 @@ function useSuspense<
 >(
   fn: F,
   deps: Deps,
-  resolveKey: (args: Deps) => string = defaultResolveKey
+  resolveKey: string | ((args: Deps) => string) = defaultResolveKey
 ): R {
   const cache = useCacheContext() as Cache<R, Error, [F, ...Deps]>
   const refFn = useRef(fn)
@@ -51,7 +51,10 @@ function useSuspense<
   const refValue = useRef<R>()
 
   const key = useMemo(
-    () => `${refFn.current.toString()}:${resolveKey(deps)}`,
+    () =>
+      `${refFn.current.toString()}:${
+        typeof resolveKey === 'string' ? resolveKey : resolveKey(deps)
+      }`,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     deps
   )
