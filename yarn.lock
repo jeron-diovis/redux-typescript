@@ -1284,6 +1284,25 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@react-hook/async@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/async/-/async-3.1.1.tgz#c3cd06648fa5e6d209e9372940c806adb8462975"
+  integrity sha512-C9KoDSIjhmVwm6jXPnWfVqqrdPvqOnvUrkUStkUUODV4F1GfNlyVdmYx/54HsgMlham61xEF6UvScqiLTaHYeQ==
+  dependencies:
+    "@react-hook/latest" "^1.0.2"
+
+"@react-hook/cache@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/cache/-/cache-1.1.1.tgz#2717b932e059bf635a2c74f89bb117d5a7f0a644"
+  integrity sha512-FY0Bwvxsv9Gu6pUbVdNylh4jyWPtQRegQM9G6yVx3l2cYjbxzaJwEXticLfsRcciCbnk7iyZfJn6mZ4N4+q9qA==
+  dependencies:
+    "@react-hook/latest" "^1.0.2"
+
+"@react-hook/latest@^1.0.2":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@react-hook/latest/-/latest-1.0.3.tgz#c2d1d0b0af8b69ec6e2b3a2412ba0768ac82db80"
+  integrity sha512-dy6duzl+JnAZcDbNTfmaP3xHiKtbXYOaz3G51MGVljh548Y8MWzTr+PHLOfvpypEVW9zwvl+VyKjbWKEVbV1Rg==
+
 "@rollup/pluginutils@^5.0.2":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-5.0.2.tgz#012b8f53c71e4f6f9cb317e311df1404f56e7a33"
@@ -4281,6 +4300,13 @@ raw-body@^2.3.3:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
+react-app-error-boundary@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-app-error-boundary/-/react-app-error-boundary-1.0.3.tgz#568c086b97422fd75571d0c7fceae18dd996a0eb"
+  integrity sha512-TUdoe7y1ZJaB3R/tyVPuB18BPfyAAsOhohgrSmZJ2K7hOQLtw8Ld39pcpH4eJCBhibBn0IckWmn5eJANpY0G9A==
+  dependencies:
+    react-error-boundary ">=3.1.4"
+
 react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -4288,6 +4314,13 @@ react-dom@^18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-error-boundary@>=3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-3.1.4.tgz#255db92b23197108757a888b01e5b729919abde0"
+  integrity sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
 
 react-is@^16.13.1:
   version "16.13.1"
