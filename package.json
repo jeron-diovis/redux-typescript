@@ -24,7 +24,7 @@
     "qs": "^6.11.0",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
-    "react-app-error-boundary": "^1.0.3",
+    "react-app-error-boundary": "latest",
     "react-dom": "^18.2.0",
     "utility-types": "^3.10.0"
   },

@@ -13,6 +13,7 @@ import {
 } from 'react'
 import {
   ErrorBoundary,
+  ErrorBoundaryProps,
   setDefaultErrorBoundaryOptions,
 } from 'react-app-error-boundary'
 
@@ -36,7 +37,7 @@ const CacheProvider: FC<PropsWithChildren> = ({ children }) => (
 const useCacheContext = () => useContext(CacheContext)
 
 function defaultResolveKey(args: unknown[]) {
-  return JSON.stringify(args)
+  return args.length === 0 ? '' : JSON.stringify(args)
 }
 
 function useSuspense<
@@ -98,8 +99,12 @@ function useSuspense<
   throw new Error(`Got unexpected cache status: ${state.status}`)
 }
 
-const Guard: FC<SuspenseProps> = ({ children, fallback = '...loading...' }) => (
-  <ErrorBoundary>
+const Guard: FC<SuspenseProps & ErrorBoundaryProps> = ({
+  children,
+  fallback = '...loading...',
+  ...errorBoundaryProps
+}) => (
+  <ErrorBoundary {...errorBoundaryProps}>
     <Suspense {...{ children, fallback }} />
   </ErrorBoundary>
 )
