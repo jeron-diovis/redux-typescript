@@ -11,9 +11,14 @@ import {
   useRef,
   useState,
 } from 'react'
-import { ErrorBoundary } from 'react-app-error-boundary'
+import {
+  ErrorBoundary,
+  setDefaultErrorBoundaryOptions,
+} from 'react-app-error-boundary'
 
 import styles from './App.module.css'
+
+setDefaultErrorBoundaryOptions({ logCaughtErrors: false })
 
 type FN = (...args: any[]) => Promise<unknown>
 
@@ -52,7 +57,7 @@ function useSuspense<
 
   const key = useMemo(
     () =>
-      `${refFn.current.toString()}:${
+      `${refFn.current.toString()}\n${
         typeof resolveKey === 'string' ? resolveKey : resolveKey(deps)
       }`,
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,13 +111,16 @@ function App() {
       <div className={styles.app}>
         <button onClick={forceRender}>force update</button>
         <Guard>
-          <Example1 />
+          <ExampleSimplest />
         </Guard>
         <Guard>
-          <Example2 />
+          <ExampleExternal />
         </Guard>
         <Guard>
-          <Example3 />
+          <ExampleUpdateDeps />
+        </Guard>
+        <Guard>
+          <ExampleError />
         </Guard>
       </div>
     </CacheProvider>
@@ -131,7 +139,7 @@ async function fetchTodo(id: string | number): Promise<ITodo> {
   return r.json()
 }
 
-function Example1() {
+function ExampleSimplest() {
   const value = useSuspense(
     () =>
       fetch('https://jsonplaceholder.typicode.com/todos/1').then(r =>
@@ -146,7 +154,7 @@ function Example1() {
   )
 }
 
-function Example2() {
+function ExampleExternal() {
   const value = useSuspense(fetchTodo, [2])
   return (
     <div>
@@ -155,15 +163,9 @@ function Example2() {
   )
 }
 
-function Example3() {
+function ExampleUpdateDeps() {
   const [id, setId] = useState(3)
-  const value = useSuspense(
-    id =>
-      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`).then(r =>
-        r.json()
-      ) as Promise<ITodo>,
-    [id]
-  )
+  const value = useSuspense(fetchTodo, [id])
   return (
     <div>
       <button onClick={() => setId(x => x + 1)}>inc id</button>
@@ -171,6 +173,11 @@ function Example3() {
       {value.title}
     </div>
   )
+}
+
+function ExampleError() {
+  useSuspense(() => fetch('http://unexisting-route'), [])
+  return <div>you won't see this</div>
 }
 
 export default App
