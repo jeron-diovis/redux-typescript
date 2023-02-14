@@ -7,7 +7,9 @@ import {
   createContext,
   useContext,
   useMemo,
+  useReducer,
   useRef,
+  useState,
 } from 'react'
 import { ErrorBoundary } from 'react-app-error-boundary'
 
@@ -28,7 +30,7 @@ const CacheProvider: FC<PropsWithChildren> = ({ children }) => (
 
 const useCacheContext = () => useContext(CacheContext)
 
-function defaultResolveKey(...args: unknown[]) {
+function defaultResolveKey(args: unknown[]) {
   return JSON.stringify(args)
 }
 
@@ -60,9 +62,12 @@ function useSuspense<
   const state = cache.read(key)
 
   if (state === undefined) {
+    console.log('no state available')
     if (prevKey === key && refResolved.current) {
+      console.log("key didn't change and suspense is resolved", key, prevKey)
       return refValue.current as NonNullable<typeof refValue.current>
     } else {
+      console.log('initiate load')
       refResolved.current = false
       refValue.current = undefined
       throw cache.load(key, fn, ...deps)
@@ -74,9 +79,9 @@ function useSuspense<
   }
 
   if (state.status === 'success') {
-    refValue.current = state.value
     refResolved.current = true
-    return state.value
+    refValue.current = state.value
+    return refValue.current
   }
 
   // 'loading' status never happens here – it's handled by parent Suspense component
@@ -92,11 +97,19 @@ const Guard: FC<SuspenseProps> = ({ children, fallback = '...loading...' }) => (
 )
 
 function App() {
+  const [, forceRender] = useReducer(x => x + 1, 0)
   return (
     <CacheProvider>
       <div className={styles.app}>
+        <button onClick={forceRender}>force update</button>
         <Guard>
           <Example1 />
+        </Guard>
+        <Guard>
+          <Example2 />
+        </Guard>
+        <Guard>
+          <Example3 />
         </Guard>
       </div>
     </CacheProvider>
@@ -121,6 +134,39 @@ function Example1() {
   return (
     <div>
       #{value.id}: {value.title}
+    </div>
+  )
+}
+
+function Example2() {
+  const value = useSuspense(
+    id =>
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`).then(r =>
+        r.json()
+      ) as Promise<ITodo>,
+    [2]
+  )
+  return (
+    <div>
+      #{value.id}: {value.title}
+    </div>
+  )
+}
+
+function Example3() {
+  const [id, setId] = useState(3)
+  const value = useSuspense(
+    id =>
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`).then(r =>
+        r.json()
+      ) as Promise<ITodo>,
+    [id]
+  )
+  return (
+    <div>
+      <button onClick={() => setId(x => x + 1)}>inc id</button>
+      <div>#{value.id}: </div>
+      {value.title}
     </div>
   )
 }
