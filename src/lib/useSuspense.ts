@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
-import { Cache } from '@react-hook/cache'
 import { useMemo, useRef } from 'react'
 
 import {
+  SuspenseCache,
   SuspenseCacheResolver,
   getDefaultCache,
-  useCacheContext,
+  useSuspenseCacheContext,
 } from './cache'
 
 export function defaultResolveKey(args: unknown[], fn: () => void) {
@@ -23,11 +23,8 @@ export function useSuspense<
   deps: Deps,
   resolveKey: string | ((args: Deps, fn: F) => string) = defaultResolveKey
 ): R {
-  const cache = (useCacheContext() ?? getDefaultCache()) as Cache<
-    R,
-    Error,
-    [F, ...Deps]
-  >
+  const cache = (useSuspenseCacheContext() ??
+    getDefaultCache()) as SuspenseCache<R>
 
   const refFn = useRef(fn)
   refFn.current = fn
@@ -56,11 +53,12 @@ export function useSuspense<
       throw cache.load(key, fn, ...deps)
     } else {
       console.log("key didn't change", key, prevKey)
-      return refValue.current as NonNullable<typeof refValue.current>
+      return refValue.current as R
     }
   }
 
-  switch (state.status) {
+  const { status } = state
+  switch (status) {
     case 'error':
       throw state.error
     case 'success': {
@@ -69,8 +67,6 @@ export function useSuspense<
     }
     default:
       // Should never get there.
-      // 'loading' is handled by Suspense
-      // 'canceled' never happens – as we don't expose `cancel` method from `useCache`
-      throw new Error(`Got unexpected cache status: ${state.status}`)
+      throw new Error(`Got unexpected cache status: ${status}`)
   }
 }

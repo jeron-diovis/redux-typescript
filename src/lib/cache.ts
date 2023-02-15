@@ -1,12 +1,9 @@
 import { createCache } from '@react-hook/cache'
 import { createContext, useContext } from 'react'
 
-let defaultCacheSize: number
-let defaultCache: ISuspenseCache
-
 export type SuspenseCacheResolver = (...args: any[]) => Promise<unknown>
 
-export interface ISuspenseCache<Value = unknown> {
+export interface SuspenseCache<Value = unknown> {
   read(key: string):
     | undefined
     | {
@@ -25,24 +22,27 @@ export interface ISuspenseCache<Value = unknown> {
   ): Promise<Value>
 }
 
+let defaultCacheSize: number
+let defaultCache: SuspenseCache
+
 export function setDefaultCacheSize(x: number) {
-  defaultCacheSize = x
+  if (defaultCacheSize === undefined) {
+    defaultCacheSize = x
+  }
 }
 
 export function getDefaultCache() {
   if (defaultCache === undefined) {
     defaultCache = createCache(
-      <F extends SuspenseCacheResolver>(
-        key: string,
-        fn: F,
-        ...args: Parameters<F>
-      ) => fn(...args),
+      (key, fn, ...args) => fn(...args),
       defaultCacheSize
-    ) as ISuspenseCache
+    ) as SuspenseCache
   }
   return defaultCache
 }
 
-export const CacheContext = createContext<ISuspenseCache | undefined>(undefined)
+export const SuspenseCacheContext = createContext<SuspenseCache | undefined>(
+  undefined
+)
 
-export const useCacheContext = () => useContext(CacheContext)
+export const useSuspenseCacheContext = () => useContext(SuspenseCacheContext)
