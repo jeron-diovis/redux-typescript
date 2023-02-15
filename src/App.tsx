@@ -33,8 +33,10 @@ function getCache() {
 
 setDefaultCacheSize(2) // demo
 
-function defaultResolveKey(args: unknown[]) {
-  return args.length === 0 ? '' : JSON.stringify(args)
+function defaultResolveKey(args: unknown[], fn: () => void) {
+  const str_args = args.length === 0 ? '' : JSON.stringify(args)
+  const str_fn = fn.toString().replace(/\n/g, '')
+  return `${str_args}:${str_fn}`
 }
 
 function useSuspense<
@@ -44,21 +46,20 @@ function useSuspense<
 >(
   fn: F,
   deps: Deps,
-  resolveKey: string | ((args: Deps) => string) = defaultResolveKey
+  resolveKey: string | ((args: Deps, fn: F) => string) = defaultResolveKey
 ): R {
   const cache = getCache() as Cache<R, Error, [F, ...Deps]>
 
   const refFn = useRef(fn)
   refFn.current = fn
 
-  const refResolved = useRef(false)
   const refValue = useRef<R>()
 
   const key = useMemo(
     () =>
-      `${refFn.current.toString()}\n${
-        typeof resolveKey === 'string' ? resolveKey : resolveKey(deps)
-      }`,
+      typeof resolveKey === 'string'
+        ? resolveKey
+        : resolveKey(deps, refFn.current),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     deps
   )
@@ -70,31 +71,31 @@ function useSuspense<
 
   if (state === undefined) {
     console.log('no state available')
-    if (prevKey === key && refResolved.current) {
-      console.log("key didn't change and suspense is resolved", key, prevKey)
-      return refValue.current as NonNullable<typeof refValue.current>
-    } else {
+    // Initial key value is undefined, so equality is only possible on a successive update
+    if (prevKey !== key) {
       console.log('initiate load')
-      refResolved.current = false
-      refValue.current = undefined
       throw cache.load(key, fn, ...deps)
+    } else {
+      console.log("key didn't change", key, prevKey)
+      return refValue.current as NonNullable<typeof refValue.current>
     }
   }
 
-  if (state.status === 'error') {
-    throw state.error
+  switch (state.status) {
+    case 'error':
+      throw state.error
+    case 'success': {
+      refValue.current = state.value
+      return refValue.current
+    }
+    case 'cancelled':
+    case 'loading':
+    default:
+      // Should never get there.
+      // 'loading' is handled by Suspense
+      // 'canceled' never happens – as we don't expose `cancel` method from `useCache`
+      throw new Error(`Got unexpected cache status: ${state.status}`)
   }
-
-  if (state.status === 'success') {
-    refResolved.current = true
-    refValue.current = state.value
-    return refValue.current
-  }
-
-  // 'loading' status never happens here – it's handled by parent Suspense component
-  // 'canceled' status never happens here – as we don't call `useCache` which provides `cancel` method
-  // should never get there
-  throw new Error(`Got unexpected cache status: ${state.status}`)
 }
 
 const Guard: FC<SuspenseProps & ErrorBoundaryProps> = ({
