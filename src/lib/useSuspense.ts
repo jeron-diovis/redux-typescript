@@ -8,6 +8,7 @@ import {
 } from './cache'
 import { clr, getLogger } from './logger'
 
+// TODO: any better ideas for hashing?
 export function defaultKeyResolver(args: unknown[], fn: () => void) {
   const str_args = args.length === 0 ? '' : JSON.stringify(args)
   const str_fn = fn.toString()
@@ -28,7 +29,7 @@ export function useSuspense<
   Deps extends Parameters<F>,
   R extends Awaited<ReturnType<F>>
 >(fn: F, deps: Deps, opts: UseSuspenseOptions = {}): R {
-  const { key: resolveKey = defaultKeyResolver, debug = false } = opts
+  const { key: keygen = defaultKeyResolver, debug = true } = opts
 
   const cache = (useSuspenseCacheContext() ??
     getDefaultCache()) as SuspenseCache<R>
@@ -36,19 +37,16 @@ export function useSuspense<
   const refFn = useRef(fn)
   refFn.current = fn
 
-  const refValue = useRef<R>()
-
   const key = useMemo(
-    () =>
-      typeof resolveKey === 'string'
-        ? resolveKey
-        : resolveKey(deps, refFn.current),
+    () => (typeof keygen === 'string' ? keygen : keygen(deps, refFn.current)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     deps
   )
   const refKey = useRef<string>()
   const prevKey = refKey.current
   refKey.current = key
+
+  const refValue = useRef<R>()
 
   const state = cache.read(key)
 
@@ -82,12 +80,23 @@ export function useSuspense<
   const { status } = state
   switch (status) {
     case 'error':
-      log('%cLoading failed\n%o', clr('red'), state.error)
+      /**
+       * We could do logging here too, as for all other cases.
+       * But due to the twisted weirdness React does when error is thrown,
+       * it will spam console with like 4 identical logs.
+       * @see https://github.com/facebook/react/issues/16130
+       */
+      // log('%cLoading failed\n%o', clr('red'), state.error)
 
       throw state.error
 
     case 'success': {
-      log('%cLoading completed\n%o', clr('green'), state.value)
+      log(
+        '%cLoading succeeded\n%cReading from the suspense cache:\n%o',
+        clr('green'),
+        '',
+        state.value
+      )
 
       refValue.current = state.value
       return refValue.current

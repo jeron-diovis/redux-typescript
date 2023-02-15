@@ -79,9 +79,10 @@ function ExampleUpdateDeps() {
   const value = useSuspense(fetchTodo, [id])
   return (
     <div>
+      <div>
+        #{value.id}: {value.title}
+      </div>
       <button onClick={() => setId(x => x + 1)}>inc id</button>
-      <div>#{value.id}: </div>
-      {value.title}
     </div>
   )
 }
