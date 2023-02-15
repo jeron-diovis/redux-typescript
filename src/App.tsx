@@ -1,40 +1,37 @@
 import { Cache, createCache } from '@react-hook/cache'
 import {
   FC,
-  PropsWithChildren,
   Suspense,
   SuspenseProps,
-  createContext,
-  useContext,
   useMemo,
   useReducer,
   useRef,
   useState,
 } from 'react'
-import {
-  ErrorBoundary,
-  ErrorBoundaryProps,
-  setDefaultErrorBoundaryOptions,
-} from 'react-app-error-boundary'
+import { ErrorBoundary, ErrorBoundaryProps } from 'react-app-error-boundary'
 
 import styles from './App.module.css'
 
-setDefaultErrorBoundaryOptions({ logCaughtErrors: false })
-
 type FN = (...args: any[]) => Promise<unknown>
 
-const cache = createCache(
-  <F extends FN>(key: string, fn: F, ...args: Parameters<F>) => fn(...args),
-  2
-)
+let cacheSize: number
+let cache: Cache
 
-const CacheContext = createContext(cache)
+function setDefaultCacheSize(x: number) {
+  cacheSize = x
+}
 
-const CacheProvider: FC<PropsWithChildren> = ({ children }) => (
-  <CacheContext.Provider value={cache}>{children}</CacheContext.Provider>
-)
+function getCache() {
+  if (cache === undefined) {
+    cache = createCache(
+      <F extends FN>(key: string, fn: F, ...args: Parameters<F>) => fn(...args),
+      cacheSize
+    )
+  }
+  return cache
+}
 
-const useCacheContext = () => useContext(CacheContext)
+setDefaultCacheSize(2) // demo
 
 function defaultResolveKey(args: unknown[]) {
   return args.length === 0 ? '' : JSON.stringify(args)
@@ -49,7 +46,8 @@ function useSuspense<
   deps: Deps,
   resolveKey: string | ((args: Deps) => string) = defaultResolveKey
 ): R {
-  const cache = useCacheContext() as Cache<R, Error, [F, ...Deps]>
+  const cache = getCache() as Cache<R, Error, [F, ...Deps]>
+
   const refFn = useRef(fn)
   refFn.current = fn
 
@@ -112,23 +110,21 @@ const Guard: FC<SuspenseProps & ErrorBoundaryProps> = ({
 function App() {
   const [, forceRender] = useReducer(x => x + 1, 0)
   return (
-    <CacheProvider>
-      <div className={styles.app}>
-        <button onClick={forceRender}>force update</button>
-        <Guard>
-          <ExampleSimplest />
-        </Guard>
-        <Guard>
-          <ExampleExternal />
-        </Guard>
-        <Guard>
-          <ExampleUpdateDeps />
-        </Guard>
-        <Guard>
-          <ExampleError />
-        </Guard>
-      </div>
-    </CacheProvider>
+    <div className={styles.app}>
+      <button onClick={forceRender}>force update</button>
+      <Guard>
+        <ExampleSimplest />
+      </Guard>
+      <Guard>
+        <ExampleExternal />
+      </Guard>
+      <Guard>
+        <ExampleUpdateDeps />
+      </Guard>
+      <Guard>
+        <ExampleError />
+      </Guard>
+    </div>
   )
 }
 
