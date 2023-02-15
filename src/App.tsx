@@ -3,6 +3,8 @@ import {
   FC,
   Suspense,
   SuspenseProps,
+  createContext,
+  useContext,
   useMemo,
   useReducer,
   useRef,
@@ -14,22 +16,44 @@ import styles from './App.module.css'
 
 type FN = (...args: any[]) => Promise<unknown>
 
-let cacheSize: number
-let cache: Cache
+let defaultCacheSize: number
+let defaultCache: ICache
 
-function setDefaultCacheSize(x: number) {
-  cacheSize = x
+interface ICache<Value = unknown> {
+  read(key: string):
+    | undefined
+    | {
+        value: Value
+        status: 'success'
+      }
+    | {
+        error: Error
+        status: 'error'
+      }
+
+  load<F extends FN>(key: string, fn: F, ...args: Parameters<F>): Promise<Value>
 }
 
-function getCache() {
-  if (cache === undefined) {
-    cache = createCache(
-      <F extends FN>(key: string, fn: F, ...args: Parameters<F>) => fn(...args),
-      cacheSize
-    )
+type CacheFactory<Value = unknown> = () => ICache<Value>
+
+const defaultCacheFactory: CacheFactory = () =>
+  createCache(
+    <F extends FN>(key: string, fn: F, ...args: Parameters<F>) => fn(...args),
+    defaultCacheSize
+  ) as ICache
+
+export function setDefaultCacheSize(x: number) {
+  defaultCacheSize = x
+}
+
+function getDefaultCache() {
+  if (defaultCache === undefined) {
+    defaultCache = defaultCacheFactory()
   }
-  return cache
+  return defaultCache
 }
+
+export const CacheContext = createContext<ICache | undefined>(undefined)
 
 setDefaultCacheSize(2) // demo
 
@@ -48,7 +72,11 @@ function useSuspense<
   deps: Deps,
   resolveKey: string | ((args: Deps, fn: F) => string) = defaultResolveKey
 ): R {
-  const cache = getCache() as Cache<R, Error, [F, ...Deps]>
+  const cache = (useContext(CacheContext) ?? getDefaultCache()) as Cache<
+    R,
+    Error,
+    [F, ...Deps]
+  >
 
   const refFn = useRef(fn)
   refFn.current = fn
@@ -88,8 +116,6 @@ function useSuspense<
       refValue.current = state.value
       return refValue.current
     }
-    case 'cancelled':
-    case 'loading':
     default:
       // Should never get there.
       // 'loading' is handled by Suspense
