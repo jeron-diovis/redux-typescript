@@ -6,7 +6,7 @@ import {
   getDefaultCache,
   useSuspenseCacheContext,
 } from './cache'
-import { clr, getLogger } from './logger'
+import { getLogger } from './logger'
 
 // TODO: any better ideas for hashing?
 export function defaultKeyResolver(args: unknown[], fn: () => void) {
@@ -29,7 +29,7 @@ export function useSuspense<
   Deps extends Parameters<F>,
   R extends Awaited<ReturnType<F>>
 >(fn: F, deps: Deps, opts: UseSuspenseOptions = {}): R {
-  const { key: keygen = defaultKeyResolver, debug = true } = opts
+  const { key: keygen = defaultKeyResolver, debug = false } = opts
 
   const cache = (useSuspenseCacheContext() ??
     getDefaultCache()) as SuspenseCache<R>
@@ -51,28 +51,15 @@ export function useSuspense<
   const state = cache.read(key)
 
   useDebugValue(fn.name || '(anonymous function)')
-  const log = getLogger(debug, key, fn, deps)
+  const logger = getLogger(debug, key, fn, deps)
 
   if (state === undefined) {
-    const logMsg = 'No state found in cache.'
-
     // Initial key value is `undefined`, so equality is only possible on a successive update
     if (prevKey !== key) {
-      log(
-        `${logMsg}\n${
-          prevKey === undefined ? '' : 'Key has changed.\n'
-        }%cInitiate loading`,
-        clr('blue')
-      )
-
+      logger.loading(prevKey)
       throw cache.load(key, fn, ...deps)
     } else {
-      log(
-        logMsg +
-          "\nKey didn't change – probably cache got overflown.\nReturn the value saved in hook:\n%o",
-        refValue.current
-      )
-
+      logger.reading(refValue.current)
       return refValue.current as R
     }
   }
@@ -80,24 +67,11 @@ export function useSuspense<
   const { status } = state
   switch (status) {
     case 'error':
-      /**
-       * We could do logging here too, as for all other cases.
-       * But due to the twisted weirdness React does when error is thrown,
-       * it will spam console with like 4 identical logs.
-       * @see https://github.com/facebook/react/issues/16130
-       */
-      // log('%cLoading failed\n%o', clr('red'), state.error)
-
+      logger.error(state.error)
       throw state.error
 
     case 'success': {
-      log(
-        '%cLoading succeeded\n%cReading from the suspense cache:\n%o',
-        clr('green'),
-        '',
-        state.value
-      )
-
+      logger.success(state.value)
       refValue.current = state.value
       return refValue.current
     }
