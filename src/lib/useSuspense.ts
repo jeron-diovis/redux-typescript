@@ -54,26 +54,30 @@ export function useSuspense<
   const logger = getLogger(debug, key, fn, deps)
 
   if (state === undefined) {
-    // Initial key value is `undefined`, so equality is only possible on a successive update
-    if (prevKey !== key) {
-      logger.loading(prevKey)
-      throw cache.load(key, fn, ...deps)
-    } else {
+    // Initial key value is `undefined`,
+    // so equality is only possible on a successive update.
+    if (prevKey === key) {
       logger.reading(refValue.current)
       return refValue.current as R
+    } else {
+      logger.loading(prevKey)
+      throw cache.load(key, fn, ...deps)
     }
   }
 
   const { status } = state
   switch (status) {
-    case 'error':
-      logger.error(state.error)
-      throw state.error
+    case 'error': {
+      const { error } = state
+      logger.error(error)
+      throw error
+    }
 
     case 'success': {
-      logger.success(state.value)
-      refValue.current = state.value
-      return refValue.current
+      const { value } = state
+      logger.success(value)
+      refValue.current = value
+      return value
     }
 
     default:
