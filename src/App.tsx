@@ -1,11 +1,9 @@
 import { FC, Suspense, SuspenseProps, useReducer, useState } from 'react'
 import { ErrorBoundary, ErrorBoundaryProps } from 'react-app-error-boundary'
 
-import { setDefaultCacheSize, useSuspense } from './lib'
+import { SuspenseCacheProvider, useSuspense } from './lib'
 
 import styles from './App.module.css'
-
-setDefaultCacheSize(2) // demo
 
 const Guard: FC<SuspenseProps & ErrorBoundaryProps> = ({
   children,
@@ -22,21 +20,23 @@ function App() {
   return (
     <div className={styles.app} style={{ display: 'grid', gap: '1rem' }}>
       <button onClick={forceRender}>force update</button>
-      <Guard>
-        <ExampleSimplest />
-      </Guard>
-      <Guard>
-        <ExampleExternal />
-      </Guard>
-      <Guard>
-        <ExampleUpdateDeps />
-      </Guard>
-      <Guard>
-        <ExampleError />
-      </Guard>
-      <Guard>
-        <ExampleUpdateFunc />
-      </Guard>
+      <SuspenseCacheProvider cacheSize={2}>
+        <Guard>
+          <ExampleSimplest />
+        </Guard>
+        <Guard>
+          <ExampleExternal />
+        </Guard>
+        <Guard>
+          <ExampleUpdateDeps />
+        </Guard>
+        <Guard>
+          <ExampleError />
+        </Guard>
+        <Guard>
+          <ExampleUpdateFunc />
+        </Guard>
+      </SuspenseCacheProvider>
     </div>
   )
 }

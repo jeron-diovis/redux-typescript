@@ -1,5 +1,11 @@
 import { createCache } from '@react-hook/cache'
-import { createContext, useContext } from 'react'
+import {
+  Context,
+  FC,
+  PropsWithChildren,
+  createContext,
+  createElement,
+} from 'react'
 
 export type SuspenseCacheResolver = (...args: any[]) => Promise<unknown>
 
@@ -22,27 +28,22 @@ export interface SuspenseCache<Value = unknown> {
   ): Promise<Value>
 }
 
-let defaultCacheSize: number
-let defaultCache: SuspenseCache
+export const createDefaultCache = (size?: number): SuspenseCache =>
+  createCache((key, fn, ...args) => fn(...args), size) as SuspenseCache
 
-export function setDefaultCacheSize(x: number) {
-  if (defaultCacheSize === undefined) {
-    defaultCacheSize = x
-  }
-}
+export const createCacheContext = (
+  cache: SuspenseCache = createDefaultCache()
+): Context<SuspenseCache> => createContext(cache)
 
-export function getDefaultCache() {
-  if (defaultCache === undefined) {
-    defaultCache = createCache(
-      (key, fn, ...args) => fn(...args),
-      defaultCacheSize
-    ) as SuspenseCache
-  }
-  return defaultCache
-}
+export const DefaultSuspenseCacheContext = createCacheContext()
 
-export const SuspenseCacheContext = createContext<SuspenseCache | undefined>(
-  undefined
-)
-
-export const useSuspenseCacheContext = () => useContext(SuspenseCacheContext)
+export const SuspenseCacheProvider: FC<
+  PropsWithChildren<{ cache: SuspenseCache } | { cacheSize: number }>
+> = ({ children, ...rest }) =>
+  createElement(
+    DefaultSuspenseCacheContext.Provider,
+    {
+      value: 'cache' in rest ? rest.cache : createDefaultCache(rest.cacheSize),
+    },
+    children
+  )

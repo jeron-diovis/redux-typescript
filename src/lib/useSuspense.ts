@@ -1,12 +1,11 @@
-import { useDebugValue, useMemo, useRef } from 'react'
+import { Context, useContext, useDebugValue, useMemo, useRef } from 'react'
 
 import hashSum from 'hash-sum'
 
 import {
+  DefaultSuspenseCacheContext,
   SuspenseCache,
   SuspenseCacheResolver,
-  getDefaultCache,
-  useSuspenseCacheContext,
 } from './cache'
 import { getLogger } from './logger'
 
@@ -17,8 +16,9 @@ export type KeyResolver = (
 ) => string
 
 export interface UseSuspenseOptions {
-  debug?: boolean | string
   key?: KeyResolver
+  context?: Context<SuspenseCache>
+  debug?: boolean | string
   watchFuncChanges?: boolean
 }
 
@@ -27,10 +27,9 @@ export function useSuspense<
   Deps extends Parameters<F>,
   R extends Awaited<ReturnType<F>>
 >(fn: F, deps: Deps, opts: UseSuspenseOptions = {}): R {
-  const { debug = false } = opts
+  const { context = DefaultSuspenseCacheContext, debug = false } = opts
 
-  const cache = (useSuspenseCacheContext() ??
-    getDefaultCache()) as SuspenseCache<R>
+  const cache = useContext(context) as SuspenseCache<R>
 
   const [key, prevKey] = useCacheKey(deps, fn, opts)
 
