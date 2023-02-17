@@ -19,6 +19,7 @@ const clr = (colour: string) => `font-weight: bold; color: ${colour}`
 
 export function getLogger(
   enabled: boolean,
+  label: string,
   key: string,
   fn: () => void,
   deps: unknown[]
@@ -26,7 +27,7 @@ export function getLogger(
   if (!enabled) return dummy
 
   const log = (...args: unknown[]) => {
-    console.group(`[useSuspense] [key:${key}] ${fn.name}`)
+    console.group(`[useSuspense] [key:${key}] ${label}`)
     console.log(...args)
     console.log('Args: %o', deps)
 

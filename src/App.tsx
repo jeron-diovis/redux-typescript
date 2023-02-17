@@ -108,7 +108,7 @@ function ExampleUpdateFunc() {
   const [trackCb, setTrackCb] = useState(true)
 
   const value = useSuspense(cb, [id], {
-    debug: true,
+    debug: 'tracker',
     watchFuncChanges: trackCb,
   })
 

@@ -17,7 +17,7 @@ export type KeyResolver = (
 ) => string
 
 export interface UseSuspenseOptions {
-  debug?: boolean
+  debug?: boolean | string
   key?: KeyResolver
   watchFuncChanges?: boolean
 }
@@ -36,8 +36,9 @@ export function useSuspense<
 
   const state = cache.read(key)
 
-  useDebugValue(fn.name || '(anonymous function)')
-  const logger = getLogger(debug, key, fn, deps)
+  const debugLabel = typeof debug === 'string' ? debug : fn.name || 'anonymous'
+  useDebugValue(debugLabel)
+  const logger = getLogger(debug !== false, debugLabel, key, fn, deps)
 
   const refValue = useRef<R>()
 
