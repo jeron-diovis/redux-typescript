@@ -37,13 +37,22 @@ export interface UseSuspenseOptions {
  */
 const EMPTY = Symbol('@@use-suspense/empty')
 
-export function useSuspenseHandle<Func extends SuspenseCacheResolver>(
-  fn: Func,
-  deps: Parameters<Func>,
-  opts: UseSuspenseOptions = {}
-): [Awaited<ReturnType<Func>>, () => void] {
-  type Value = Awaited<ReturnType<Func>>
+/**
+ * @see https://stackoverflow.com/a/75464593/3437433
+ */
+type NonEmptyTuple = [unknown, ...unknown[]]
+type UseSuspenseArgs<A> =
+  | [xs: A & NonEmptyTuple]
+  | [xs: A & NonEmptyTuple, opts: UseSuspenseOptions]
+  | ([] extends A ? [] | [opts: UseSuspenseOptions] : never)
 
+export function useSuspenseHandle<F extends SuspenseCacheResolver>(
+  fn: F,
+  ...rest: UseSuspenseArgs<Parameters<F>>
+): [Awaited<ReturnType<F>>, () => void] {
+  type Value = Awaited<ReturnType<F>>
+
+  const [deps, opts] = resolveParams(fn, ...rest)
   const { context = DefaultSuspenseCacheContext, debug = false } = opts
 
   const [key, prevKey] = useCacheKey(deps, fn, opts)
@@ -101,16 +110,34 @@ export function useSuspenseHandle<Func extends SuspenseCacheResolver>(
   }
 }
 
-export function useSuspense<Func extends SuspenseCacheResolver>(
-  fn: Func,
-  deps: Parameters<Func>,
-  opts: UseSuspenseOptions = {}
+export function useSuspense<F extends SuspenseCacheResolver>(
+  fn: F,
+  ...rest: UseSuspenseArgs<Parameters<F>>
 ) {
-  const [value] = useSuspenseHandle(fn, deps, opts)
-  return value as Awaited<ReturnType<Func>>
+  const [value] = useSuspenseHandle(fn, ...rest)
+  return value
 }
 
 // ---
+
+function resolveParams<F extends SuspenseCacheResolver>(
+  fn: F,
+  ...rest: UseSuspenseArgs<Parameters<F>>
+): [Parameters<F>, UseSuspenseOptions] {
+  const no_deps = [] as unknown as Parameters<F>
+  switch (rest.length) {
+    case 0:
+      return [no_deps, {}]
+
+    case 1:
+      return fn.length === 0
+        ? [no_deps, rest[0] as UseSuspenseOptions]
+        : [rest[0] as Parameters<F>, {}]
+
+    case 2:
+      return rest
+  }
+}
 
 function useCacheKey(
   deps: unknown[],

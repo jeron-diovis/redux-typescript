@@ -30,15 +30,18 @@ function App() {
         <Guard>
           <ExampleUpdateDeps />
         </Guard>
-        <Guard>
+        {/*<Guard>
           <ExampleError />
-        </Guard>
+        </Guard>*/}
         <Guard>
           <ExampleUpdateFunc />
         </Guard>
         <Guard>
           <ExampleHandle />
         </Guard>
+        {/*<Guard>
+          <ExampleOptional />
+        </Guard>*/}
       </SuspenseCacheProvider>
     </div>
   )
@@ -61,8 +64,7 @@ function ExampleSimplest() {
     () =>
       fetch('https://jsonplaceholder.typicode.com/todos/1').then(r =>
         r.json()
-      ) as Promise<ITodo>,
-    []
+      ) as Promise<ITodo>
   )
   return (
     <div>
@@ -93,10 +95,10 @@ function ExampleUpdateDeps() {
   )
 }
 
-function ExampleError() {
-  useSuspense(() => fetch('http://unexisting-route'), [])
+/*function ExampleError() {
+  useSuspense(() => fetch('http://unexisting-route'))
   return <div>you won't see this</div>
-}
+}*/
 
 async function fetchPost(
   id: string | number
@@ -111,7 +113,6 @@ function ExampleUpdateFunc() {
   const [trackCb, setTrackCb] = useState(true)
 
   const value = useSuspense(cb, [id], {
-    debug: 'tracker',
     watchFuncChanges: trackCb,
   })
 
@@ -166,9 +167,7 @@ function ExampleUpdateFunc() {
 
 function ExampleHandle() {
   const [id, setId] = useState(5)
-  const [value, load] = useSuspenseHandle(fetchTodo, [id], {
-    debug: 'handle',
-  })
+  const [value, load] = useSuspenseHandle(fetchTodo, [id])
   return (
     <div>
       <div>
@@ -179,5 +178,21 @@ function ExampleHandle() {
     </div>
   )
 }
+
+/*function ExampleOptional() {
+  const load = (id: string | number = 5) => fetchTodo(id)
+  const value1 = useSuspense(load, { debug: 'optional-noargs' })
+  const value2 = useSuspense(load, [6], { debug: 'optional-args' })
+  return (
+    <div>
+      <div>
+        #{value1.id}: {value1.title}
+      </div>
+      <div>
+        #{value2.id}: {value2.title}
+      </div>
+    </div>
+  )
+}*/
 
 export default App
