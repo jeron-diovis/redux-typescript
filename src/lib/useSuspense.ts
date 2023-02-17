@@ -1,5 +1,7 @@
 import { useDebugValue, useMemo, useRef } from 'react'
 
+import hashSum from 'hash-sum'
+
 import {
   SuspenseCache,
   SuspenseCacheResolver,
@@ -8,20 +10,16 @@ import {
 } from './cache'
 import { getLogger } from './logger'
 
-// TODO: any better ideas for hashing?
-export function defaultKeyResolver(args: unknown[], fn: () => void) {
-  const str_args = args.length === 0 ? '' : JSON.stringify(args)
-  const str_fn = fn.toString()
-  return `${str_args}:${str_fn}`
-}
-
-export type KeyResolver =
-  | string
-  | ((args: unknown[], fn: () => unknown) => string)
+export type KeyResolver = (
+  hash: string,
+  args: unknown[],
+  fn: () => unknown
+) => string
 
 export interface UseSuspenseOptions {
   debug?: boolean
   key?: KeyResolver
+  watchFuncChanges?: boolean
 }
 
 export function useSuspense<
@@ -29,29 +27,19 @@ export function useSuspense<
   Deps extends Parameters<F>,
   R extends Awaited<ReturnType<F>>
 >(fn: F, deps: Deps, opts: UseSuspenseOptions = {}): R {
-  const { key: keygen = defaultKeyResolver, debug = false } = opts
+  const { debug = false } = opts
 
   const cache = (useSuspenseCacheContext() ??
     getDefaultCache()) as SuspenseCache<R>
 
-  const refFn = useRef(fn)
-  refFn.current = fn
-
-  const key = useMemo(
-    () => (typeof keygen === 'string' ? keygen : keygen(deps, refFn.current)),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    deps
-  )
-  const refKey = useRef<string>()
-  const prevKey = refKey.current
-  refKey.current = key
-
-  const refValue = useRef<R>()
+  const [key, prevKey] = useCacheKey(deps, fn, opts)
 
   const state = cache.read(key)
 
   useDebugValue(fn.name || '(anonymous function)')
   const logger = getLogger(debug, key, fn, deps)
+
+  const refValue = useRef<R>()
 
   if (state === undefined) {
     // Initial key value is `undefined`,
@@ -84,4 +72,27 @@ export function useSuspense<
       // Should never get there.
       throw new Error(`Got unexpected cache status: ${status}`)
   }
+}
+
+function useCacheKey(
+  deps: unknown[],
+  fn: () => unknown,
+  opts: UseSuspenseOptions
+): [string, string | undefined] {
+  const { key: keygen, watchFuncChanges = false } = opts
+
+  const key = useMemo(
+    () => {
+      const hash = hashSum([...deps, fn])
+      return keygen?.(hash, deps, fn) ?? hash
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    watchFuncChanges ? [...deps, fn] : deps
+  )
+
+  const refPrev = useRef<string>()
+  const prev = refPrev.current
+  refPrev.current = key
+
+  return [key, prev]
 }

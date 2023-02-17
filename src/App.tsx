@@ -20,7 +20,7 @@ const Guard: FC<SuspenseProps & ErrorBoundaryProps> = ({
 function App() {
   const [, forceRender] = useReducer(x => x + 1, 0)
   return (
-    <div className={styles.app}>
+    <div className={styles.app} style={{ display: 'grid', gap: '1rem' }}>
       <button onClick={forceRender}>force update</button>
       <Guard>
         <ExampleSimplest />
@@ -33,6 +33,9 @@ function App() {
       </Guard>
       <Guard>
         <ExampleError />
+      </Guard>
+      <Guard>
+        <ExampleUpdateFunc />
       </Guard>
     </div>
   )
@@ -90,6 +93,72 @@ function ExampleUpdateDeps() {
 function ExampleError() {
   useSuspense(() => fetch('http://unexisting-route'), [])
   return <div>you won't see this</div>
+}
+
+async function fetchPost(
+  id: string | number
+): Promise<Omit<ITodo, 'completed' & { body: string }>> {
+  const r = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
+  return r.json()
+}
+
+function ExampleUpdateFunc() {
+  const [id, setId] = useState<string | number>(1)
+  const [cb, setCb] = useState(() => fetchTodo)
+  const [trackCb, setTrackCb] = useState(true)
+
+  const value = useSuspense(cb, [id], {
+    debug: true,
+    watchFuncChanges: trackCb,
+  })
+
+  return (
+    <div style={{ textAlign: 'start' }}>
+      <div>
+        <label>
+          <input
+            type="radio"
+            name="source"
+            value="todo"
+            checked={cb === fetchTodo}
+            onChange={() => setCb(() => fetchTodo)}
+          />
+          Todo
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="source"
+            value="post"
+            checked={cb === fetchPost}
+            onChange={() => setCb(() => fetchPost)}
+          />
+          Post
+        </label>
+      </div>
+
+      <label style={{ display: 'block' }}>
+        id:
+        <input
+          type="number"
+          value={id}
+          min={1}
+          onChange={e => setId(e.target.value)}
+        />
+      </label>
+
+      <label style={{ display: 'block' }}>
+        <input
+          type="checkbox"
+          checked={trackCb}
+          onChange={e => setTrackCb(e.target.checked)}
+        />
+        Track callback changes
+      </label>
+
+      <pre>{JSON.stringify(value, null, 4)}</pre>
+    </div>
+  )
 }
 
 export default App
