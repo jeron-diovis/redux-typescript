@@ -5,6 +5,7 @@ import {
   PropsWithChildren,
   createContext,
   createElement,
+  useRef,
 } from 'react'
 
 export type SuspenseCacheResolver = (...args: any[]) => Promise<unknown>
@@ -39,11 +40,25 @@ export const DefaultSuspenseCacheContext = createCacheContext()
 
 export const SuspenseCacheProvider: FC<
   PropsWithChildren<{ cache: SuspenseCache } | { cacheSize: number }>
-> = ({ children, ...rest }) =>
-  createElement(
+> = ({ children, ...rest }) => {
+  const refDefaultCache = useRef<SuspenseCache>()
+  const refSize = useRef<number>()
+
+  let cache: SuspenseCache
+  if ('cache' in rest) {
+    cache = rest.cache
+  } else {
+    const { cacheSize } = rest
+    if (refSize.current !== cacheSize) {
+      refSize.current = cacheSize
+      refDefaultCache.current = createDefaultCache(cacheSize)
+    }
+    cache = refDefaultCache.current as SuspenseCache
+  }
+
+  return createElement(
     DefaultSuspenseCacheContext.Provider,
-    {
-      value: 'cache' in rest ? rest.cache : createDefaultCache(rest.cacheSize),
-    },
+    { value: cache },
     children
   )
+}
