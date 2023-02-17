@@ -23,32 +23,37 @@ export interface UseSuspenseOptions {
 }
 
 export function useSuspense<
-  F extends SuspenseCacheResolver,
-  Deps extends Parameters<F>,
-  R extends Awaited<ReturnType<F>>
->(fn: F, deps: Deps, opts: UseSuspenseOptions = {}): R {
+  Func extends SuspenseCacheResolver,
+  Deps extends Parameters<Func>,
+  Value extends Awaited<ReturnType<Func>>
+>(fn: Func, deps: Deps, opts: UseSuspenseOptions = {}): Value {
   const { context = DefaultSuspenseCacheContext, debug = false } = opts
 
-  const cache = useContext(context) as SuspenseCache<R>
-
+  const cache = useContext(context) as SuspenseCache<Value>
   const [key, prevKey] = useCacheKey(deps, fn, opts)
-
   const state = cache.read(key)
 
   const debugLabel = typeof debug === 'string' ? debug : fn.name || 'anonymous'
   useDebugValue(debugLabel)
-  const logger = getLogger(debug !== false, debugLabel, key, fn, deps)
+  const logger = getLogger(debug !== false, debugLabel, key, prevKey, fn, deps)
 
-  const refValue = useRef<R>()
+  /**
+   * Cache can get overflown by amount of loads on one screen / in one component.
+   * Which will cause an infinite loop, when latest calls remove cache for earliest ones, and it starts all over.
+   * To prevent this, backup loaded value here, aside from cache.
+   * If state in cache is lost, but cache key didn't change – this backup will be used,
+   * instead of initiating a load again.
+   */
+  const refValue = useRef<Value>()
 
   if (state === undefined) {
     // Initial key value is `undefined`,
     // so equality is only possible on a successive update.
     if (prevKey === key) {
       logger.reading(refValue.current)
-      return refValue.current as R
+      return refValue.current as Value
     } else {
-      logger.loading(prevKey)
+      logger.loading()
       throw cache.load(key, fn, ...deps)
     }
   }

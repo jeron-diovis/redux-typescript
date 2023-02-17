@@ -103,7 +103,7 @@ async function fetchPost(
 }
 
 function ExampleUpdateFunc() {
-  const [id, setId] = useState<string | number>(1)
+  const [id, setId] = useState<string | number>(4)
   const [cb, setCb] = useState(() => fetchTodo)
   const [trackCb, setTrackCb] = useState(true)
 

@@ -2,7 +2,7 @@
 const noop = () => {}
 
 interface Logger {
-  loading(prevKey: string | undefined): void
+  loading(): void
   reading(value: unknown): void
   success(value: unknown): void
   error(e: Error): void
@@ -21,15 +21,21 @@ export function getLogger(
   enabled: boolean,
   label: string,
   key: string,
+  prevKey: string | undefined,
   fn: () => void,
   deps: unknown[]
 ): Logger {
   if (!enabled) return dummy
 
   const log = (...args: unknown[]) => {
-    console.group(`[useSuspense] [key:${key}] ${label}`)
+    const keyLabel =
+      prevKey === undefined || prevKey === key ? key : `${prevKey} => ${key}`
+
+    console.group(`[useSuspense] [${keyLabel}] ${label}`)
     console.log(...args)
-    console.log('Args: %o', deps)
+    if (deps.length > 0) {
+      console.log('Args: %o', deps)
+    }
 
     console.groupCollapsed('Loader function')
     console.log(fn)
@@ -40,13 +46,8 @@ export function getLogger(
 
   const cacheMsg = 'No state found in cache.'
   return {
-    loading(prevKey) {
-      log(
-        `${cacheMsg}\n${
-          prevKey === undefined ? '' : 'Key has changed.\n'
-        }%cInitiate loading`,
-        clr('blue')
-      )
+    loading() {
+      log(`${cacheMsg}\n%cInitiate loading`, clr('blue'))
     },
 
     reading(value) {
@@ -59,7 +60,7 @@ export function getLogger(
 
     success(value) {
       log(
-        '%cLoading succeeded\n%cReading from the suspense cache:\n%o',
+        '%cLoading succeeded\n%cReading from cache:\n%o',
         clr('green'),
         '',
         value
