@@ -1,4 +1,12 @@
-import { Context, useContext, useDebugValue, useMemo, useRef } from 'react'
+import {
+  Context,
+  useCallback,
+  useContext,
+  useDebugValue,
+  useMemo,
+  useRef,
+} from 'react'
+import { useErrorHandler } from 'react-app-error-boundary'
 
 import hashSum from 'hash-sum'
 
@@ -9,14 +17,14 @@ import {
 } from './cache'
 import { getLogger } from './logger'
 
-export type KeyResolver = (
+export type CacheKeyResolver = (
   hash: string,
   args: unknown[],
   fn: () => unknown
 ) => string
 
 export interface UseSuspenseOptions {
-  key?: KeyResolver
+  key?: CacheKeyResolver
   context?: Context<SuspenseCache>
   debug?: boolean | string
   watchFuncChanges?: boolean
@@ -29,12 +37,14 @@ export interface UseSuspenseOptions {
  */
 const EMPTY = Symbol('@@use-suspense/empty')
 
-export function useSuspense<
-  Func extends SuspenseCacheResolver,
-  Deps extends Parameters<Func>,
-  Value extends Awaited<ReturnType<Func>>
->(fn: Func, deps: Deps, opts: UseSuspenseOptions = {}): Value {
-  const { context = DefaultSuspenseCacheContext, debug = true } = opts
+export function useSuspenseHandle<Func extends SuspenseCacheResolver>(
+  fn: Func,
+  deps: Parameters<Func>,
+  opts: UseSuspenseOptions = {}
+): [Awaited<ReturnType<Func>>, () => void] {
+  type Value = Awaited<ReturnType<Func>>
+
+  const { context = DefaultSuspenseCacheContext, debug = false } = opts
 
   const [key, prevKey] = useCacheKey(deps, fn, opts)
   const cache = useContext(context) as SuspenseCache<Value>
@@ -53,16 +63,20 @@ export function useSuspense<
    */
   const refValue = useRef<Value | typeof EMPTY>(EMPTY)
 
+  const [load, handle] = useLoaderCallbacks((isForced = false) => {
+    logger.loading(isForced)
+    refValue.current = EMPTY
+    return cache.load(key, fn, ...deps)
+  })
+
   if (state === undefined) {
     // Initial key value is `undefined`,
     // so equality is only possible on a successive update.
     if (prevKey === key) {
       logger.overflow(refValue.current)
-      return refValue.current as Value
+      return [refValue.current as Value, handle]
     } else {
-      logger.loading()
-      refValue.current = EMPTY
-      throw cache.load(key, fn, ...deps)
+      throw load()
     }
   }
 
@@ -76,9 +90,9 @@ export function useSuspense<
 
     case 'success': {
       const { value } = state
-      logger.success(value, refValue.current === EMPTY)
+      logger.success(value, refValue.current !== EMPTY)
       refValue.current = value
-      return value
+      return [value, handle]
     }
 
     default:
@@ -86,6 +100,17 @@ export function useSuspense<
       throw new Error(`Got unexpected cache status: ${status}`)
   }
 }
+
+export function useSuspense<Func extends SuspenseCacheResolver>(
+  fn: Func,
+  deps: Parameters<Func>,
+  opts: UseSuspenseOptions = {}
+) {
+  const [value] = useSuspenseHandle(fn, deps, opts)
+  return value as Awaited<ReturnType<Func>>
+}
+
+// ---
 
 function useCacheKey(
   deps: unknown[],
@@ -108,4 +133,20 @@ function useCacheKey(
   refPrev.current = key
 
   return [key, prev]
+}
+
+function useLoaderCallbacks<F extends (isForced?: boolean) => Promise<unknown>>(
+  fn: F
+): [F, () => void] {
+  const err = useErrorHandler()
+  const ref = useRef(fn)
+  ref.current = fn
+
+  // stable callback to be exposed to user
+  const handle = useCallback(
+    () => err(ref.current(true).then(() => err(null))),
+    [err]
+  )
+
+  return [fn, handle]
 }

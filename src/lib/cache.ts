@@ -8,13 +8,13 @@ import {
   useRef,
 } from 'react'
 
-export type SuspenseCacheResolver = (...args: any[]) => Promise<unknown>
+export type SuspenseCacheResolver<V = unknown> = (...args: any[]) => Promise<V>
 
-export interface SuspenseCache<Value = unknown> {
+export interface SuspenseCache<V = unknown> {
   read(key: string):
     | undefined
     | {
-        value: Value
+        value: V
         status: 'success'
       }
     | {
@@ -26,7 +26,7 @@ export interface SuspenseCache<Value = unknown> {
     key: string,
     fn: F,
     ...args: Parameters<F>
-  ): Promise<Value>
+  ): Promise<V>
 }
 
 export const createDefaultCache = (size?: number): SuspenseCache =>

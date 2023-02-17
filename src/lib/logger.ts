@@ -2,9 +2,9 @@
 const noop = () => {}
 
 interface Logger {
-  loading(): void
+  loading(isForced?: boolean): void
   overflow(value: unknown): void
-  success(value: unknown, isLoaded: boolean): void
+  success(value: unknown, isUpdating?: boolean): void
   error(e: Error): void
 }
 
@@ -45,8 +45,14 @@ export function getLogger(
   }
 
   return {
-    loading() {
-      log(`No state found in cache\n%cInitiate loading`, clr('blue'))
+    loading(isForced) {
+      log(
+        `%c${
+          isForced ? 'Force reload requested' : 'No state found in cache'
+        }\n%cLoading started`,
+        isForced ? clr('orangered') : '',
+        clr('blue')
+      )
     },
 
     overflow(value) {
@@ -56,11 +62,11 @@ export function getLogger(
       )
     },
 
-    success(value, isLoaded) {
-      if (isLoaded) {
-        log(`%cLoading succeeded\n%o`, clr('green'), value)
-      } else {
+    success(value, isUpdating) {
+      if (isUpdating) {
         log(`%cRead from cache\n%o`, clr('mediumpurple'), value)
+      } else {
+        log(`%cLoading succeeded\n%o`, clr('green'), value)
       }
     },
 

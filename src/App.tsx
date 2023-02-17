@@ -1,7 +1,7 @@
 import { FC, Suspense, SuspenseProps, useReducer, useState } from 'react'
 import { ErrorBoundary, ErrorBoundaryProps } from 'react-app-error-boundary'
 
-import { SuspenseCacheProvider, useSuspense } from './lib'
+import { SuspenseCacheProvider, useSuspense, useSuspenseHandle } from './lib'
 
 import styles from './App.module.css'
 
@@ -11,7 +11,7 @@ const Guard: FC<SuspenseProps & ErrorBoundaryProps> = ({
   ...errorBoundaryProps
 }) => (
   <ErrorBoundary {...errorBoundaryProps}>
-    <Suspense {...{ children, fallback }} />
+    <Suspense fallback={fallback}>{children}</Suspense>
   </ErrorBoundary>
 )
 
@@ -35,6 +35,9 @@ function App() {
         </Guard>
         <Guard>
           <ExampleUpdateFunc />
+        </Guard>
+        <Guard>
+          <ExampleHandle />
         </Guard>
       </SuspenseCacheProvider>
     </div>
@@ -157,6 +160,22 @@ function ExampleUpdateFunc() {
       </label>
 
       <pre>{JSON.stringify(value, null, 4)}</pre>
+    </div>
+  )
+}
+
+function ExampleHandle() {
+  const [id, setId] = useState(5)
+  const [value, load] = useSuspenseHandle(fetchTodo, [id], {
+    debug: 'handle',
+  })
+  return (
+    <div>
+      <div>
+        #{value.id}: {value.title}
+      </div>
+      <button onClick={() => setId(x => x + 1)}>inc id</button>
+      <button onClick={load}>refresh</button>
     </div>
   )
 }
