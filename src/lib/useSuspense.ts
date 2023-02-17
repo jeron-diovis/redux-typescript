@@ -22,20 +22,27 @@ export interface UseSuspenseOptions {
   watchFuncChanges?: boolean
 }
 
+/**
+ * Just to identify whether current value has been loaded or taken from cache.
+ * For logging purposes only.
+ * Don't use null/undefined, because loader func can return those too.
+ */
+const EMPTY = Symbol('@@use-suspense/empty')
+
 export function useSuspense<
   Func extends SuspenseCacheResolver,
   Deps extends Parameters<Func>,
   Value extends Awaited<ReturnType<Func>>
 >(fn: Func, deps: Deps, opts: UseSuspenseOptions = {}): Value {
-  const { context = DefaultSuspenseCacheContext, debug = false } = opts
+  const { context = DefaultSuspenseCacheContext, debug = true } = opts
 
-  const cache = useContext(context) as SuspenseCache<Value>
   const [key, prevKey] = useCacheKey(deps, fn, opts)
+  const cache = useContext(context) as SuspenseCache<Value>
   const state = cache.read(key)
 
   const debugLabel = typeof debug === 'string' ? debug : fn.name || 'anonymous'
-  useDebugValue(debugLabel)
   const logger = getLogger(debug !== false, debugLabel, key, prevKey, fn, deps)
+  useDebugValue(debugLabel)
 
   /**
    * Cache can get overflown by amount of loads on one screen / in one component.
@@ -44,16 +51,17 @@ export function useSuspense<
    * If state in cache is lost, but cache key didn't change – this backup will be used,
    * instead of initiating a load again.
    */
-  const refValue = useRef<Value>()
+  const refValue = useRef<Value | typeof EMPTY>(EMPTY)
 
   if (state === undefined) {
     // Initial key value is `undefined`,
     // so equality is only possible on a successive update.
     if (prevKey === key) {
-      logger.reading(refValue.current)
+      logger.overflow(refValue.current)
       return refValue.current as Value
     } else {
       logger.loading()
+      refValue.current = EMPTY
       throw cache.load(key, fn, ...deps)
     }
   }
@@ -68,7 +76,7 @@ export function useSuspense<
 
     case 'success': {
       const { value } = state
-      logger.success(value)
+      logger.success(value, refValue.current === EMPTY)
       refValue.current = value
       return value
     }

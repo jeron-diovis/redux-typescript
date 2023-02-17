@@ -3,14 +3,14 @@ const noop = () => {}
 
 interface Logger {
   loading(): void
-  reading(value: unknown): void
-  success(value: unknown): void
+  overflow(value: unknown): void
+  success(value: unknown, isLoaded: boolean): void
   error(e: Error): void
 }
 
 const dummy: Logger = {
   loading: noop,
-  reading: noop,
+  overflow: noop,
   success: noop,
   error: noop,
 }
@@ -29,7 +29,7 @@ export function getLogger(
 
   const log = (...args: unknown[]) => {
     const keyLabel =
-      prevKey === undefined || prevKey === key ? key : `${prevKey} => ${key}`
+      prevKey === undefined || prevKey === key ? key : `${key} <= ${prevKey}`
 
     console.group(`[useSuspense] [${keyLabel}] ${label}`)
     console.log(...args)
@@ -44,27 +44,24 @@ export function getLogger(
     console.groupEnd()
   }
 
-  const cacheMsg = 'No state found in cache.'
   return {
     loading() {
-      log(`${cacheMsg}\n%cInitiate loading`, clr('blue'))
+      log(`No state found in cache\n%cInitiate loading`, clr('blue'))
     },
 
-    reading(value) {
+    overflow(value) {
       log(
-        cacheMsg +
-          "\nKey didn't change – probably cache got overflown.\nReturn the value saved in hook:\n%o",
+        "Key didn't change, but no state found in cache\nProbably cache got overflown\nReturning a value saved in hook\n%o",
         value
       )
     },
 
-    success(value) {
-      log(
-        '%cLoading succeeded\n%cReading from cache:\n%o',
-        clr('green'),
-        '',
-        value
-      )
+    success(value, isLoaded) {
+      if (isLoaded) {
+        log(`%cLoading succeeded\n%o`, clr('green'), value)
+      } else {
+        log(`%cRead from cache\n%o`, clr('mediumpurple'), value)
+      }
     },
 
     error(/*e*/) {
