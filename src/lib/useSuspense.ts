@@ -17,17 +17,18 @@ import {
 } from './cache'
 import { getLogger } from './logger'
 
-export type CacheKeyResolver = (
-  hash: string,
-  args: unknown[],
+export type CacheKeyResolver = (params: {
+  args: unknown[]
   fn: () => unknown
-) => string
+  resource?: string
+}) => string
 
 export interface UseSuspenseOptions {
+  resource?: string
   key?: CacheKeyResolver
   context?: Context<SuspenseCache>
   debug?: boolean | string
-  watchFuncChanges?: boolean
+  watchFunc?: boolean
 }
 
 /**
@@ -59,7 +60,7 @@ export function useSuspenseHandle<F extends SuspenseCacheResolver>(
   const cache = useContext(context) as SuspenseCache<Value>
   const state = cache.read(key)
 
-  const debugLabel = typeof debug === 'string' ? debug : fn.name || 'anonymous'
+  const debugLabel = formatDebugLabel(fn.name, opts)
   const logger = getLogger(debug !== false, debugLabel, key, prevKey, fn, deps)
   useDebugValue(debugLabel)
 
@@ -73,7 +74,7 @@ export function useSuspenseHandle<F extends SuspenseCacheResolver>(
   const refValue = useRef<Value | typeof EMPTY>(EMPTY)
 
   const [load, handle] = useLoaderCallbacks((isForced = false) => {
-    logger.loading(isForced)
+    logger.load(isForced)
     refValue.current = EMPTY
     return cache.load(key, fn, ...deps)
   })
@@ -95,6 +96,11 @@ export function useSuspenseHandle<F extends SuspenseCacheResolver>(
       const { error } = state
       logger.error(error)
       throw error
+    }
+
+    case 'loading': {
+      logger.loading()
+      throw state.value
     }
 
     case 'success': {
@@ -140,19 +146,17 @@ function resolveParams<F extends SuspenseCacheResolver>(
 }
 
 function useCacheKey(
-  deps: unknown[],
+  args: unknown[],
   fn: () => unknown,
   opts: UseSuspenseOptions
 ): [string, string | undefined] {
-  const { key: keygen, watchFuncChanges = false } = opts
+  const { resource, key: keygen, watchFunc = false } = opts
 
   const key = useMemo(
-    () => {
-      const hash = hashSum([...deps, fn])
-      return keygen?.(hash, deps, fn) ?? hash
-    },
+    () =>
+      keygen?.({ args, fn, resource }) ?? hashSum([...args, resource ?? fn]),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    watchFuncChanges ? [...deps, fn] : deps
+    [...args, resource, watchFunc ? fn : undefined]
   )
 
   const refPrev = useRef<string>()
@@ -178,4 +182,17 @@ function useLoaderCallbacks<F extends (isForced?: boolean) => Promise<unknown>>(
   }, [err])
 
   return [fn, handle]
+}
+
+function formatDebugLabel(
+  fnName: string,
+  opts: Pick<UseSuspenseOptions, 'debug' | 'resource'>
+): string {
+  const { debug, resource } = opts
+  const label = resource ? `{${resource}}` : `${fnName || 'anonymous'}`
+  if (typeof debug === 'string') {
+    return `${label} | ${debug}`
+  } else {
+    return label
+  }
 }

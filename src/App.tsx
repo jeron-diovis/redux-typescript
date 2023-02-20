@@ -74,7 +74,9 @@ function ExampleSimplest() {
 }
 
 function ExampleExternal() {
-  const value = useSuspense(fetchTodo, [2])
+  const value = useSuspense(fetchTodo, [3], {
+    resource: 'todo',
+  })
   return (
     <div>
       #{value.id}: {value.title}
@@ -84,7 +86,9 @@ function ExampleExternal() {
 
 function ExampleUpdateDeps() {
   const [id, setId] = useState(3)
-  const value = useSuspense(fetchTodo, [id])
+  const value = useSuspense(id => fetchTodo(id), [id], {
+    resource: 'todo',
+  })
   return (
     <div>
       <div>
@@ -113,7 +117,7 @@ function ExampleUpdateFunc() {
   const [trackCb, setTrackCb] = useState(true)
 
   const value = useSuspense(cb, [id], {
-    watchFuncChanges: trackCb,
+    watchFunc: trackCb,
   })
 
   return (

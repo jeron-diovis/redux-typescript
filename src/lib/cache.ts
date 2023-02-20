@@ -13,12 +13,16 @@ export type SuspenseCacheResolver<V = unknown> = (...args: any[]) => Promise<V>
 export type SuspenseCacheState<V = unknown> =
   | undefined
   | {
-      value: V
-      status: 'success'
+      status: 'loading'
+      value: Promise<V>
     }
   | {
-      error: Error
+      status: 'success'
+      value: V
+    }
+  | {
       status: 'error'
+      error: Error
     }
 
 export interface SuspenseCache<V = unknown> {
@@ -31,8 +35,22 @@ export interface SuspenseCache<V = unknown> {
   ): Promise<V>
 }
 
-export const createDefaultCache = (size?: number): SuspenseCache =>
-  createCache((key, fn, ...args) => fn(...args), size) as SuspenseCache
+export const createDefaultCache = (size?: number): SuspenseCache => {
+  const cache = createCache((key, fn, ...args) => fn(...args), size)
+
+  const { load } = cache
+  cache.load = (...args) => {
+    const [key] = args
+    const promise = load(...args)
+    const state = cache.read(key)
+    if (state?.status === 'loading') {
+      state.value = promise
+    }
+    return promise
+  }
+
+  return cache as SuspenseCache
+}
 
 export const createCacheContext = (
   cache: SuspenseCache = createDefaultCache()
