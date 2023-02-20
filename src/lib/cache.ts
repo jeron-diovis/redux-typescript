@@ -35,7 +35,11 @@ export interface SuspenseCache<V = unknown> {
   ): Promise<V>
 }
 
-export const createDefaultCache = (size?: number): SuspenseCache => {
+export const DEFAULT_CACHE_SIZE = 100
+
+export const createDefaultCache = (
+  size: number = DEFAULT_CACHE_SIZE
+): SuspenseCache => {
   const cache = createCache((key, fn, ...args) => fn(...args), size)
 
   const { load } = cache
