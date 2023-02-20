@@ -10,17 +10,19 @@ import {
 
 export type SuspenseCacheResolver<V = unknown> = (...args: any[]) => Promise<V>
 
+export type SuspenseCacheState<V = unknown> =
+  | undefined
+  | {
+      value: V
+      status: 'success'
+    }
+  | {
+      error: Error
+      status: 'error'
+    }
+
 export interface SuspenseCache<V = unknown> {
-  read(key: string):
-    | undefined
-    | {
-        value: V
-        status: 'success'
-      }
-    | {
-        error: Error
-        status: 'error'
-      }
+  read(key: string): SuspenseCacheState<V>
 
   load<F extends SuspenseCacheResolver>(
     key: string,

@@ -4,7 +4,7 @@ const noop = () => {}
 interface Logger {
   loading(isForced?: boolean): void
   overflow(value: unknown): void
-  success(value: unknown, isUpdating?: boolean): void
+  success(value: unknown, isFirstLoad?: boolean): void
   error(e: Error): void
 }
 
@@ -62,11 +62,11 @@ export function getLogger(
       )
     },
 
-    success(value, isUpdating) {
-      if (isUpdating) {
-        log(`%cRead from cache\n%o`, clr('mediumpurple'), value)
-      } else {
+    success(value, isFirstLoad) {
+      if (isFirstLoad) {
         log(`%cLoading succeeded\n%o`, clr('green'), value)
+      } else {
+        log(`%cRead from cache\n%o`, clr('mediumpurple'), value)
       }
     },
 

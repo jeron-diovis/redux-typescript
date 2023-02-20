@@ -99,7 +99,7 @@ export function useSuspenseHandle<F extends SuspenseCacheResolver>(
 
     case 'success': {
       const { value } = state
-      logger.success(value, refValue.current !== EMPTY)
+      logger.success(value, refValue.current === EMPTY)
       refValue.current = value
       return [value, handle]
     }
@@ -170,10 +170,12 @@ function useLoaderCallbacks<F extends (isForced?: boolean) => Promise<unknown>>(
   ref.current = fn
 
   // stable callback to be exposed to user
-  const handle = useCallback(
-    () => err(ref.current(true).then(() => err(null))),
-    [err]
-  )
+  const handle = useCallback(async () => {
+    const promise = ref.current(true)
+    err(promise)
+    await promise
+    err(null)
+  }, [err])
 
   return [fn, handle]
 }
