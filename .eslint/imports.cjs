@@ -42,11 +42,6 @@ module.exports = {
             position: 'before',
           },
           {
-            pattern: '@mui/**',
-            group: 'external',
-            position: 'before',
-          },
-          {
             pattern: 'src/**',
             group: 'external',
             position: 'after',
@@ -56,20 +51,6 @@ module.exports = {
             group: 'sibling',
             position: 'after',
           },
-        ],
-      },
-    ],
-
-    // Deny to create dozens of imports from mui (line per component). Force imports grouping.
-    'no-restricted-imports': [
-      'error',
-      {
-        patterns: [
-          '@mui/material/*',
-          '@mui/material/styles/*',
-          '@mui/icons-material/*',
-          '!@mui/material/colors',
-          '!@mui/material/styles',
         ],
       },
     ],
