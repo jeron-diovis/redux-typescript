@@ -83,8 +83,9 @@ export function useSuspenseHandle<F extends SuspenseCacheResolver>(
     // Initial key value is `undefined`,
     // so equality is only possible on a successive update.
     if (prevKey === key) {
-      logger.overflow(refValue.current)
-      return [refValue.current as Value, handle]
+      const { current } = refValue
+      logger.overflow(current)
+      return [current as Value, handle]
     } else {
       throw load()
     }
