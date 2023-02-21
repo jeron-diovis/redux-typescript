@@ -1,11 +1,7 @@
 import { FC, Suspense, SuspenseProps, useReducer, useState } from 'react'
 import { ErrorBoundary, ErrorBoundaryProps } from 'react-app-error-boundary'
 
-import {
-  SuspenseCacheProvider,
-  useSuspense,
-  useSuspenseHandle,
-} from '../src/lib'
+import { SuspenseCacheProvider, useSuspense, useSuspenseHandle } from '../src'
 
 import styles from './App.module.css'
 

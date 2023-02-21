@@ -48,7 +48,7 @@ module.exports = {
   overrides: [
     /* infrastructure scripts/configs */
     {
-      files: ['!src/**/*.{cjs,js,ts}'],
+      files: ['!{src,example}/**/*.{cjs,js,ts,jsx,tsx}'],
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
         'react-hooks/rules-of-hooks': 'off',
