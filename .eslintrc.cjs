@@ -9,6 +9,10 @@ module.exports = {
     './.eslint/prettier.cjs',
   ],
 
+  settings: {
+    react: { version: '>=18.2.0' },
+  },
+
   rules: {
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-unreachable': 'warn',

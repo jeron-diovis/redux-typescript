@@ -12,7 +12,6 @@ export const useBundleVisualizer = useConfig({
           filename: `stats/${template}.html`,
           template,
           gzipSize: true,
-          open: true,
         }) as unknown as PluginOption
     ),
   ],

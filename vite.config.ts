@@ -7,6 +7,18 @@ import { withPlugins } from './.vite'
 // Lots of stuff here: https://github.com/vitejs/awesome-vite#plugins
 export default defineConfig(
   withPlugins({
+    build: {
+      lib: {
+        entry: 'src/index',
+        formats: ['es', 'cjs'],
+      },
+      sourcemap: true,
+
+      rollupOptions: {
+        external: ['react'],
+      },
+    },
+
     plugins: [timeReporter()],
   })
 )
