@@ -22,6 +22,6 @@
     "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "baseUrl": "."
   },
-  "include": ["src"],
+  "include": ["src", "example"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
