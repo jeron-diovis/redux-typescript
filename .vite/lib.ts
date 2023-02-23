@@ -2,11 +2,14 @@ import { UserConfig } from 'vite'
 
 import { merge, mergeWith, partialRight } from 'lodash-es'
 
-export const mergeConfig: typeof merge = partialRight(mergeWith, (a, b) => {
-  if (Array.isArray(a) && Array.isArray(b)) {
-    return a.concat(b)
+export const mergeConfig: typeof merge = partialRight(
+  mergeWith,
+  (a: unknown, b: unknown) => {
+    if (Array.isArray(a) && Array.isArray(b)) {
+      return a.concat(b)
+    }
   }
-})
+)
 
 export type Configurator<Required extends boolean = true> = (
   base: UserConfig

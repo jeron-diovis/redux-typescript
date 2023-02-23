@@ -6,9 +6,13 @@ import { useJsonServer } from './cfg.json-server'
 import { useLint } from './cfg.lint'
 import { useModularImports } from './cfg.modular-imports'
 import { useNodeCompat } from './cfg.node-compat'
+import { useReact } from './cfg.react'
+import { useCSS } from './cfg.styles'
 import { Configurator } from './lib'
 
 const applyPlugins = flow(
+  useReact,
+  useCSS,
   useLint,
   useModularImports,
   useNodeCompat,
