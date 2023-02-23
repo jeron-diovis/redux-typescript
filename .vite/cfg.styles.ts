@@ -1,6 +1,6 @@
-import { useConfig } from './lib'
+import { defineChunk } from './lib'
 
-export const useCSS = useConfig({
+export const useCSS = defineChunk({
   css: {
     devSourcemap: true,
     modules: {

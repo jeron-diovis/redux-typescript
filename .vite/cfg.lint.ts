@@ -2,9 +2,9 @@ import checker from 'vite-plugin-checker'
 
 import pkg from '../package.json'
 
-import { useConfig } from './lib'
+import { defineChunk } from './lib'
 
-export const useLint = useConfig({
+export const useLint = defineChunk({
   plugins: [
     /**
      * There are separate plugins for js and css:

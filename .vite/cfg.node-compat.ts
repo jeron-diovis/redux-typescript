@@ -2,12 +2,12 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 
-import { useConfig } from './lib'
+import { defineChunk } from './lib'
 
 /**
  * @see https://stackoverflow.com/a/70666018/3437433
  */
-export const useNodeCompat = useConfig({
+export const useNodeCompat = defineChunk({
   optimizeDeps: {
     esbuildOptions: {
       define: {

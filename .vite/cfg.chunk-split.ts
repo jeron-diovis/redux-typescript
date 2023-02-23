@@ -1,8 +1,8 @@
 import { chunkSplitPlugin } from 'vite-plugin-chunk-split'
 
-import { useConfig } from './lib'
+import { defineChunk } from './lib'
 
-export const useChunkSplit = useConfig({
+export const useChunkSplit = defineChunk({
   plugins: [
     /** @see https://www.npmjs.com/package/vite-plugin-chunk-split */
     chunkSplitPlugin({

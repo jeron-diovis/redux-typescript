@@ -1,4 +1,4 @@
-import { useConfig } from './lib'
+import { defineChunk } from './lib'
 
 /**
  * Remember that proxy settings have lower precedence than json-server plugin.
@@ -6,7 +6,7 @@ import { useConfig } from './lib'
  * check out configurations in the `mock` folder – maybe there is an overlap.
  * Or remove the plugin if you don't need it.
  */
-export const useProxy = useConfig({
+export const useProxy = defineChunk({
   server: {
     proxy: {
       /**

@@ -1,8 +1,8 @@
 import react from '@vitejs/plugin-react'
 
-import { useConfig } from './lib'
+import { defineChunk } from './lib'
 
-export const useReact = useConfig({
+export const useReact = defineChunk({
   plugins: [
     react({
       babel: {

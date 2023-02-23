@@ -1,8 +1,8 @@
 import importus from 'vite-plugin-importus'
 
-import { useConfig } from './lib'
+import { defineChunk } from './lib'
 
-export const useModularImports = useConfig({
+export const useModularImports = defineChunk({
   plugins: [
     importus([
       /**
