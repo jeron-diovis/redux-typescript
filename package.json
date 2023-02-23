@@ -56,7 +56,7 @@
     "vite-plugin-checker": "^0.5.5",
     "vite-plugin-chunk-split": "^0.4.7",
     "vite-plugin-importus": "^1.0.4",
-    "vite-plugin-mock-dev-server": "^0.3.19",
+    "vite-plugin-mock-dev-server": "^0.4.0",
     "vite-plugin-svgr": "^2.4.0",
     "vite-plugin-time-reporter": "^2.1.0"
   }

@@ -6,6 +6,7 @@ import { useJsonServer } from './cfg.json-server'
 import { useLint } from './cfg.lint'
 import { useModularImports } from './cfg.modular-imports'
 import { useNodeCompat } from './cfg.node-compat'
+import { useProxy } from './cfg.proxy'
 import { useReact } from './cfg.react'
 import { useCSS } from './cfg.styles'
 import { Configurator } from './lib'
@@ -18,8 +19,8 @@ const applyPlugins = flow(
   useNodeCompat,
   useJsonServer,
   useChunkSplit,
-  // make sure this one is always the last – to get more accurate filesize data
-  useBundleVisualizer
+  useProxy,
+  useBundleVisualizer // make sure this one is always the last – to get more accurate filesize data
 )
 
 export const withPlugins: Configurator = flow(identity, applyPlugins)

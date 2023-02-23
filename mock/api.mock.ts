@@ -1,7 +1,6 @@
 import { defineMock } from 'vite-plugin-mock-dev-server'
 
-const BASE = '/api/'
-const url = (x: TemplateStringsArray) => BASE + x
+import { url } from '../.vite/cfg.json-server'
 
 /**
  * @see https://github.com/pengzhanbo/vite-plugin-mock-dev-server#mock-configuration
