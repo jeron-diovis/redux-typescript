@@ -1,6 +1,10 @@
-import { ConfigEnv, UserConfig } from 'vite'
+import { ConfigEnv, UserConfig, UserConfigFn } from 'vite'
 
 import { isFunction, merge, mergeWith, partialRight } from 'lodash-es'
+
+import { Promised, reduceAsync, wait } from './lib.async'
+
+// ---
 
 export const mergeConfig: typeof merge = partialRight(
   mergeWith,
@@ -11,20 +15,26 @@ export const mergeConfig: typeof merge = partialRight(
   }
 )
 
+// ---
+
+type PromisedConfig = ReturnType<UserConfigFn>
+
 type If<Cond extends boolean, Value> = Cond extends true ? Value : never
 
 type CfgInit<Static extends boolean = false> =
-  | ((env: ConfigEnv) => UserConfig)
-  | If<Static, UserConfig>
+  | UserConfigFn
+  | If<Static, PromisedConfig>
 
 type CfgChunk<Mutable extends boolean = false> = (
   base: UserConfig,
   env: ConfigEnv
-) => UserConfig | If<Mutable, void>
+) => Promised<UserConfig | If<Mutable, void>>
 
-type ChunkFactory = (config: UserConfig | CfgChunk<true>) => CfgChunk
+type ChunkFactory = (config: PromisedConfig | CfgChunk<true>) => CfgChunk
 
 type ConfigBuilder = (chunks: CfgChunk[]) => (base: CfgInit<true>) => CfgInit
+
+// ---
 
 /**
  * <pre>
@@ -39,11 +49,11 @@ type ConfigBuilder = (chunks: CfgChunk[]) => (base: CfgInit<true>) => CfgInit
  *   })
  * </pre>
  */
-export const defineChunk: ChunkFactory = cfg => (base, env) => {
-  const ext = isFunction(cfg) ? cfg(base, env) : cfg
-  // `undefined` assumes that config has been mutated
-  return ext === undefined ? base : mergeConfig(base, ext)
-}
+export const defineChunk: ChunkFactory = cfg => (base, env) =>
+  wait(isFunction(cfg) ? cfg(base, env) : cfg, cfg =>
+    // `undefined` assumes that config has been mutated
+    cfg === undefined ? base : mergeConfig(base, cfg)
+  )
 
 /**
  * <pre>
@@ -58,7 +68,8 @@ export const defineChunk: ChunkFactory = cfg => (base, env) => {
  * </pre>
  */
 export const useChunks: ConfigBuilder = fns => init => env =>
-  fns.reduce(
-    (cfg, plugin) => plugin(cfg, env),
+  reduceAsync(
+    (cfg, chunk) => chunk(cfg, env),
+    fns,
     isFunction(init) ? init(env) : init
   )
