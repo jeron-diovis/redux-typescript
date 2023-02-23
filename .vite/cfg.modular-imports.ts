@@ -21,6 +21,7 @@ export const useModularImports = useConfig({
 
       patch('ramda', 'ramda/es'),
       patch('date-fns'),
+      // TODO: MUI
     ]),
   ],
 })
@@ -40,6 +41,6 @@ function patch(
     customName:
       typeof transform === 'function'
         ? transform
-        : importName => `${transform}/${importName}`,
+        : (importName: string) => `${transform}/${importName}`,
   }
 }

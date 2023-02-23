@@ -13,10 +13,12 @@ async function removeIgnoredFiles(files) {
   return filtered.join(' ')
 }
 
+const paths = '{src,mock}'
+
 module.exports = {
-  '{src,mock}/**/*.{cjs,js,ts,jsx,tsx}': async files => [
+  [`${paths}/**/*.{cjs,js,ts,jsx,tsx}`]: async files => [
     `eslint --cache --fix --max-warnings=0 ${await removeIgnoredFiles(files)}`,
   ],
 
-  'src/**/*.{s,}css': ['stylelint --cache --fix --max-warnings=0'],
+  [`${paths}/**/*.{s,}css`]: ['stylelint --cache --fix --max-warnings=0'],
 }
