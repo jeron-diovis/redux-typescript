@@ -1,8 +1,6 @@
-# https://stylelint.io/user-guide/rules/list
-# https://github.com/stylelint-scss/stylelint-scss#list-of-rules
+# @see https://stylelint.io/user-guide/rules/list
 
 extends:
-  - stylelint-config-standard-scss
   - stylelint-config-css-modules
 
 defaultSeverity: warning
@@ -22,9 +20,6 @@ rules:
         - comments
       # fonts lists may be quite long
       ignorePattern: "/font\\-family:/"
-
-  at-rule-no-unknown: null
-  scss/at-rule-no-unknown: true
 
   color-hex-length: "short"
 
@@ -62,22 +57,47 @@ rules:
   # This one is quite strange and requires strange-looking codestyle
   value-list-comma-newline-after: null
 
-  block-closing-brace-newline-after:
+  block-closing-brace-newline-after: always
+  rule-empty-line-before:
     - always
-    -
-      ignoreAtRules:
-        - "if"
-        - "else"
+    - except:
+        - first-nested
 
   comment-whitespace-inside: null
   comment-empty-line-before: null
 
-  # This rule enforces using only placeholder selectors in `@extend`.
-  # Which is not always the real usecase.
-  scss/at-extend-no-missing-placeholder: null
+overrides:
+  - # css-only rules
+    files: "**/*.css"
+    rules:
+      at-rule-no-unknown:
+        - true
+        - ignoreAtRules:
+            # @see https://www.npmjs.com/package/postcss-mixins
+            - "define-mixin"
+            - "mixin"
 
-  # see https://github.com/stylelint-scss/stylelint-scss/blob/HEAD/src/rules/no-global-function-names/README.md
-  # It's either not supported by node-sass, or smth else,
-  # but following this rule cause compiler to crash with like `SassError: There is no module with the namespace "color"`
-  # Also not supported by editors (in particular, WebStorm).
-  scss/no-global-function-names: null
+  - # scss-only rules
+    files: "**/*.scss"
+    extends:
+      # @see https://github.com/stylelint-scss/stylelint-scss#list-of-rules
+      - stylelint-config-standard-scss
+      - stylelint-config-css-modules
+
+    rules:
+      # This rule enforces using only placeholder selectors in `@extend`.
+      # Which is not always the real usecase.
+      scss/at-extend-no-missing-placeholder: null
+
+      # @see https://github.com/stylelint-scss/stylelint-scss/blob/HEAD/src/rules/no-global-function-names/README.md
+      # It's either not supported by node-sass, or smth else,
+      # but following this rule cause compiler to crash with like `SassError: There is no module with the namespace "color"`
+      # Also not supported by editors (in particular, WebStorm).
+      scss/no-global-function-names: null
+
+      block-closing-brace-newline-after:
+        - always
+        - ignoreAtRules:
+            - "if"
+            - "else"
+

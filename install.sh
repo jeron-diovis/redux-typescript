@@ -16,8 +16,9 @@ function add_styles() {
     stylelint-config-css-modules \
     stylelint-config-standard-scss \
     typescript-plugin-css-modules \
-    postcss-custom-selectors \
-    postcss-nested
+    postcss-nested \
+    postcss-mixins \
+    postcss-custom-selectors
 }
 
 function add_jsx_if() {
