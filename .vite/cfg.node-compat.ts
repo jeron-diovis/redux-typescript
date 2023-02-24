@@ -1,6 +1,7 @@
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
+import { Plugin } from 'vite'
 
 import { defineChunk } from './lib'
 
@@ -27,7 +28,7 @@ export const useNodeCompat = defineChunk({
     rollupOptions: {
       plugins: [
         // Enable rollup polyfills plugin used during production bundling
-        rollupNodePolyFill(),
+        rollupNodePolyFill() as Plugin,
       ],
     },
   },
