@@ -2,8 +2,6 @@ import { ConfigEnv, UserConfig, UserConfigFn } from 'vite'
 
 import { isFunction, merge, mergeWith, partialRight } from 'lodash-es'
 
-import { Promised, reduceAsync, wait } from './lib.async'
-
 // ---
 
 export const mergeConfig: typeof merge = partialRight(
@@ -17,6 +15,7 @@ export const mergeConfig: typeof merge = partialRight(
 
 // ---
 
+type Promised<T = unknown> = T | Promise<T>
 type PromisedConfig = ReturnType<UserConfigFn>
 
 type If<Cond extends boolean, Value> = Cond extends true ? Value : never
@@ -49,11 +48,11 @@ type ConfigBuilder = (chunks: CfgChunk[]) => (base: CfgInit<true>) => CfgInit
  *   })
  * </pre>
  */
-export const defineChunk: ChunkFactory = cfg => (base, env) =>
-  wait(isFunction(cfg) ? cfg(base, env) : cfg, cfg =>
-    // `undefined` assumes that config has been mutated
-    cfg === undefined ? base : mergeConfig(base, cfg)
-  )
+export const defineChunk: ChunkFactory = cfg => async (base, env) => {
+  const ext = isFunction(cfg) ? await cfg(base, env) : cfg
+  // `undefined` assumes that config has been mutated
+  return ext === undefined ? base : mergeConfig(base, ext)
+}
 
 /**
  * <pre>
@@ -68,8 +67,7 @@ export const defineChunk: ChunkFactory = cfg => (base, env) =>
  * </pre>
  */
 export const useChunks: ConfigBuilder = fns => init => env =>
-  reduceAsync(
-    (cfg, chunk) => chunk(cfg, env),
-    fns,
+  fns.reduce(
+    async (cfg, chunk) => chunk(await cfg, env),
     isFunction(init) ? init(env) : init
   )
