@@ -9,7 +9,7 @@ import { useReact } from './cfg.react'
 import { useCSS } from './cfg.styles'
 import { useChunks } from './lib'
 
-export const configure = useChunks([
+export const defineConfig = useChunks([
   useReact,
   useCSS,
   useLint,
