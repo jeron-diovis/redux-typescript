@@ -7,6 +7,7 @@ import { useNodeCompat } from './cfg.node-compat'
 import { useProxy } from './cfg.proxy'
 import { useReact } from './cfg.react'
 import { useCSS } from './cfg.styles'
+import { useTests } from './cfg.tests'
 import { useChunks } from './lib'
 
 export const defineConfig = useChunks([
@@ -18,5 +19,6 @@ export const defineConfig = useChunks([
   useJsonServer,
   useChunkSplit,
   useProxy,
+  useTests,
   useBundleVisualizer, // make sure this one is always the last – to get more accurate filesize data
 ])

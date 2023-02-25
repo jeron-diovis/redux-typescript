@@ -13,7 +13,7 @@ async function removeIgnoredFiles(files) {
   return filtered.join(' ')
 }
 
-const paths = '{src,mock}'
+const paths = '{src,mock,tests}'
 
 module.exports = {
   [`${paths}/**/*.{cjs,js,ts,jsx,tsx}`]: async files => [

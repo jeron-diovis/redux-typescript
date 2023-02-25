@@ -20,7 +20,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "plugins": [{ "name": "typescript-plugin-css-modules" }],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "types": ["vitest", "vitest/globals", "vitest/importMeta"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
