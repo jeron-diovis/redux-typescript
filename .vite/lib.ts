@@ -7,8 +7,8 @@ import { isFunction, merge, mergeWith, partialRight } from 'lodash-es'
 export const mergeConfig: typeof merge = partialRight(
   mergeWith,
   (a: unknown, b: unknown) => {
-    if (Array.isArray(a) && Array.isArray(b)) {
-      return a.concat(b)
+    if (Array.isArray(b)) {
+      return Array.isArray(a) ? a.concat(b) : b
     }
   }
 )
