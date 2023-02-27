@@ -1,4 +1,4 @@
-import { useBundleVisualizer } from './cfg.bundle-visualizer'
+import { useBuildAnalysis } from './cfg.build-analysis'
 import { useChunkSplit } from './cfg.chunk-split'
 import { useJsonServer } from './cfg.json-server'
 import { useLint } from './cfg.lint'
@@ -20,5 +20,5 @@ export const defineConfig = useChunks([
   useChunkSplit,
   useProxy,
   useTests,
-  useBundleVisualizer, // make sure this one is always the last – to get more accurate filesize data
+  useBuildAnalysis,
 ])

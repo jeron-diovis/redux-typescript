@@ -1,8 +1,9 @@
 import { visualizer } from 'rollup-plugin-visualizer'
+import timeReporter from 'vite-plugin-time-reporter'
 
 import { defineChunk } from './lib'
 
-export const useBundleVisualizer = defineChunk({
+export const useBuildAnalysis = defineChunk({
   plugins: [
     (['sunburst', 'treemap', 'network'] as const).map(template =>
       visualizer({
@@ -12,5 +13,7 @@ export const useBundleVisualizer = defineChunk({
         gzipSize: true,
       })
     ),
+
+    timeReporter(),
   ],
 })

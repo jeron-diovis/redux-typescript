@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react'
+import svgr from 'vite-plugin-svgr'
 
 import { defineChunk } from './lib'
 
@@ -13,5 +14,7 @@ export const useReact = defineChunk({
         ],
       },
     }),
+
+    svgr(), // import { ReactComponent } from '*.svg'
   ],
 })
