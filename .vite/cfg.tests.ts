@@ -1,7 +1,6 @@
 /// <reference types="vitest" />
+import { defineChunk } from 'vite-split-config'
 import { configDefaults } from 'vitest/config'
-
-import { defineChunk } from './lib'
 
 export const useTests = defineChunk({
   test: {

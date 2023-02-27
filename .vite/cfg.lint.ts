@@ -1,8 +1,7 @@
 import checker from 'vite-plugin-checker'
+import { defineChunk } from 'vite-split-config'
 
 import pkg from '../package.json'
-
-import { defineChunk } from './lib'
 
 export const useLint = defineChunk({
   plugins: [

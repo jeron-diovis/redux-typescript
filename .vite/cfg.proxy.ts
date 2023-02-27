@@ -1,4 +1,4 @@
-import { defineChunk } from './lib'
+import { defineChunk } from 'vite-split-config'
 
 /**
  * Remember that proxy settings have lower precedence than json-server plugin.

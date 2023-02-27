@@ -1,3 +1,5 @@
+import { useChunks } from 'vite-split-config'
+
 import { useBuildAnalysis } from './cfg.build-analysis'
 import { useChunkSplit } from './cfg.chunk-split'
 import { useJsonServer } from './cfg.json-server'
@@ -8,7 +10,6 @@ import { useProxy } from './cfg.proxy'
 import { useReact } from './cfg.react'
 import { useCSS } from './cfg.styles'
 import { useTests } from './cfg.tests'
-import { useChunks } from './lib'
 
 export const defineConfig = useChunks([
   useReact,

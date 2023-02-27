@@ -1,6 +1,5 @@
 import importus from 'vite-plugin-importus'
-
-import { defineChunk } from './lib'
+import { defineChunk } from 'vite-split-config'
 
 export const useModularImports = defineChunk({
   plugins: [

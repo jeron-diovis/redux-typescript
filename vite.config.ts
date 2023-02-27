@@ -11,4 +11,5 @@ export default defineConfig({
       src: sysPath.resolve(__dirname, 'src'),
     },
   },
+  plugins: [],
 })

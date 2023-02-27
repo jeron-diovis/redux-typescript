@@ -2,8 +2,7 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 import { Plugin } from 'vite'
-
-import { defineChunk } from './lib'
+import { defineChunk } from 'vite-split-config'
 
 /**
  * @see https://stackoverflow.com/a/70666018/3437433

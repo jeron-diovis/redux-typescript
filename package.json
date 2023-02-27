@@ -63,6 +63,7 @@
     "vite-plugin-mock-dev-server": "^0.4.0",
     "vite-plugin-svgr": "^2.4.0",
     "vite-plugin-time-reporter": "^2.1.0",
+    "vite-split-config": "^0.1.4",
     "vitest": "^0.28.5"
   }
 }

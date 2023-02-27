@@ -1,6 +1,5 @@
 import mockDevServerPlugin from 'vite-plugin-mock-dev-server'
-
-import { defineChunk } from './lib'
+import { defineChunk } from 'vite-split-config'
 
 const PREFIX = '/api'
 

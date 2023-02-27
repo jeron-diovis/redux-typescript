@@ -1,7 +1,6 @@
 import { visualizer } from 'rollup-plugin-visualizer'
 import timeReporter from 'vite-plugin-time-reporter'
-
-import { defineChunk } from './lib'
+import { defineChunk } from 'vite-split-config'
 
 export const useBuildAnalysis = defineChunk({
   plugins: [

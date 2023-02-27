@@ -1,4 +1,4 @@
-import { defineChunk } from './lib'
+import { defineChunk } from 'vite-split-config'
 
 export const useCSS = defineChunk({
   css: {
