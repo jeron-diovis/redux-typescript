@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "stat": "./view-stats.sh",
     "lint:js": "eslint src --ext .cjs,.js,.jsx,.ts,.tsx",
     "lint:ts": "tsc --noEmit",
     "lint:css": "stylelint src/**/*.{s,}css",
