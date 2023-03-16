@@ -89,6 +89,10 @@ overrides:
       # Which is not always the real usecase.
       scss/at-extend-no-missing-placeholder: null
 
+      scss/at-import-partial-extension: null
+      scss/at-import-partial-extension-whitelist:
+        - module
+
       # @see https://github.com/stylelint-scss/stylelint-scss/blob/HEAD/src/rules/no-global-function-names/README.md
       # It's either not supported by node-sass, or smth else,
       # but following this rule cause compiler to crash with like `SassError: There is no module with the namespace "color"`
