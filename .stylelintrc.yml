@@ -60,8 +60,9 @@ rules:
   block-closing-brace-newline-after: always
   rule-empty-line-before:
     - always
-    - except:
+    - ignore:
         - first-nested
+        - after-comment
 
   comment-whitespace-inside: null
   comment-empty-line-before: null
