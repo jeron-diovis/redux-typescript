@@ -47,5 +47,5 @@ export function createInstance(cfg?: AxiosRequestConfig) {
 }
 
 function ensureTrailingSlash(str: string): string {
-  return str.replace(/([^/])$/, '$1/')
+  return str === '' ? '/' : str.replace(/([^/])$/, '$1/')
 }
