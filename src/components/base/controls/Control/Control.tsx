@@ -19,7 +19,7 @@ function Control(props: IControlComponentProps) {
 
   const {
     label,
-    layout,
+    layout = 'col',
     labelPosition = 'before',
     labelVerticalAlign = 'center',
     children,
