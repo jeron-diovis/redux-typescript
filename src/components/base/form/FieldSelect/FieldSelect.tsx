@@ -34,10 +34,7 @@ export default function FieldSelect<
             {...field}
             invalid={invalid}
             refInput={combineRefs(ref, refInput)}
-            onChange={
-              // Type '(...event: any[]) => void' is not assignable to type 'Clearable extends false ? .. : ...
-              field.onChange as any /* eslint-disable-line @typescript-eslint/no-explicit-any */
-            }
+            onChange={field.onChange}
           />
         )
       }}
