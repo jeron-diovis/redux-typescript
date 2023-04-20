@@ -7,6 +7,14 @@ module.exports = {
   rules: {
     'import/newline-after-import': 'warn',
 
+    'import/no-anonymous-default-export': [
+      'error',
+      {
+        allowArray: true,
+        allowObject: true,
+      },
+    ],
+
     'sort-imports': [
       'warn',
       {
