@@ -28,7 +28,8 @@ function add_jsx_if() {
 
 function add_vite_plugins() {
   echo Install Vite quality-of-life plugins
-  yarn add -D vite-split-config \
+  yarn add -D @vitejs/plugin-react \
+    vite-split-config \
     vite-plugin-checker \
     vite-plugin-importus \
     vite-plugin-mock-dev-server \
@@ -36,6 +37,7 @@ function add_vite_plugins() {
     vite-plugin-svgr \
     vite-plugin-time-reporter \
     rollup-plugin-visualizer \
+    rollup-plugin-module-replacement \
     @esbuild-plugins/node-globals-polyfill \
     @esbuild-plugins/node-modules-polyfill
 }
@@ -53,6 +55,14 @@ function add_precommit() {
   yarn add -D 'husky@>=7' lint-staged
 }
 
+function add_tests() {
+  echo Install testing utilities
+  yarn add -D vitest \
+    @vitest/ui \
+    @testing-library/react \
+    @testing-library/jest-dom
+}
+
 function main() {
   add_eslint
   add_styles
@@ -60,6 +70,7 @@ function main() {
   add_vite_plugins
   add_musthave_packages
   add_precommit
+  add_tests
 }
 
 main

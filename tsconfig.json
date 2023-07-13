@@ -21,7 +21,7 @@
     "jsx": "react-jsx",
     "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "baseUrl": ".",
-    "types": ["vitest", "vitest/globals", "vitest/importMeta"]
+    "types": ["vitest", "vitest/globals", "vitest/importMeta", "@testing-library/jest-dom"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

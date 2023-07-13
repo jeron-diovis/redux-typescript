@@ -5,6 +5,8 @@ import { configDefaults } from 'vitest/config'
 export const useTests = defineChunk({
   test: {
     globals: true,
+    environment: 'jsdom',
+    setupFiles: ['src/setupTests'],
 
     forceRerunTriggers: [...configDefaults.forceRerunTriggers, '**/.vite/**'],
     /**
