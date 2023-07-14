@@ -4,9 +4,9 @@ function add_eslint() {
   echo Install eslint
   yarn add -D eslint \
     eslint-config-react-app \
-    prettier \
-    eslint-config-prettier \
-    eslint-plugin-prettier
+    prettier@^2.8.8 \ # v3 has weird bugs in loading prettierrc and trailing commas formatting
+    eslint-plugin-prettier@^4.2.1 \ # v5 uses prettier v3
+    eslint-config-prettier
 }
 
 function add_styles() {
