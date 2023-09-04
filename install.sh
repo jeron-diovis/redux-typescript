@@ -12,7 +12,7 @@ function add_eslint() {
 function add_styles() {
   echo Install stylelint and CSS preprocessor
   yarn add -D sass \
-    stylelint \
+    stylelint@^14.0 \ # v15 is incompatible with vite-plugin-checker
     stylelint-config-css-modules \
     stylelint-config-standard-scss \
     typescript-plugin-css-modules \
