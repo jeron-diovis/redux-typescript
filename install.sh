@@ -2,17 +2,20 @@
 
 function add_eslint() {
   echo Install eslint
+  # prettier@3 has weird bugs in loading prettierrc and trailing commas formatting
+  # eslint-plugin-prettier@5 use s prettier v3
   yarn add -D eslint \
     eslint-config-react-app \
-    prettier@^2.8.8 \ # v3 has weird bugs in loading prettierrc and trailing commas formatting
-    eslint-plugin-prettier@^4.2.1 \ # v5 uses prettier v3
+    prettier@^2.8.8 \
+    eslint-plugin-prettier@^4.2.1 \
     eslint-config-prettier
 }
 
 function add_styles() {
   echo Install stylelint and CSS preprocessor
+  # stylelint@15 is incompatible with vite-plugin-checker
   yarn add -D sass \
-    stylelint@^14.0 \ # v15 is incompatible with vite-plugin-checker
+    stylelint@^14.0 \
     stylelint-config-css-modules \
     stylelint-config-standard-scss \
     typescript-plugin-css-modules \
@@ -64,12 +67,12 @@ function add_tests() {
 }
 
 function main() {
+  add_precommit
   add_eslint
   add_styles
   add_jsx_if
   add_vite_plugins
   add_musthave_packages
-  add_precommit
   add_tests
 }
 
