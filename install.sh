@@ -14,10 +14,11 @@ function add_eslint() {
 function add_styles() {
   echo Install stylelint and CSS preprocessor
   # stylelint@15 is incompatible with vite-plugin-checker
+  # stylelint-config-standard-scss@8+ requires stylelint@15
   yarn add -D sass \
     stylelint@^14.0 \
     stylelint-config-css-modules \
-    stylelint-config-standard-scss \
+    stylelint-config-standard-scss@^7.0.0 \
     typescript-plugin-css-modules \
     postcss-nested \
     postcss-mixins \
