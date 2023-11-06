@@ -3,11 +3,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "src/*": [ "../src/*" ]
+      "src/*": ["../src/*"],
+      "~mock": ["."],
+      "~mock/*": ["./*"]
     }
   },
   "include": [
-    "*.mock.ts",
-    "../src/types/global.d.ts"
+    "**/*.mock.ts"
   ]
 }

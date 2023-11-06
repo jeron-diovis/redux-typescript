@@ -1,13 +1,11 @@
-import { defineMock } from 'vite-plugin-mock-dev-server'
-
-import { url } from '../.vite/cfg.json-server'
+import { defineMock } from '~mock'
 
 /**
  * @see https://github.com/pengzhanbo/vite-plugin-mock-dev-server#mock-configuration
  */
 export default defineMock([
   {
-    url: url`test`,
+    url: 'test',
     body: {
       demo: 'The mock api works!',
     },
