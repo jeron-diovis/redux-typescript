@@ -2,12 +2,10 @@
 
 function add_eslint() {
   echo Install eslint
-  # prettier@3 has weird bugs in loading prettierrc and trailing commas formatting
-  # eslint-plugin-prettier@5 use s prettier v3
   yarn add -D eslint \
     eslint-config-react-app \
-    prettier@^2.8.8 \
-    eslint-plugin-prettier@^4.2.1 \
+    prettier \
+    eslint-plugin-prettier \
     eslint-config-prettier
 }
 
@@ -42,8 +40,8 @@ function add_vite_plugins() {
     vite-plugin-time-reporter \
     rollup-plugin-visualizer \
     rollup-plugin-module-replacement \
-    @esbuild-plugins/node-globals-polyfill \
-    @esbuild-plugins/node-modules-polyfill
+    rollup-plugin-node-polyfills \
+    vite-plugin-node-polyfills
 }
 
 function add_musthave_packages() {

@@ -34,7 +34,7 @@ export const defineMock = createDefineMock(mock => {
 function enableAutoStringify(mock: MockOptions[0]) {
   if ('response' in mock && mock.response !== undefined) {
     const { response } = mock
-    mock.response = function (req, res, ...rest) {
+    mock.response = function (req, res, next) {
       const { end } = res
       res.end = function (this: typeof res, arg, ...rest) {
         const chunk =
@@ -45,7 +45,7 @@ function enableAutoStringify(mock: MockOptions[0]) {
         return end.call(this, chunk, ...(rest as [any, any]))
       } as typeof end
 
-      return response(req, res, ...rest)
+      return response(req, res, next)
     }
   }
   return mock
@@ -75,7 +75,7 @@ function logServerState() {
     console.log(`[json-server] Server enabled. Mocking requests: ${API_PREFIX}`)
   } else {
     console.log(
-      `[json-server] Server disabled.\nTo enable data mocking, add env variable '${ENV_KEY}=${ENV_VAL}'`
+      `[json-server] Server disabled. To enable data mocking, add env variable '${ENV_KEY}=${ENV_VAL}'`
     )
   }
 }

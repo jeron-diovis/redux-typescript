@@ -9,6 +9,10 @@ export default defineConfig({
     /** Note these aliases imply css files too – affecting paths in `composes` prop. */
     alias: {
       src: sysPath.resolve(__dirname, 'src'),
+
+      /* Should be used only inside `mock` folder.
+       * To make intellisense work, also requires to define this alias in `mock/tsconfig.json` */
+      '~mock': sysPath.resolve(__dirname, 'mock'),
     },
   },
 })
