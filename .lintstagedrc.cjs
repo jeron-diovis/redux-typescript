@@ -20,5 +20,7 @@ module.exports = {
     `eslint --cache --fix --max-warnings=0 ${await removeIgnoredFiles(files)}`,
   ],
 
-  [`${paths}/**/*.{s,}css`]: ['stylelint --cache --fix --max-warnings=0'],
+  [`${paths}/**/*.{s,}css`]: [
+    'stylelint --cache --fix --max-warnings=0 --allow-empty-input',
+  ],
 }

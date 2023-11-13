@@ -2,7 +2,7 @@ module.exports = {
   extends: [
     'react-app',
     'eslint:recommended',
-
+    'plugin:storybook/recommended',
     './.eslint/typescript.cjs',
     './.eslint/jsx-control-statements.cjs',
     './.eslint/imports.cjs',
