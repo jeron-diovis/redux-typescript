@@ -26,5 +26,12 @@ module.exports = {
         'no-console': 'off',
       },
     },
+
+    {
+      files: ['**/*.js'],
+      rules: {
+        'no-undef': 'error',
+      },
+    },
   ],
 }
