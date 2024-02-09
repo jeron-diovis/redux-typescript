@@ -87,6 +87,8 @@
     "postcss": "^8.4.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
-    "meow": "^9.0.0"
+    "meow": "^9.0.0",
+    "strip-ansi": "^6.0.0",
+    "string-width": "^4.0.0"
   }
 }
