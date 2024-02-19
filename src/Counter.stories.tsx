@@ -7,6 +7,7 @@ type Story = StoryObj<TComponent>
 
 const meta: Meta<TComponent> = {
   component: Component,
+  tags: ['autodocs'],
 }
 
 export default meta
