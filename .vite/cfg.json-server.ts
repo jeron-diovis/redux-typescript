@@ -65,7 +65,7 @@ const PLUGIN = mockDevServerPlugin({
 
 export const useJsonServer = defineChunk(() => {
   logServerState()
-  return ENABLE_SERVER ? undefined : { plugins: [PLUGIN] }
+  return ENABLE_SERVER ? { plugins: [PLUGIN] } : undefined
 })
 
 // ---
