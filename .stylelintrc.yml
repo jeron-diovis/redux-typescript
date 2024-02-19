@@ -13,14 +13,6 @@ rules:
   # @see https://stylelint.io/user-guide/rules/list/font-family-name-quotes/#options
   font-family-name-quotes: "always-unless-keyword"
 
-  max-line-length:
-    - 120
-    -
-      ignore:
-        - comments
-      # fonts lists may be quite long
-      ignorePattern: "/font\\-family:/"
-
   color-hex-length: "short"
 
   # this rule doesn't make any real help,
@@ -33,8 +25,6 @@ rules:
 
   # In very rare cases it's needed, disable this rule locally
   declaration-no-important: true
-
-  number-leading-zero: always
 
   at-rule-empty-line-before:
     - always
@@ -52,12 +42,9 @@ rules:
         - "for"
         - "return"
 
-  value-list-comma-space-after: always
-  value-list-comma-space-before: "never-single-line"
   # This one is quite strange and requires strange-looking codestyle
   value-list-comma-newline-after: null
 
-  block-closing-brace-newline-after: always
   rule-empty-line-before:
     - always
     - ignore:
