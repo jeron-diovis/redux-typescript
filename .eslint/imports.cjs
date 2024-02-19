@@ -7,6 +7,22 @@ module.exports = {
   rules: {
     'import/newline-after-import': 'warn',
 
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: [
+          /* Stories have nothing to do with production build/env, so they can safely use dev deps. */
+          '**/{*.,}stories.{j,t}s{x,}',
+          /* storybook configs */
+          '.storybook/**/*',
+          /* tests */
+          '**/*.test.ts{x,}',
+          /* vite configs */
+          '.vite/*',
+        ],
+      },
+    ],
+
     'sort-imports': [
       'warn',
       {
