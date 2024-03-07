@@ -55,7 +55,6 @@ function enableAutoStringify(mock: MockOptions[0]) {
 
 const ENV_KEY = 'USE_JSON_SERVER'
 const ENV_VAL = 'true'
-const ENABLE_SERVER = process.env[ENV_KEY] === ENV_VAL
 
 /** @see https://github.com/pengzhanbo/vite-plugin-mock-dev-server#options */
 const PLUGIN = mockDevServerPlugin({
@@ -63,15 +62,16 @@ const PLUGIN = mockDevServerPlugin({
   log: 'info',
 })
 
-export const useJsonServer = defineChunk(() => {
-  logServerState()
-  return ENABLE_SERVER ? { plugins: [PLUGIN] } : undefined
+export const useJsonServer = defineChunk((_, { env }) => {
+  const enabled = env[ENV_KEY] === ENV_VAL
+  logServerState(enabled)
+  return enabled ? { plugins: [PLUGIN] } : undefined
 })
 
 // ---
 
-function logServerState() {
-  if (ENABLE_SERVER) {
+function logServerState(enabled: boolean) {
+  if (enabled) {
     console.log(`[json-server] Server enabled. Mocking requests: ${API_PREFIX}`)
   } else {
     console.log(

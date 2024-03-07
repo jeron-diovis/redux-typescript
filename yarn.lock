@@ -11201,10 +11201,10 @@ vite-plugin-time-reporter@^2.2.0:
   resolved "https://registry.yarnpkg.com/vite-plugin-time-reporter/-/vite-plugin-time-reporter-2.2.0.tgz#4b6722051138bf00893c861f2aa287cc78e254cc"
   integrity sha512-Qdtm2gFSt9sxOdpV6g/Hio0DQVXvD6zi/0zqm7xhtzjlOJ2JVwWdfvsUj5LjVk3zdwXjC+VaarZ2oOLPw/cmHg==
 
-vite-split-config@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/vite-split-config/-/vite-split-config-0.2.0.tgz#a96a4eeb5d628c9e52e61594c671b04bf17e7cba"
-  integrity sha512-AGBOaeTrmtaT9RegIAcIMoN9+EY1ltWMgNYwJ6lcYf0AOZauRmEiwIghJTPFJ28l+DVFIZcJiT8obRsOB+4UGQ==
+vite-split-config@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vite-split-config/-/vite-split-config-1.0.0.tgz#a93da5621157b59df3dc1c640d7655635aad9254"
+  integrity sha512-xV+gFvR/ERIWpmciojBbBPTZw+Z1gZZqSTKWn2gSFgmMWU70OYEQlDdDIs+lbL3wv6dPSkObpQLCAjSBo9PQcw==
 
 "vite@^3.0.0 || ^4.0.0 || ^5.0.0-0", "vite@^3.1.0 || ^4.0.0 || ^5.0.0-0", vite@^4.5.0:
   version "4.5.0"
