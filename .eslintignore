@@ -3,3 +3,4 @@
 !.vite
 !.lintstagedrc.cjs
 !.prettierrc.cjs
+!.storybook

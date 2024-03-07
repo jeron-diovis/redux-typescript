@@ -3131,6 +3131,13 @@
   dependencies:
     memoizerific "^1.11.3"
 
+"@storybook/addon-viewport@^7.6.17":
+  version "7.6.17"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-viewport/-/addon-viewport-7.6.17.tgz#db3c1f14bb4185f20d745c4e8cf2bd10f70ea336"
+  integrity sha512-sA0QCcf4QAMixWvn8uvRYPfkKCSl6JajJaAspoPqXSxHEpK7uwOlpg3kqFU5XJJPXD0X957M+ONgNvBzYqSpEw==
+  dependencies:
+    memoizerific "^1.11.3"
+
 "@storybook/blocks@7.6.16", "@storybook/blocks@^7.6.16":
   version "7.6.16"
   resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-7.6.16.tgz#0bcea894051645c1f7b1d4b341f0b3bf4313519d"
