@@ -56,7 +56,8 @@ rules:
 
 overrides:
   - # css-only rules
-    files: "**/*.css"
+    files:
+      - "**/*.css"
     rules:
       at-rule-no-unknown:
         - true
@@ -66,11 +67,11 @@ overrides:
             - "mixin"
 
   - # scss-only rules
-    files: "**/*.scss"
+    files:
+      - "**/*.scss"
     extends:
       # @see https://github.com/stylelint-scss/stylelint-scss#list-of-rules
       - stylelint-config-standard-scss
-      - stylelint-config-css-modules
 
     rules:
       # This rule enforces using only placeholder selectors in `@extend`.

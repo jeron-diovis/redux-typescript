@@ -19,6 +19,8 @@ module.exports = {
           '**/*.test.ts{x,}',
           /* vite configs */
           '.vite/*',
+          /* whatever other 'rc' config files */
+          '.*rc.{c,}{j,t}s',
         ],
       },
     ],
