@@ -11,12 +11,25 @@ import { useReact } from './cfg.react'
 import { useCSS } from './cfg.styles'
 import { useTests } from './cfg.tests'
 
-export const defineConfig = useChunks([
+export {
   useReact,
   useCSS,
   useLint,
   useModularImports,
   useNodeCompat,
+  useJsonServer,
+  useChunkSplit,
+  useProxy,
+  useTests,
+  useBuildAnalysis,
+}
+
+export const defineConfig = useChunks([
+  useReact,
+  useCSS,
+  useLint,
+  useModularImports,
+  // useNodeCompat,
   useJsonServer,
   useChunkSplit,
   useProxy,
