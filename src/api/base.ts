@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import qs from 'qs'
+import qs from 'query-string'
 
 export const API_BASE_URL = '/api'
 
@@ -13,10 +13,7 @@ export function createInstance(cfg?: AxiosRequestConfig) {
      * Don't use default axios' serializer because it's behaviour is non-standard.
      * @see https://github.com/axios/axios/issues/1111
      */
-    paramsSerializer: params =>
-      qs.stringify(params, {
-        arrayFormat: 'repeat',
-      }),
+    paramsSerializer: params => qs.stringify(params),
 
     baseURL: API_BASE_URL,
 
