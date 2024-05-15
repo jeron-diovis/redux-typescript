@@ -3,11 +3,7 @@ module.exports = {
     'react-app',
     'eslint:recommended',
     'plugin:storybook/recommended',
-    './.eslint/base.cjs',
-    './.eslint/typescript.cjs',
-    './.eslint/jsx-control-statements.cjs',
-    './.eslint/imports.cjs',
-    './.eslint/prettier.cjs',
+    './.eslint/index.cjs',
   ],
 
   overrides: [
