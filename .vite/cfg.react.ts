@@ -14,6 +14,6 @@ export const useReact = defineChunk({
       },
     }),
 
-    svgr(), // import { ReactComponent } from '*.svg'
+    svgr(), // import { ReactComponent } from '*.svg?react'
   ],
 })
