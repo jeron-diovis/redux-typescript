@@ -33,5 +33,7 @@ module.exports = {
 
     'react/jsx-key': 'warn',
     'react/jsx-boolean-value': 'warn',
+    'react/react-in-jsx-scope': 'off',
+    'react/destructuring-assignment': ['warn', 'always'],
   },
 }
