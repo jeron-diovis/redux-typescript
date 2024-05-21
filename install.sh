@@ -2,20 +2,25 @@
 
 # ---
 
-if [ -f yarn.lock ]; then
-  CMD_INSTALL="yarn add"
-  PROP_OVERRIDES="resolutions"
-else
-  CMD_INSTALL="npm install --audit=false --fund=false"
-  PROP_OVERRIDES="overrides"
-fi
+function npm_or_yarn() {
+  if [ -f yarn.lock ]; then
+    echo "$2"
+  else
+    echo "$1"
+  fi
+}
 
 function install() {
-  $CMD_INSTALL "$@"
+  CMD=$(npm_or_yarn \
+   "npm install --audit=false --fund=false" \
+   "yarn add")
+
+  $CMD "$@"
 }
 
 function override() {
-  npm pkg set "$PROP_OVERRIDES.$1=$2"
+  PROP=$(npm_or_yarn overrides resolutions)
+  npm pkg set "$PROP.$1=$2"
 }
 
 function npm_script() {
