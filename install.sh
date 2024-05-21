@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # ---
+# Package manager utils
 
 function npm_or_yarn() {
   if [ -f yarn.lock ]; then
@@ -27,6 +28,9 @@ function npm_script() {
   npm pkg set "scripts.$1=$2"
 }
 
+# ---
+# Misc utils
+
 function append_line() {
   LINE=$1
   FILE=$2
@@ -37,10 +41,25 @@ function append_line() {
   fi
 }
 
+function colored() {
+  PREFIX='\033['
+  COLOR="${PREFIX}${1}"
+  NOCOLOR="${PREFIX}0m"
+  shift 1
+  echo "${COLOR}${*}${NOCOLOR}"
+}
+
+function section_header() {
+  PKG=$(npm pkg get name)
+  COLOR='0;32m'
+  echo "$(colored ${COLOR} [${PKG}:setup])" "$@"
+}
+
 # ---
+# Installation
 
 function add_eslint() {
-  echo Install eslint
+  section_header Install eslint
 
   # have to pin it to make eslint@8 and vite-plugin-checker a friends
   override meow "^9.0.0"
@@ -60,7 +79,7 @@ function add_eslint() {
 }
 
 function add_styles() {
-  echo Install stylelint and CSS preprocessor
+  section_header Install stylelint and CSS preprocessor
   append_line .stylelintcache .gitignore
   install -D sass \
     stylelint \
@@ -73,14 +92,14 @@ function add_styles() {
 }
 
 function add_jsx_if() {
-  echo Install jsx-control-statements
+  section_header Install jsx-control-statements
   install -D eslint-plugin-jsx-control-statements \
     babel-plugin-jsx-control-statements \
     @babel/plugin-transform-react-jsx
 }
 
 function add_vite_plugins() {
-  echo Install Vite quality-of-life plugins
+  section_header Install Vite quality-of-life plugins
   install -D @vitejs/plugin-react \
     vite-split-config \
     vite-plugin-checker \
@@ -107,20 +126,20 @@ function add_vite_plugins() {
 }
 
 function add_musthave_packages() {
-  echo Install must-have utility packages
+  section_header Install must-have utility packages
   install lodash-es date-fns \
     clsx axios query-string utility-types
   install -D @types/lodash-es @types/node
 }
 
 function add_precommit() {
-  echo Install git-hooks tools
+  section_header Install git-hooks tools
   install -D 'husky@^7.0.0' lint-staged
   ./init-git-hooks.sh
 }
 
 function add_tests() {
-  echo Install testing utilities
+  section_header Install testing utilities
   install -D vitest \
     @vitest/ui \
     @testing-library/react \
@@ -128,7 +147,7 @@ function add_tests() {
 }
 
 function add_npm_scripts() {
-  echo Add npm scripts to package.json
+  section_header Add npm scripts to package.json
   npm_script stat './view-stats.sh'
   npm_script lint:js "eslint src --ext .cjs,.js,.jsx,.ts,.tsx"
   npm_script lint:ts "tsc --noEmit && cd mock && tsc --noEmit"
@@ -139,7 +158,7 @@ function add_npm_scripts() {
 }
 
 function edit_ts_config() {
-  echo Adjust tsconfig with types and plugins
+  section_header Adjust tsconfig with types and plugins
   install -D dot-json
 
   function remove_comments() {
@@ -161,6 +180,8 @@ function edit_ts_config() {
 }
 
 function main() {
+  section_header Start configuring project
+
   add_precommit
   add_eslint
   add_styles
@@ -170,6 +191,8 @@ function main() {
   add_tests
   edit_ts_config
   add_npm_scripts
+
+  section_header All done!
 }
 
 main
