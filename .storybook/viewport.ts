@@ -14,27 +14,19 @@ const BREAKPOINTS: Record<string, number> = {
  * @see https://storybook.js.org/docs/essentials/viewport
  */
 export const viewport: NonNullable<Preview['parameters']>['viewport'] = {
-  viewports: getViewports(),
+  viewports: getViewports(BREAKPOINTS),
   defaultViewport: 'responsive',
 }
 
 // ---
 
-function getViewports(): ViewportMap {
-  return Object.keys(BREAKPOINTS).length === 0
+function getViewports(breakpoints: Record<string, number>): ViewportMap {
+  return Object.keys(breakpoints).length === 0
     ? MINIMAL_VIEWPORTS
-    : createBreakpointViewports(BREAKPOINTS)
+    : mapValues(breakpoints, createBreakpointViewport)
 }
 
-function createBreakpointViewports(
-  breakpoints: Record<string, number>
-): ViewportMap {
-  return mapValues(breakpoints, (width, name) =>
-    createBreakpointViewport(name, width)
-  )
-}
-
-function createBreakpointViewport(name: string, width: number): Viewport {
+function createBreakpointViewport(width: number, name: string): Viewport {
   const query = `w >= ${width}`
   const height = width / (16 / 9)
   return {

@@ -6,5 +6,6 @@ module.exports = {
     'react/jsx-boolean-value': 'warn',
     'react/react-in-jsx-scope': 'off',
     'react/destructuring-assignment': ['warn', 'always'],
+    'react/no-unescaped-entities': 'off',
   },
 }
