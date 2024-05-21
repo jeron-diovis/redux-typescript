@@ -42,9 +42,6 @@ rules:
         - "for"
         - "return"
 
-  # This one is quite strange and requires strange-looking codestyle
-  value-list-comma-newline-after: null
-
   rule-empty-line-before:
     - always
     - ignore:

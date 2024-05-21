@@ -1,4 +1,6 @@
 module.exports = {
+  plugins: ['import'],
+
   settings: {
     // Fix recognition of 'external' module type for 'import/order' rule
     'import/external-module-folders': ['node_modules', 'node_modules/@types'],

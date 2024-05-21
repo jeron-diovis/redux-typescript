@@ -1,0 +1,10 @@
+module.exports = {
+  plugins: ['react', 'react-refresh'],
+  extends: ['plugin:react/recommended', 'plugin:react-hooks/recommended'],
+  rules: {
+    'react/jsx-key': 'warn',
+    'react/jsx-boolean-value': 'warn',
+    'react/react-in-jsx-scope': 'off',
+    'react/destructuring-assignment': ['warn', 'always'],
+  },
+}

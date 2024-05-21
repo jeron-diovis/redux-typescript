@@ -1,6 +1,13 @@
 module.exports = {
+  parser: '@typescript-eslint/parser',
+
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+
   extends: [
-    'react-app',
     'eslint:recommended',
     'plugin:storybook/recommended',
     './.eslint/index.cjs',
