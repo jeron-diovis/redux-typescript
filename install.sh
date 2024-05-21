@@ -22,6 +22,16 @@ function npm_script() {
   npm pkg set "scripts.$1=$2"
 }
 
+function append_line() {
+  LINE=$1
+  FILE=$2
+  if [ -f "$FILE" ] && ! (grep -q "$LINE" "$FILE"); then
+    echo "$LINE" >> "$FILE"
+  else
+    return 1
+  fi
+}
+
 # ---
 
 function add_eslint() {
@@ -29,7 +39,7 @@ function add_eslint() {
 
   # have to pin it to make eslint@8 and vite-plugin-checker a friends
   override meow "^9.0.0"
-  echo .eslintcache >> .gitignore
+  append_line .eslintcache .gitignore
 
   # Pin eslint to v8, because v9 seems to be incompatible with vite-plugin-checker@0.6.4
   install -D eslint@^8.0.0 \
@@ -46,7 +56,7 @@ function add_eslint() {
 
 function add_styles() {
   echo Install stylelint and CSS preprocessor
-  echo .stylelintcache >> .gitignore
+  append_line .stylelintcache .gitignore
   install -D sass \
     stylelint \
     stylelint-config-css-modules \
@@ -81,16 +91,14 @@ function add_vite_plugins() {
     vite-plugin-node-polyfills
 
   # Add types for SVGR plugin
-  TYPES='/// <reference types="vite-plugin-svgr/client" />'
-  FILES=(vite-env.d.ts, types/vite-env.d.ts)
-  for item in "${FILES[@]}"; do
-    FILEPATH=src/$item
-    if [ -f "$FILEPATH" ]; then
-      echo "$TYPES" >> "$FILEPATH"
+  TYPES_FILE=vite-env.d.ts
+  FILES=($TYPES_FILE, types/$TYPES_FILE)
+  for file in "${FILES[@]}"; do
+    LINE='/// <reference types="vite-plugin-svgr/client" />'
+    if append_line "$LINE" "src/$file"; then
       break
     fi
   done
-
 }
 
 function add_musthave_packages() {
