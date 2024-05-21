@@ -63,7 +63,7 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "eslint-plugin-storybook": "^0.6.15",
     "husky": "^7.0.0",
-    "jsdom": "^22.1.0",
+    "jsdom": "^24.0.0",
     "lint-staged": "^15.2.2",
     "postcss-custom-selectors": "^7.1.10",
     "postcss-mixins": "^10.0.1",
@@ -92,11 +92,6 @@
     "vitest": "^1.6.0"
   },
   "resolutions": {
-    "postcss": "^8.4.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "meow": "^9.0.0",
-    "strip-ansi": "^6.0.0",
-    "string-width": "^4.0.0"
+    "meow": "^9.0.0"
   }
 }
