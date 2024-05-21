@@ -25,7 +25,5 @@ dist-ssr
 
 .stylelintcache
 .eslintcache
-.eslintcache
-.stylelintcache
 
 *storybook.log
