@@ -1,5 +1,7 @@
 import type { Preview } from '@storybook/react'
 
+import { viewport } from './viewport'
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -8,6 +10,8 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+
+    viewport,
   },
 }
 
