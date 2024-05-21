@@ -6,6 +6,8 @@ import mockDevServerPlugin, {
 } from 'vite-plugin-mock-dev-server'
 import { defineChunk } from 'vite-split-config'
 
+import chalk from 'chalk'
+
 // ---
 
 const API_PREFIX = '/api'
@@ -71,11 +73,13 @@ export const useJsonServer = defineChunk((_, { env }) => {
 // ---
 
 function logServerState(enabled: boolean) {
+  const filepath = sysPath.relative(process.cwd(), __filename)
+  const tag = chalk.blueBright(`[${filepath}]`)
   if (enabled) {
-    console.log(`[json-server] Server enabled. Mocking requests: ${API_PREFIX}`)
+    console.log(`${tag} json-server enabled. Mocking requests: ${API_PREFIX}`)
   } else {
     console.log(
-      `[json-server] Server disabled. To enable data mocking, add env variable '${ENV_KEY}=${ENV_VAL}'`
+      `${tag} json-server disabled. To enable data mocking, add env variable '${ENV_KEY}=${ENV_VAL}'`
     )
   }
 }

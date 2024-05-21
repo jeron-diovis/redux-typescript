@@ -129,7 +129,7 @@ function add_musthave_packages() {
   section_header Install must-have utility packages
   install lodash-es date-fns \
     clsx axios query-string utility-types
-  install -D @types/lodash-es @types/node
+  install -D @types/lodash-es @types/node chalk
 }
 
 function add_precommit() {
