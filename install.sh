@@ -56,7 +56,7 @@ function section_header() {
 }
 
 # ---
-# Installation
+# Installation scripts
 
 function add_eslint() {
   section_header Install eslint
@@ -179,6 +179,19 @@ function edit_ts_config() {
   json_prop tsconfig.node.json include '["vite.config.ts", ".vite/**/*.ts", "package.json"]'
 }
 
+function fix_bad_deps() {
+  # Multiple plugins require tons of different Vite version as peer dep
+  override vite "^5.1.5"
+
+  # rollup-plugin-inject and sourcemap-codec both report deprecation warnings
+  # with recommended replacements
+  override rollup-plugin-inject "npm:@rollup/plugin-inject"
+  override sourcemap-codec "npm:@jridgewell/sourcemap-codec"
+}
+
+# ---
+# Run
+
 function main() {
   section_header Start configuring project
 
@@ -191,6 +204,7 @@ function main() {
   add_tests
   edit_ts_config
   add_npm_scripts
+  fix_bad_deps
 
   section_header All done!
 }
