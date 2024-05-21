@@ -88,6 +88,7 @@
     "vite-plugin-svgr": "^4.2.0",
     "vite-plugin-time-reporter": "^2.3.0",
     "vite-split-config": "^1.0.0",
+    "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^1.6.0"
   },
   "resolutions": {

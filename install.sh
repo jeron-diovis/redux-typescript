@@ -50,6 +50,7 @@ function add_vite_plugins() {
     vite-plugin-chunk-split \
     vite-plugin-svgr \
     vite-plugin-time-reporter \
+    vite-tsconfig-paths \
     rollup-plugin-visualizer \
     rollup-plugin-module-replacement \
     rollup-plugin-node-polyfills \
