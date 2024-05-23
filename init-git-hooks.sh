@@ -38,14 +38,8 @@ npx husky add "$PRE_COMMIT_PATH"
 PRE_COMMIT_SRC="#!/bin/sh
 
 HUSKY_ROOT=\$(dirname \"\$0\")
-FE_ROOT=\"\$HUSKY_ROOT/..\"
 
 . \"\$HUSKY_ROOT/_/husky.sh\"
-
-# Make sure we are in frontend folder.
-# Git hooks run from repo root. To run npm scripts, should go to where they are installed.
-# This matters if frontend folder is not a git root.
-cd \$FE_ROOT
 
 npx lint-staged"
 

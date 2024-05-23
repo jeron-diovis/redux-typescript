@@ -136,6 +136,9 @@ function add_precommit() {
   section_header Install git-hooks tools
   install -D 'husky@^7.0.0' lint-staged
   ./init-git-hooks.sh
+  # if other developer clones and installs already set up repo,
+  # he must get hooks installed after running `npm install`
+  npm_script prepare "./init-git-hooks.sh"
 }
 
 function add_tests() {
@@ -195,7 +198,7 @@ function fix_bad_deps() {
 function main() {
   section_header Start configuring project
 
-  add_precommit
+  fix_bad_deps
   add_eslint
   add_styles
   add_jsx_if
@@ -204,7 +207,7 @@ function main() {
   add_tests
   edit_ts_config
   add_npm_scripts
-  fix_bad_deps
+  add_precommit
 
   section_header All done!
 }
