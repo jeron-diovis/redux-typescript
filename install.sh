@@ -61,8 +61,6 @@ function section_header() {
 function add_eslint() {
   section_header Install eslint
 
-  # have to pin it to make eslint@8 and vite-plugin-checker a friends
-  override meow "^9.0.0"
   append_line .eslintcache .gitignore
 
   # Pin eslint to v8, because v9 seems to be incompatible with vite-plugin-checker@0.6.4
@@ -183,11 +181,11 @@ function edit_ts_config() {
 }
 
 function fix_bad_deps() {
-  # Multiple plugins require tons of different Vite version as peer dep
-  override vite "^5.1.5"
+  # these indirect deps report deprecation errors
+  override rimraf ">=4.0.0"
+  override glob ">=9.0.0"
 
-  # rollup-plugin-inject and sourcemap-codec both report deprecation warnings
-  # with recommended replacements
+  # these ones report deprecation warnings with specific replacements
   override rollup-plugin-inject "npm:@rollup/plugin-inject"
   override sourcemap-codec "npm:@jridgewell/sourcemap-codec"
 }
