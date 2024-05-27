@@ -114,17 +114,18 @@ export const transformGetOnly = createMockTransform(mock => {
  */
 export const transformStringifyResponse = createMockTransform(mock => {
   if ('response' in mock && mock.response !== undefined) {
+    const maybeStringify = (arg: unknown) =>
+      arg?.constructor === Object || arg?.constructor === Array
+        ? JSON.stringify(arg)
+        : arg
+
     const { response } = mock
     mock.response = function (req, res, next) {
       const { end } = res
-      res.end = function (this: typeof res, arg, ...rest) {
-        const chunk =
-          arg?.constructor === Object || arg?.constructor === Array
-            ? JSON.stringify(arg)
-            : arg
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return end.call(this, chunk, ...(rest as [any, any]))
-      } as typeof end
+      // @ts-expect-error Exact types are unnecessarily cumbersome here.
+      res.end = function (arg, ...rest) {
+        return end.apply(this, [maybeStringify(arg), ...rest] as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+      }
 
       return response(req, res, next)
     }
