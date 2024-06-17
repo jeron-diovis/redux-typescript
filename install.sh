@@ -90,10 +90,16 @@ function add_styles() {
 }
 
 function add_jsx_if() {
-  section_header Install jsx-control-statements
-  install -D eslint-plugin-jsx-control-statements \
-    babel-plugin-jsx-control-statements \
-    @babel/plugin-transform-react-jsx
+  section_header Install react-control-statements
+  # install plugin as normal dep, as it gets imported in source modules
+  install vite-plugin-react-control-statements
+  install -D eslint-plugin-jsx-control-statements
+
+  echo "import * as JCS from 'vite-plugin-react-control-statements'
+
+declare global {
+  const { If, Choose, When, Otherwise } = JCS
+}" > src/types/jcs.d.ts
 }
 
 function add_vite_plugins() {
