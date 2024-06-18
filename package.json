@@ -26,8 +26,7 @@
     "query-string": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "utility-types": "^3.11.0",
-    "vite-plugin-react-control-statements": "^1.0.1"
+    "utility-types": "^3.11.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.4.0",
@@ -48,6 +47,7 @@
     "@types/ramda": "^0.29.7",
     "@types/react": "^18.2.36",
     "@types/react-dom": "^18.2.14",
+    "@types/vite-plugin-react-control-statements": "^0.0.0",
     "@typescript-eslint/eslint-plugin": "^7.10.0",
     "@typescript-eslint/parser": "^7.10.0",
     "@vitejs/plugin-react": "^4.2.1",
@@ -87,6 +87,7 @@
     "vite-plugin-mock-dev-server": "^1.5.0",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vite-plugin-react-click-to-component": "^3.0.0",
+    "vite-plugin-react-control-statements": "^1.0.1",
     "vite-plugin-svgr": "^4.2.0",
     "vite-plugin-time-reporter": "^2.3.0",
     "vite-split-config": "^1.0.0",

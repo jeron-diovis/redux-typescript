@@ -41,6 +41,21 @@ function append_line() {
   fi
 }
 
+function add_global_types() {
+  LINE=$1
+  TYPES_FILE=vite-env.d.ts
+  FILES=($TYPES_FILE, types/$TYPES_FILE)
+  for file in "${FILES[@]}"; do
+    if append_line "$LINE" "src/$file"; then
+      break
+    fi
+  done
+}
+
+function add_types_reference() {
+  add_global_types "/// <reference types=\"$1\" />"
+}
+
 function colored() {
   PREFIX='\033['
   COLOR="${PREFIX}${1}"
@@ -91,15 +106,11 @@ function add_styles() {
 
 function add_jsx_if() {
   section_header Install react-control-statements
-  # install plugin as normal dep, as it gets imported in source modules
-  install vite-plugin-react-control-statements
-  install -D eslint-plugin-jsx-control-statements
+  install -D vite-plugin-react-control-statements \
+    @types/vite-plugin-react-control-statements \
+    eslint-plugin-jsx-control-statements
 
-  echo "import * as JCS from 'vite-plugin-react-control-statements'
-
-declare global {
-  const { If, Choose, When, Otherwise } = JCS
-}" > src/types/jcs.d.ts
+  add_types_reference vite-plugin-react-control-statements
 }
 
 function add_vite_plugins() {
@@ -118,15 +129,7 @@ function add_vite_plugins() {
     rollup-plugin-node-polyfills \
     vite-plugin-node-polyfills
 
-  # Add types for SVGR plugin
-  TYPES_FILE=vite-env.d.ts
-  FILES=($TYPES_FILE, types/$TYPES_FILE)
-  for file in "${FILES[@]}"; do
-    LINE='/// <reference types="vite-plugin-svgr/client" />'
-    if append_line "$LINE" "src/$file"; then
-      break
-    fi
-  done
+  add_types_reference vite-plugin-svgr/client
 }
 
 function add_musthave_packages() {
@@ -216,4 +219,4 @@ function main() {
   section_header All done!
 }
 
-main
+#main
