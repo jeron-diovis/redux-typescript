@@ -19,12 +19,14 @@ const ENV_VAL_USE_DEFAULT = 'true'
 
 // ---
 
-export const useJsonServer = defineChunk(() => {
+export const useJsonServer = defineChunk((_, { vite: { command, mode } }) => {
   const env = resolveEnv()
   const { isServerEnabled } = env
   const prefix = resolveApiPrefix(env)
 
-  logServerState(isServerEnabled, prefix)
+  if (command === 'serve') {
+    logServerState(isServerEnabled, prefix)
+  }
 
   if (isServerEnabled) {
     return {
