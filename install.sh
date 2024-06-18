@@ -219,4 +219,4 @@ function main() {
   section_header All done!
 }
 
-#main
+main
