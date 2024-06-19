@@ -1,0 +1,10 @@
+parser: '@typescript-eslint/parser'
+
+settings:
+  react:
+    version: detect
+
+extends:
+  - eslint:recommended
+  - plugin:storybook/recommended
+  - ./.eslint/index.yml
