@@ -124,7 +124,7 @@ function add_vite_plugins() {
     vite-plugin-svgr \
     vite-plugin-time-reporter \
     vite-tsconfig-paths \
-    rollup-plugin-visualizer \
+    vite-bundle-analyzer \
     rollup-plugin-module-replacement \
     rollup-plugin-node-polyfills \
     vite-plugin-node-polyfills
@@ -158,7 +158,7 @@ function add_tests() {
 
 function add_npm_scripts() {
   section_header Add npm scripts to package.json
-  npm_script stat './view-stats.sh'
+  npm_script stat 'vite preview --open stats.html'
   npm_script lint:js "eslint src --ext .cjs,.js,.jsx,.ts,.tsx"
   npm_script lint:ts "tsc --noEmit && cd mock && tsc --noEmit"
   npm_script lint:css "stylelint \"src/**/*.{s,}css\""
