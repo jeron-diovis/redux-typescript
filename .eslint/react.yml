@@ -12,3 +12,4 @@ rules:
   react/react-in-jsx-scope: off
   react/destructuring-assignment: [warn, always]
   react/no-unescaped-entities: off
+  react/display-name: off
