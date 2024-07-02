@@ -154,6 +154,11 @@ function add_tests() {
     @vitest/ui \
     @testing-library/react \
     @testing-library/jest-dom
+
+  add_types_reference vitest
+  add_types_reference vitest/globals
+  add_types_reference vitest/importMeta
+  add_types_reference @testing-library/jest-dom
 }
 
 function add_npm_scripts() {
@@ -185,7 +190,6 @@ function edit_ts_config() {
   remove_comments tsconfig.node.json
 
   json_prop tsconfig.json compilerOptions.plugins '[{ "name": "typescript-plugin-css-modules" }]'
-  json_prop tsconfig.json compilerOptions.types '["vitest", "vitest/globals", "vitest/importMeta", "@testing-library/jest-dom"]'
   json_prop tsconfig.node.json include '["vite.config.ts", ".vite/**/*.ts", "package.json"]'
 }
 
