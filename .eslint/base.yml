@@ -27,3 +27,4 @@ rules:
 
   no-nested-ternary: warn
   no-unneeded-ternary: warn
+  no-prototype-builtins: off
