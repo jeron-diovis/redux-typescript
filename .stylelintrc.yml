@@ -70,6 +70,7 @@ overrides:
     extends:
       # @see https://github.com/stylelint-scss/stylelint-scss#list-of-rules
       - stylelint-config-standard-scss
+      - stylelint-config-css-modules
 
     rules:
       # This rule enforces using only placeholder selectors in `@extend`.
