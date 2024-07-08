@@ -98,6 +98,7 @@ function add_styles() {
     stylelint \
     stylelint-config-css-modules \
     stylelint-config-standard-scss \
+    stylelint-prettier \
     typescript-plugin-css-modules \
     postcss-nested \
     postcss-mixins \

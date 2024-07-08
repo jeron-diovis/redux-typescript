@@ -1,6 +1,7 @@
 # @see https://stylelint.io/user-guide/rules/list
 
 extends:
+  - stylelint-prettier/recommended
   - stylelint-config-css-modules
 
 defaultSeverity: warning
