@@ -4,3 +4,6 @@
 !.lintstagedrc.cjs
 !.prettierrc.cjs
 !.storybook
+
+dist/
+build/
