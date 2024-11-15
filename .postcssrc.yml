@@ -5,4 +5,5 @@ plugins:
   postcss-nested: {}
   # @see https://github.com/csstools/postcss-custom-selectors
   postcss-custom-selectors:
+    # a pointless empty line to make YAML parser work :\
     preserve: true
