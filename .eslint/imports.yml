@@ -64,6 +64,7 @@ rules:
         - .storybook/**/*
         # tests
         - '**/*.test.ts{x,}'
+        - '**/setupTests.ts{x,}'
         # vite configs
         - vite.config.*
         - .vite/*
