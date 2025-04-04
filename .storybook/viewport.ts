@@ -15,7 +15,6 @@ const BREAKPOINTS: Record<string, number> = {
  */
 export const viewport: NonNullable<Preview['parameters']>['viewport'] = {
   viewports: getViewports(BREAKPOINTS),
-  defaultViewport: 'responsive',
 }
 
 // ---
