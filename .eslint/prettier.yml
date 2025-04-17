@@ -1,6 +1,0 @@
-extends:
-  - 'plugin:prettier/recommended'
-
-rules:
-  quotes: 0
-  '@typescript-eslint/no-extra-semi': 0

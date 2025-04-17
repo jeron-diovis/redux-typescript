@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# Expecting a husky@^7.0.0
-
 DIR=$(basename $PWD)
 HUSKY_DIR=".husky"
 HUSKY_PATH="$HUSKY_DIR"
@@ -15,13 +13,13 @@ function report() {
 
 if [ -d .git ]; then
   report
-  npx husky install $HUSKY_DIR
+  npx husky $HUSKY_DIR
 else
   cd ..
   if [ -d .git ]; then
     report
     HUSKY_PATH="$DIR/$HUSKY_DIR"
-    npx husky install "$HUSKY_PATH"
+    npx husky "$HUSKY_PATH"
   else
     # If frontend folder is somewhere deeper in project, configure path manually
     # Looking for closest git root recursively is out of scope of this script
@@ -33,14 +31,7 @@ fi
 # Create actual hook script
 
 PRE_COMMIT_PATH="$HUSKY_PATH/pre-commit"
-npx husky add "$PRE_COMMIT_PATH"
-
 PRE_COMMIT_SRC="#!/bin/sh
-
-HUSKY_ROOT=\$(dirname \"\$0\")
-
-. \"\$HUSKY_ROOT/_/husky.sh\"
-
 npx lint-staged"
 
 echo "$PRE_COMMIT_SRC" > "$PRE_COMMIT_PATH"

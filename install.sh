@@ -78,17 +78,18 @@ function add_eslint() {
 
   append_line .eslintcache .gitignore
 
-  # Pin eslint to v8, because v9 seems to be incompatible with vite-plugin-checker@0.6.4
-  install -D eslint@^8.0.0 \
+  install -D eslint \
+    @eslint/js \
+    typescript-eslint \
     @typescript-eslint/eslint-plugin \
     @typescript-eslint/parser \
+    eslint-import-resolver-typescript \
     eslint-plugin-react-hooks \
     eslint-plugin-react \
     eslint-plugin-import \
     eslint-plugin-react-refresh \
     prettier \
-    eslint-plugin-prettier \
-    eslint-config-prettier
+    eslint-plugin-prettier
 }
 
 function add_styles() {
@@ -142,7 +143,7 @@ function add_musthave_packages() {
 
 function add_precommit() {
   section_header Install git-hooks tools
-  install -D 'husky@^7.0.0' lint-staged
+  install -D 'husky' lint-staged
   ./init-git-hooks.sh
   # if other developer clones and installs already set up repo,
   # he must get hooks installed after running `npm install`
