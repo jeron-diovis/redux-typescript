@@ -22,7 +22,10 @@ export const useLint = defineChunk({
        * Add `--max-warnings=0` to make `vite build` fail if anything violates lint rules.
        * Somehow, this does not affect behavior of dev mode.
        */
-      eslint: { lintCommand: `${pkg.scripts['lint:js']} --max-warnings=0` },
+      eslint: {
+        lintCommand: `${pkg.scripts['lint:js']} --max-warnings=0`,
+        useFlatConfig: true,
+      },
       stylelint: {
         lintCommand: `${pkg.scripts['lint:css']} --max-warnings=0`,
       },
